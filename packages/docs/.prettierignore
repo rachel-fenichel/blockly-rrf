@@ -1,0 +1,8 @@
+# Docs
+# TODO: Format handwritten docs but not api reference docs
+docs/*
+docs/reference
+
+# misc
+node_modules/*
+CHANGELOG.md
