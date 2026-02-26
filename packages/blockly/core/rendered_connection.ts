@@ -331,6 +331,7 @@ export class RenderedConnection
     const highlightSvg = this.findHighlightSvg();
     if (highlightSvg) {
       highlightSvg.style.display = '';
+      highlightSvg.parentElement?.appendChild(highlightSvg);
     }
   }
 
