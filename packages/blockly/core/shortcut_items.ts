@@ -15,8 +15,10 @@ import {getFocusManager} from './focus_manager.js';
 import {hasContextMenu} from './interfaces/i_contextmenu.js';
 import {isCopyable as isICopyable} from './interfaces/i_copyable.js';
 import {isDeletable as isIDeletable} from './interfaces/i_deletable.js';
-import {isDraggable} from './interfaces/i_draggable.js';
-import {IFocusableNode} from './interfaces/i_focusable_node.js';
+import {type IDraggable, isDraggable} from './interfaces/i_draggable.js';
+import {type IFocusableNode} from './interfaces/i_focusable_node.js';
+import {Direction, KeyboardMover} from './keyboard_nav/keyboard_mover.js';
+import {keyboardNavigationController} from './keyboard_navigation_controller.js';
 import {KeyboardShortcut, ShortcutRegistry} from './shortcut_registry.js';
 import {Coordinate} from './utils/coordinate.js';
 import {KeyCodes} from './utils/keycodes.js';
@@ -375,6 +377,124 @@ export function registerRedo() {
 }
 
 /**
+ * Registers keyboard shortcuts for keyboard-driven movement of workspace
+ * elements.
+ */
+export function registerMovementShortcuts() {
+  const getCurrentDraggable = (
+    workspace: WorkspaceSvg,
+  ): IDraggable | undefined => {
+    const node = getFocusManager().getFocusedNode();
+    if (isDraggable(node)) return node;
+    return workspace.getCursor().getSourceBlock() ?? undefined;
+  };
+
+  const shortcuts: ShortcutRegistry.KeyboardShortcut[] = [
+    {
+      name: 'start_move',
+      preconditionFn: (workspace) => {
+        const startDraggable = getCurrentDraggable(workspace);
+        return !!startDraggable && KeyboardMover.mover.canMove(startDraggable);
+      },
+      callback: (workspace, e) => {
+        keyboardNavigationController.setIsActive(true);
+        const startDraggable = getCurrentDraggable(workspace);
+        // Focus the root draggable in case one of its children
+        // was focused when the move was triggered.
+        if (startDraggable) {
+          getFocusManager().focusNode(startDraggable);
+        }
+        return (
+          !!startDraggable &&
+          KeyboardMover.mover.startMove(startDraggable, e as KeyboardEvent)
+        );
+      },
+      keyCodes: [KeyCodes.M],
+    },
+    {
+      name: 'finish_move',
+      preconditionFn: () => KeyboardMover.mover.isMoving(),
+      callback: (_workspace, e) =>
+        KeyboardMover.mover.finishMove(e as KeyboardEvent),
+      keyCodes: [KeyCodes.ENTER, KeyCodes.SPACE],
+      allowCollision: true,
+    },
+    {
+      name: 'abort_move',
+      preconditionFn: () => KeyboardMover.mover.isMoving(),
+      callback: (_workspace, e) =>
+        KeyboardMover.mover.abortMove(e as KeyboardEvent),
+      keyCodes: [KeyCodes.ESC],
+      allowCollision: true,
+    },
+    {
+      name: 'move_left',
+      preconditionFn: () => KeyboardMover.mover.isMoving(),
+      callback: (_workspace, e) => {
+        e.preventDefault();
+        return KeyboardMover.mover.move(Direction.LEFT, e as KeyboardEvent);
+      },
+      keyCodes: [
+        KeyCodes.LEFT,
+        ShortcutRegistry.registry.createSerializedKey(KeyCodes.LEFT, [
+          KeyCodes.CTRL_CMD,
+        ]),
+      ],
+      allowCollision: true,
+    },
+    {
+      name: 'move_right',
+      preconditionFn: () => KeyboardMover.mover.isMoving(),
+      callback: (_workspace, e) => {
+        e.preventDefault();
+        return KeyboardMover.mover.move(Direction.RIGHT, e as KeyboardEvent);
+      },
+      keyCodes: [
+        KeyCodes.RIGHT,
+        ShortcutRegistry.registry.createSerializedKey(KeyCodes.RIGHT, [
+          KeyCodes.CTRL_CMD,
+        ]),
+      ],
+      allowCollision: true,
+    },
+    {
+      name: 'move_up',
+      preconditionFn: () => KeyboardMover.mover.isMoving(),
+      callback: (_workspace, e) => {
+        e.preventDefault();
+        return KeyboardMover.mover.move(Direction.UP, e as KeyboardEvent);
+      },
+      keyCodes: [
+        KeyCodes.UP,
+        ShortcutRegistry.registry.createSerializedKey(KeyCodes.UP, [
+          KeyCodes.CTRL_CMD,
+        ]),
+      ],
+      allowCollision: true,
+    },
+    {
+      name: 'move_down',
+      preconditionFn: () => KeyboardMover.mover.isMoving(),
+      callback: (_workspace, e) => {
+        e.preventDefault();
+        return KeyboardMover.mover.move(Direction.DOWN, e as KeyboardEvent);
+      },
+      keyCodes: [
+        KeyCodes.DOWN,
+        ShortcutRegistry.registry.createSerializedKey(KeyCodes.DOWN, [
+          KeyCodes.CTRL_CMD,
+        ]),
+      ],
+      allowCollision: true,
+    },
+  ];
+
+  for (const shortcut of shortcuts) {
+    ShortcutRegistry.registry.register(shortcut);
+  }
+}
+
+/**
  * Keyboard shortcut to show the context menu on ctrl/cmd+Enter.
  */
 export function registerShowContextMenu() {
@@ -418,6 +538,7 @@ export function registerDefaultShortcuts() {
   registerUndo();
   registerRedo();
   registerShowContextMenu();
+  registerMovementShortcuts();
 }
 
 registerDefaultShortcuts();

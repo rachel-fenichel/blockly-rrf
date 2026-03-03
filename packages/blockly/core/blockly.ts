@@ -118,6 +118,8 @@ import * as icons from './icons.js';
 import {inject} from './inject.js';
 import * as inputs from './inputs.js';
 import {IFlyoutInflater} from './interfaces/i_flyout_inflater.js';
+import {Direction, KeyboardMover} from './keyboard_nav/keyboard_mover.js';
+import {MoveIndicator} from './keyboard_nav/move_indicator.js';
 import {LabelFlyoutInflater} from './label_flyout_inflater.js';
 import {SeparatorFlyoutInflater} from './separator_flyout_inflater.js';
 import {FocusableTreeTraverser} from './utils/focusable_tree_traverser.js';
@@ -125,7 +127,10 @@ import {FocusableTreeTraverser} from './utils/focusable_tree_traverser.js';
 import {Input} from './inputs/input.js';
 import {InsertionMarkerPreviewer} from './insertion_marker_previewer.js';
 import {IAutoHideable} from './interfaces/i_autohideable.js';
-import {IBoundedElement} from './interfaces/i_bounded_element.js';
+import {
+  IBoundedElement,
+  isBoundedElement,
+} from './interfaces/i_bounded_element.js';
 import {IBubble} from './interfaces/i_bubble.js';
 import {ICollapsibleToolboxItem} from './interfaces/i_collapsible_toolbox_item.js';
 import {IComponent} from './interfaces/i_component.js';
@@ -137,6 +142,7 @@ import {IDeletable, isDeletable} from './interfaces/i_deletable.js';
 import {IDeleteArea} from './interfaces/i_delete_area.js';
 import {IDragTarget} from './interfaces/i_drag_target.js';
 import {
+  DragDisposition,
   IDragStrategy,
   IDraggable,
   isDraggable,
@@ -500,6 +506,8 @@ export {
   BlockFlyoutInflater,
   ButtonFlyoutInflater,
   CodeGenerator,
+  Direction,
+  DragDisposition,
   Field,
   FieldCheckbox,
   FieldCheckboxConfig,
@@ -584,6 +592,7 @@ export {
   ImageProperties,
   Input,
   InsertionMarkerPreviewer,
+  KeyboardMover,
   KeyboardNavigationController,
   LabelFlyoutInflater,
   LayerManager,
@@ -595,6 +604,7 @@ export {
   MenuItem,
   MenuOption,
   MetricsManager,
+  MoveIndicator,
   Msg,
   Names,
   Options,
@@ -626,6 +636,7 @@ export {
   icons,
   inject,
   inputs,
+  isBoundedElement,
   isCopyable,
   isDeletable,
   isDraggable,

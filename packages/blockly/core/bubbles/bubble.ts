@@ -8,6 +8,7 @@ import * as browserEvents from '../browser_events.js';
 import * as common from '../common.js';
 import {BubbleDragStrategy} from '../dragging/bubble_drag_strategy.js';
 import {getFocusManager} from '../focus_manager.js';
+import {IBoundedElement} from '../interfaces/i_bounded_element.js';
 import {IBubble} from '../interfaces/i_bubble.js';
 import type {IFocusableNode} from '../interfaces/i_focusable_node.js';
 import type {IFocusableTree} from '../interfaces/i_focusable_tree.js';
@@ -29,7 +30,9 @@ import {WorkspaceSvg} from '../workspace_svg.js';
  * bubble, where it has a "tail" that points to the block, and a "head" that
  * displays arbitrary svg elements.
  */
-export abstract class Bubble implements IBubble, ISelectable, IFocusableNode {
+export abstract class Bubble
+  implements IBubble, ISelectable, IFocusableNode, IBoundedElement
+{
   /** The width of the border around the bubble. */
   static readonly BORDER_WIDTH = 6;
 
@@ -272,6 +275,18 @@ export abstract class Bubble implements IBubble, ISelectable, IFocusableNode {
    */
   moveTo(x: number, y: number) {
     this.svgRoot.setAttribute('transform', `translate(${x}, ${y})`);
+  }
+
+  /**
+   * Moves the bubble by the given amounts in the x and y directions.
+   *
+   * @param dx The distance to move along the x axis.
+   * @param dy The distance to move along the y axis.
+   * @param _reason A description of why this move is happening.
+   */
+  moveBy(dx: number, dy: number, _reason?: string[]) {
+    const origin = this.getRelativeToSurfaceXY();
+    this.moveTo(origin.x + dx, origin.y + dy);
   }
 
   /**
@@ -617,6 +632,21 @@ export abstract class Bubble implements IBubble, ISelectable, IFocusableNode {
     );
   }
 
+  /**
+   * Returns the bounds of this bubble.
+   *
+   * @returns A bounding box for this bubble.
+   */
+  getBoundingRectangle(): Rect {
+    const origin = this.getRelativeToSurfaceXY();
+    return new Rect(
+      origin.y,
+      origin.y + this.size.height,
+      origin.x,
+      origin.x + this.size.width,
+    );
+  }
+
   /** @internal */
   getSvgRoot(): SVGElement {
     return this.svgRoot;
@@ -664,8 +694,8 @@ export abstract class Bubble implements IBubble, ISelectable, IFocusableNode {
   }
 
   /** Starts a drag on the bubble. */
-  startDrag(): void {
-    this.dragStrategy.startDrag();
+  startDrag() {
+    return this.dragStrategy.startDrag();
   }
 
   /** Drags the bubble to the given location. */

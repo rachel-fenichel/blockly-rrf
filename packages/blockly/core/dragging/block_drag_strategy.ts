@@ -6,7 +6,7 @@
 
 import type {Block} from '../block.js';
 import * as blockAnimation from '../block_animations.js';
-import {BlockSvg} from '../block_svg.js';
+import type {BlockSvg} from '../block_svg.js';
 import * as bumpObjects from '../bump_objects.js';
 import {config} from '../config.js';
 import {Connection} from '../connection.js';
@@ -14,17 +14,20 @@ import {ConnectionType} from '../connection_type.js';
 import type {BlockMove} from '../events/events_block_move.js';
 import {EventType} from '../events/type.js';
 import * as eventUtils from '../events/utils.js';
+import {showUnconstrainedMoveHint} from '../hints.js';
 import type {IBubble} from '../interfaces/i_bubble.js';
-import {IConnectionPreviewer} from '../interfaces/i_connection_previewer.js';
-import {IDragStrategy} from '../interfaces/i_draggable.js';
+import type {IConnectionPreviewer} from '../interfaces/i_connection_previewer.js';
+import type {IDragStrategy} from '../interfaces/i_draggable.js';
+import {DragDisposition} from '../interfaces/i_draggable.js';
 import {IHasBubble, hasBubble} from '../interfaces/i_has_bubble.js';
+import {Direction} from '../keyboard_nav/keyboard_mover.js';
 import * as layers from '../layers.js';
 import * as registry from '../registry.js';
 import {finishQueuedRenders} from '../render_management.js';
-import {RenderedConnection} from '../rendered_connection.js';
+import type {RenderedConnection} from '../rendered_connection.js';
 import {Coordinate} from '../utils.js';
 import * as dom from '../utils/dom.js';
-import {WorkspaceSvg} from '../workspace_svg.js';
+import type {WorkspaceSvg} from '../workspace_svg.js';
 
 /** Represents a nearby valid connection. */
 interface ConnectionCandidate {
@@ -36,6 +39,16 @@ interface ConnectionCandidate {
 
   /** The distance between the local connection and the neighbour connection. */
   distance: number;
+}
+
+/**
+ * Represents a block movement paradigm; constrained moves only to valid
+ * connections, while unconstrained allows free movement to anywhere on the
+ * workspace.
+ */
+enum MoveMode {
+  CONSTRAINED = 1,
+  UNCONSTRAINED = 2,
 }
 
 export class BlockDragStrategy implements IDragStrategy {
@@ -58,14 +71,19 @@ export class BlockDragStrategy implements IDragStrategy {
 
   private dragging = false;
 
-  /**
-   * If this is a shadow block, the offset between this block and the parent
-   * block, to add to the drag location. In workspace units.
-   */
-  private dragOffset = new Coordinate(0, 0);
+  /** Where a constrained movement should start when traversing the tree. */
+  private searchNode: RenderedConnection | null = null;
+
+  /** List of all connections available on the workspace. */
+  private allConnections: RenderedConnection[] = [];
+
+  /** The current movement mode. */
+  private moveMode = MoveMode.UNCONSTRAINED;
 
   /** Used to persist an event group when snapping is done async. */
   private originalEventGroup = '';
+
+  protected readonly BLOCK_CONNECTION_OFFSET = 10;
 
   constructor(private block: BlockSvg) {
     this.workspace = block.workspace;
@@ -73,10 +91,6 @@ export class BlockDragStrategy implements IDragStrategy {
 
   /** Returns true if the block is currently movable. False otherwise. */
   isMovable(): boolean {
-    if (this.block.isShadow()) {
-      return this.block.getParent()?.isMovable() ?? false;
-    }
-
     return (
       this.block.isOwnMovable() &&
       !this.block.isDeadOrDying() &&
@@ -91,12 +105,7 @@ export class BlockDragStrategy implements IDragStrategy {
    * Handles any setup for starting the drag, including disconnecting the block
    * from any parent blocks.
    */
-  startDrag(e?: PointerEvent): void {
-    if (this.block.isShadow()) {
-      this.startDraggingShadow(e);
-      return;
-    }
-
+  startDrag(e?: PointerEvent | KeyboardEvent) {
     this.dragging = true;
     this.fireDragStartEvent();
 
@@ -125,6 +134,40 @@ export class BlockDragStrategy implements IDragStrategy {
     this.getVisibleBubbles(this.block).forEach((bubble) => {
       this.workspace.getLayerManager()?.moveToDragLayer(bubble, false);
     });
+
+    // For keyboard-driven moves, cache a list of valid connection points for
+    // use in constrained moved mode.
+    if (e instanceof KeyboardEvent) {
+      for (const topBlock of this.block.workspace.getTopBlocks(true)) {
+        this.allConnections.push(...this.getAllConnections(topBlock));
+      }
+
+      // Scooch the block to be offset from the connection preview indicator.
+      this.block.moveDuringDrag(this.startLoc);
+      this.connectionCandidate = this.createInitialCandidate();
+      const neighbour = this.updateConnectionPreview(
+        this.block,
+        new Coordinate(0, 0),
+      );
+      if (neighbour) {
+        let offset: Coordinate;
+        if (neighbour.type === ConnectionType.PREVIOUS_STATEMENT) {
+          const origin = this.block.getRelativeToSurfaceXY();
+          offset = new Coordinate(
+            origin.x + this.BLOCK_CONNECTION_OFFSET,
+            origin.y - this.BLOCK_CONNECTION_OFFSET,
+          );
+        } else {
+          offset = new Coordinate(
+            neighbour.x + this.BLOCK_CONNECTION_OFFSET,
+            neighbour.y + this.BLOCK_CONNECTION_OFFSET,
+          );
+        }
+        this.block.moveDuringDrag(offset);
+      }
+    }
+
+    return this.block;
   }
 
   /**
@@ -159,24 +202,10 @@ export class BlockDragStrategy implements IDragStrategy {
    * @returns True if just the initial block should be dragged out, false
    *     if all following blocks should also be dragged.
    */
-  protected shouldHealStack(e: PointerEvent | undefined) {
-    return !!e && (e.altKey || e.ctrlKey || e.metaKey);
-  }
-
-  /** Starts a drag on a shadow, recording the drag offset. */
-  private startDraggingShadow(e?: PointerEvent) {
-    const parent = this.block.getParent();
-    if (!parent) {
-      throw new Error(
-        'Tried to drag a shadow block with no parent. ' +
-          'Shadow blocks should always have parents.',
-      );
-    }
-    this.dragOffset = Coordinate.difference(
-      parent.getRelativeToSurfaceXY(),
-      this.block.getRelativeToSurfaceXY(),
-    );
-    parent.startDrag(e);
+  protected shouldHealStack(e: PointerEvent | KeyboardEvent | undefined) {
+    return e instanceof PointerEvent
+      ? e.ctrlKey || e.metaKey
+      : !!this.block.previousConnection;
   }
 
   /**
@@ -246,25 +275,62 @@ export class BlockDragStrategy implements IDragStrategy {
   }
 
   /** Moves the block and updates any connection previews. */
-  drag(newLoc: Coordinate): void {
-    if (this.block.isShadow()) {
-      this.block.getParent()?.drag(Coordinate.sum(newLoc, this.dragOffset));
-      return;
-    }
+  drag(newLoc: Coordinate, e?: PointerEvent | KeyboardEvent): void {
+    this.moveMode =
+      e instanceof KeyboardEvent && !(e.ctrlKey || e.metaKey)
+        ? MoveMode.CONSTRAINED
+        : MoveMode.UNCONSTRAINED;
 
-    this.block.moveDuringDrag(newLoc);
+    if (this.moveMode === MoveMode.UNCONSTRAINED) {
+      this.block.moveDuringDrag(newLoc);
+    }
     this.updateConnectionPreview(
       this.block,
       Coordinate.difference(newLoc, this.startLoc!),
     );
+
+    // Handle the case where the drag has reached a possible connection.
+    if (this.connectionCandidate) {
+      const neighbour = this.connectionCandidate.neighbour;
+      // The next constrained move will resume the search from the current
+      // candidate location.
+      this.searchNode = neighbour;
+      if (this.moveMode === MoveMode.CONSTRAINED) {
+        // Position the moving block down and slightly to the right of the
+        // target connection.
+        this.block.moveDuringDrag(
+          new Coordinate(
+            neighbour.x + this.BLOCK_CONNECTION_OFFSET,
+            neighbour.y + this.BLOCK_CONNECTION_OFFSET,
+          ),
+        );
+      }
+    } else {
+      // No connection was available or adequately close to the dragged block;
+      // clear out the search node since we have nowhere to search from, and
+      // suggest using unconstrained mode to arbitrarily position the block if
+      // we're in keyboard-driven constrained mode.
+      this.searchNode = null;
+
+      if (this.moveMode === MoveMode.CONSTRAINED) {
+        showUnconstrainedMoveHint(this.workspace, true);
+      }
+    }
   }
 
   /**
+   * Renders the connection preview indicator.
+   *
    * @param draggingBlock The block being dragged.
    * @param delta How far the pointer has moved from the position
    *     at the start of the drag, in workspace units.
+   * @returns The neighbouring connection to which the connection preview will
+   *     be attached.
    */
-  private updateConnectionPreview(draggingBlock: BlockSvg, delta: Coordinate) {
+  private updateConnectionPreview(
+    draggingBlock: BlockSvg,
+    delta: Coordinate,
+  ): RenderedConnection | undefined {
     const currCandidate = this.connectionCandidate;
     const newCandidate = this.getConnectionCandidate(draggingBlock, delta);
     if (!newCandidate) {
@@ -299,9 +365,10 @@ export class BlockDragStrategy implements IDragStrategy {
         neighbour,
         neighbour.targetBlock()!,
       );
-      return;
+    } else {
+      this.connectionPreviewer?.previewConnection(local, neighbour);
     }
-    this.connectionPreviewer?.previewConnection(local, neighbour);
+    return neighbour;
   }
 
   /**
@@ -333,6 +400,9 @@ export class BlockDragStrategy implements IDragStrategy {
     delta: Coordinate,
     newCandidate: ConnectionCandidate,
   ): boolean {
+    // New connection is always better during a constrained move.
+    if (this.moveMode === MoveMode.CONSTRAINED) return false;
+
     const {local: currLocal, neighbour: currNeighbour} = currCandiate;
     const localPos = new Coordinate(currLocal.x, currLocal.y);
     const neighbourPos = new Coordinate(currNeighbour.x, currNeighbour.y);
@@ -356,8 +426,25 @@ export class BlockDragStrategy implements IDragStrategy {
     delta: Coordinate,
   ): ConnectionCandidate | null {
     const localConns = this.getLocalConnections(draggingBlock);
-    let radius = this.getSearchRadius();
     let candidate = null;
+
+    if (this.moveMode === MoveMode.CONSTRAINED) {
+      const direction = this.getDirectionToNewLocation(
+        Coordinate.sum(this.startLoc!, delta),
+      );
+      candidate = this.findTraversalCandidate(
+        draggingBlock,
+        localConns,
+        direction,
+      );
+      if (candidate) {
+        return candidate;
+      }
+
+      delta = new Coordinate(0, 0);
+    }
+
+    let radius = this.getSearchRadius();
 
     for (const conn of localConns) {
       const {connection: neighbour, radius: rad} = conn.closest(radius, delta);
@@ -378,6 +465,8 @@ export class BlockDragStrategy implements IDragStrategy {
    * Get the radius to use when searching for a nearby valid connection.
    */
   protected getSearchRadius() {
+    if (this.moveMode === MoveMode.CONSTRAINED) return Infinity;
+
     return this.connectionCandidate
       ? config.connectingSnapRadius
       : config.snapRadius;
@@ -402,11 +491,14 @@ export class BlockDragStrategy implements IDragStrategy {
    * Cleans up any state at the end of the drag. Applies any pending
    * connections.
    */
-  endDrag(e?: PointerEvent): void {
-    if (this.block.isShadow()) {
-      this.block.getParent()?.endDrag(e);
-      return;
+  endDrag(
+    _e: PointerEvent | KeyboardEvent | undefined,
+    disposition: DragDisposition,
+  ): void {
+    if (disposition === DragDisposition.DELETE) {
+      blockAnimation.disposeUiEffect(this.block);
     }
+
     this.originalEventGroup = eventUtils.getGroup();
 
     this.fireDragEndEvent();
@@ -440,6 +532,8 @@ export class BlockDragStrategy implements IDragStrategy {
     } else {
       this.block.queueRender().then(() => this.disposeStep());
     }
+
+    this.allConnections = [];
   }
 
   /** Disposes of any state at the end of the drag. */
@@ -477,11 +571,6 @@ export class BlockDragStrategy implements IDragStrategy {
    * including reconnecting connections.
    */
   revertDrag(): void {
-    if (this.block.isShadow()) {
-      this.block.getParent()?.revertDrag();
-      return;
-    }
-
     this.connectionPreviewer?.hidePreview();
     this.connectionCandidate = null;
 
@@ -519,5 +608,172 @@ export class BlockDragStrategy implements IDragStrategy {
 
     this.block.setDragging(false);
     this.dragging = false;
+  }
+
+  /**
+   * Get the nearest valid candidate connection in traversal order.
+   *
+   * @param draggingBlock The root block being dragged.
+   * @param localConns The list of connections on the dragging block(s) that are
+   *     available to connect to.
+   * @param direction The cardinal direction in which the block is being moved.
+   * @returns A candidate connection and radius, or null if none was found.
+   */
+  findTraversalCandidate(
+    draggingBlock: BlockSvg,
+    localConns: RenderedConnection[],
+    direction: Direction,
+  ): ConnectionCandidate | null {
+    const connectionChecker = draggingBlock.workspace.connectionChecker;
+    let candidateConnection: ConnectionCandidate | null = null;
+    let potential: RenderedConnection | null = this.searchNode;
+
+    while (potential && !candidateConnection) {
+      const potentialIndex = this.allConnections.indexOf(potential);
+      if (direction === Direction.UP || direction === Direction.LEFT) {
+        potential =
+          this.allConnections[potentialIndex - 1] ??
+          this.allConnections[this.allConnections.length - 1];
+      } else if (
+        direction === Direction.DOWN ||
+        direction === Direction.RIGHT
+      ) {
+        potential =
+          this.allConnections[potentialIndex + 1] ?? this.allConnections[0];
+      }
+
+      localConns.forEach((conn: RenderedConnection) => {
+        if (
+          potential &&
+          connectionChecker.canConnect(conn, potential, true, Infinity) &&
+          !potential.targetBlock()?.isInsertionMarker()
+        ) {
+          candidateConnection = {
+            local: conn,
+            neighbour: potential,
+            distance: 0,
+          };
+        }
+      });
+      if (potential == this.searchNode) break;
+    }
+    return candidateConnection;
+  }
+
+  /**
+   * Create a candidate representing where the block was previously connected.
+   * Used to render the block position after picking up the block but before
+   * moving during a drag.
+   *
+   * @returns A connection candidate representing where the block was at the
+   *     start of the drag.
+   */
+  private createInitialCandidate(): ConnectionCandidate | null {
+    this.searchNode = this.startParentConn ?? this.startChildConn;
+
+    switch (this.searchNode?.type) {
+      case ConnectionType.INPUT_VALUE: {
+        if (this.block.outputConnection) {
+          return {
+            neighbour: this.searchNode,
+            local: this.block.outputConnection,
+            distance: 0,
+          };
+        }
+        break;
+      }
+      case ConnectionType.NEXT_STATEMENT: {
+        if (this.block.previousConnection) {
+          return {
+            neighbour: this.searchNode,
+            local: this.block.previousConnection,
+            distance: 0,
+          };
+        }
+        break;
+      }
+      case ConnectionType.PREVIOUS_STATEMENT: {
+        if (this.block.nextConnection) {
+          return {
+            neighbour: this.searchNode,
+            local: this.block.nextConnection,
+            distance: 0,
+          };
+        }
+        break;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns the cardinal direction that the block being dragged would have to
+   * move in to reach the given location.
+   * The given coordinate should differ from the current location on only one
+   * axis.
+   *
+   * @param newLocation The intended destination for the block.
+   * @returns The direction the block would need to travel to reach the new
+   *     location.
+   */
+  private getDirectionToNewLocation(newLocation: Coordinate): Direction {
+    const actualPosition = this.block.getRelativeToSurfaceXY();
+    const delta = Coordinate.difference(newLocation, actualPosition);
+    const {x, y} = delta;
+    if (x) {
+      if (x < 0) {
+        return Direction.LEFT;
+      } else if (x > 0) {
+        return Direction.RIGHT;
+      }
+    } else if (y) {
+      if (y < 0) {
+        return Direction.UP;
+      } else if (y > 0) {
+        return Direction.DOWN;
+      }
+    }
+    return Direction.NONE;
+  }
+
+  /**
+   * Returns all navigable connections on the given block and its children.
+   * Omits connections on shadow blocks, collapsed blocks, or those that are
+   * associated with a hidden input.
+   *
+   * @param block The block to use as a starting point for retrieving
+   *     connections.
+   * @returns All connections on the block and its children.
+   */
+  private getAllConnections(block: BlockSvg): RenderedConnection[] {
+    if (block.isShadow()) return [];
+
+    const connections = [];
+
+    if (block.outputConnection) connections.push(block.outputConnection);
+    if (block.previousConnection) connections.push(block.previousConnection);
+
+    if (!block.isCollapsed()) {
+      for (const input of block.inputList) {
+        if (input.connection && input.isVisible()) {
+          connections.push(input.connection);
+          const target = input.connection.targetBlock() as BlockSvg;
+          if (target) {
+            connections.push(...this.getAllConnections(target));
+          }
+        }
+      }
+    }
+    if (block.nextConnection) {
+      connections.push(block.nextConnection);
+
+      const target = block.nextConnection.targetBlock() as BlockSvg;
+      if (target) {
+        connections.push(...this.getAllConnections(target));
+      }
+    }
+
+    return connections as RenderedConnection[];
   }
 }

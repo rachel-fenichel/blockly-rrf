@@ -6,6 +6,7 @@
 
 import type {BlocklyOptions} from '../blockly_options.js';
 import {Abstract as AbstractEvent} from '../events/events_abstract.js';
+import {KeyboardMover} from '../keyboard_nav/keyboard_mover.js';
 import {Options} from '../options.js';
 import {Coordinate} from '../utils/coordinate.js';
 import * as dom from '../utils/dom.js';
@@ -153,11 +154,10 @@ export class MiniWorkspaceBubble extends Bubble {
    * are dealt with by resizing the workspace to show them.
    */
   private bumpBlocksIntoBounds() {
-    if (
-      this.miniWorkspace.isDragging() &&
-      !this.miniWorkspace.keyboardMoveInProgress
-    )
+    // Only bump for mouse-driven drags.
+    if (this.miniWorkspace.isDragging() && !KeyboardMover.mover.isMoving()) {
       return;
+    }
 
     const MARGIN = 20;
 
@@ -189,15 +189,13 @@ export class MiniWorkspaceBubble extends Bubble {
    * mini workspace.
    */
   private updateBubbleSize() {
-    if (
-      this.miniWorkspace.isDragging() &&
-      !this.miniWorkspace.keyboardMoveInProgress
-    )
+    if (this.miniWorkspace.isDragging() && !KeyboardMover.mover.isMoving()) {
       return;
+    }
 
     // Disable autolayout if a keyboard move is in progress to prevent the
     // mutator bubble from jumping around.
-    this.autoLayout &&= !this.miniWorkspace.keyboardMoveInProgress;
+    this.autoLayout &&= !KeyboardMover.mover.isMoving();
 
     const currSize = this.getSize();
     const newSize = this.calculateWorkspaceSize();
