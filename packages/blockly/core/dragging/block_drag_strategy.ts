@@ -25,8 +25,10 @@ import * as layers from '../layers.js';
 import * as registry from '../registry.js';
 import {finishQueuedRenders} from '../render_management.js';
 import type {RenderedConnection} from '../rendered_connection.js';
+import * as blocks from '../serialization/blocks.js';
 import {Coordinate} from '../utils.js';
 import * as dom from '../utils/dom.js';
+import * as svgMath from '../utils/svg_math.js';
 import type {WorkspaceSvg} from '../workspace_svg.js';
 
 /** Represents a nearby valid connection. */
@@ -95,10 +97,61 @@ export class BlockDragStrategy implements IDragStrategy {
       this.block.isOwnMovable() &&
       !this.block.isDeadOrDying() &&
       !this.workspace.isReadOnly() &&
-      // We never drag blocks in the flyout, only create new blocks that are
-      // dragged.
-      !this.block.isInFlyout
+      (!this.block.isInFlyout ||
+        (this.block.isEnabled() &&
+          !this.block.workspace.targetWorkspace?.isReadOnly()))
     );
+  }
+
+  /**
+   * Positions a cloned block on its new workspace.
+   *
+   * @param oldBlock The flyout block that was cloned.
+   * @param newBlock The new block to position.
+   */
+  private positionNewBlock(oldBlock: BlockSvg, newBlock: BlockSvg) {
+    const screenCoordinate = svgMath.wsToScreenCoordinates(
+      oldBlock.workspace,
+      oldBlock.getRelativeToSurfaceXY(),
+    );
+    const workspaceCoordinates = svgMath.screenToWsCoordinates(
+      newBlock.workspace,
+      screenCoordinate,
+    );
+    newBlock.moveTo(workspaceCoordinates);
+  }
+
+  /**
+   * Returns the block to use for the current drag operation. This may create
+   * and return a newly instantiated block when e.g. dragging from a flyout.
+   */
+  protected getTargetBlock() {
+    if (this.block.isShadow()) {
+      const parent = this.block.getParent();
+      if (parent) {
+        return parent;
+      }
+    } else if (this.block.isInFlyout && this.block.workspace.targetWorkspace) {
+      const rootBlock = this.block.getRootBlock();
+
+      const json = blocks.save(rootBlock);
+      if (json) {
+        const newBlock = blocks.appendInternal(
+          json,
+          this.block.workspace.targetWorkspace,
+          {
+            recordUndo: true,
+          },
+        ) as BlockSvg;
+        eventUtils.setRecordUndo(false);
+        this.positionNewBlock(this.block, newBlock);
+        eventUtils.setRecordUndo(true);
+
+        return newBlock;
+      }
+    }
+
+    return this.block;
   }
 
   /**
@@ -106,6 +159,11 @@ export class BlockDragStrategy implements IDragStrategy {
    * from any parent blocks.
    */
   startDrag(e?: PointerEvent | KeyboardEvent) {
+    const alternateTarget = this.getTargetBlock();
+    if (alternateTarget !== this.block) {
+      return alternateTarget.startDrag(e);
+    }
+
     this.dragging = true;
     this.fireDragStartEvent();
 
