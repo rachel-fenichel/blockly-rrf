@@ -3,7 +3,6 @@
  * Copyright 2026 Raspberry Pi Foundation
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import type {IDraggable} from '../interfaces/i_draggable.js';
 import type {IDragger} from '../interfaces/i_dragger.js';
 import * as registry from '../registry.js';

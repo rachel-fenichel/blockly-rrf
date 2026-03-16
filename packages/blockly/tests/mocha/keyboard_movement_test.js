@@ -35,6 +35,13 @@ suite('Keyboard-driven movement', function () {
     workspace.getInjectionDiv().dispatchEvent(event);
   }
 
+  function startMoveStack(workspace) {
+    const event = createKeyDownEvent(Blockly.utils.KeyCodes.M, [
+      Blockly.utils.KeyCodes.SHIFT,
+    ]);
+    workspace.getInjectionDiv().dispatchEvent(event);
+  }
+
   function moveUp(workspace, modifiers) {
     const event = createKeyDownEvent(Blockly.utils.KeyCodes.UP, modifiers);
     workspace.getInjectionDiv().dispatchEvent(event);
@@ -405,6 +412,103 @@ suite('Keyboard-driven movement', function () {
     testAdjustingMoveStepSize();
     testUnrelatedShortcutCommits();
     testExemptedShortcutsAllowed();
+  });
+
+  suite('to disconnect blocks', function () {
+    setup(function () {
+      this.block1 = this.workspace.newBlock('draw_emoji');
+      this.block1.initSvg();
+      this.block1.render();
+
+      this.block2 = this.workspace.newBlock('draw_emoji');
+      this.block2.initSvg();
+      this.block2.render();
+      this.block1.nextConnection.connect(this.block2.previousConnection);
+
+      this.block3 = this.workspace.newBlock('draw_emoji');
+      this.block3.initSvg();
+      this.block3.render();
+      this.block2.nextConnection.connect(this.block3.previousConnection);
+    });
+
+    test('from top block - Detaches single block', function () {
+      Blockly.getFocusManager().focusNode(this.block1);
+      startMove(this.workspace);
+      assert.isNull(this.block1.nextConnection.targetBlock());
+      assert.equal(this.block1.isDragging(), true);
+      assert.equal(this.block2.isDragging(), false);
+      assert.equal(this.block3.isDragging(), false);
+      cancelMove(this.workspace);
+    });
+
+    test('from middle block - Detaches single block', function () {
+      Blockly.getFocusManager().focusNode(this.block2);
+      startMove(this.workspace);
+      assert.isNull(this.block2.previousConnection.targetBlock());
+      assert.isNull(this.block2.nextConnection.targetBlock());
+      assert.equal(this.block1.isDragging(), false);
+      assert.equal(this.block2.isDragging(), true);
+      assert.equal(this.block3.isDragging(), false);
+      cancelMove(this.workspace);
+    });
+
+    test('from bottom block - Detaches single block', function () {
+      Blockly.getFocusManager().focusNode(this.block3);
+      startMove(this.workspace);
+      assert.isNull(this.block3.previousConnection.targetBlock());
+      assert.equal(this.block1.isDragging(), false);
+      assert.equal(this.block2.isDragging(), false);
+      assert.equal(this.block3.isDragging(), true);
+      cancelMove(this.workspace);
+    });
+
+    test('from top block - Detaches entire three-block stack', function () {
+      Blockly.getFocusManager().focusNode(this.block1);
+      startMoveStack(this.workspace);
+      assert.strictEqual(this.block1.nextConnection.targetBlock(), this.block2);
+      assert.strictEqual(this.block2.nextConnection.targetBlock(), this.block3);
+      assert.equal(this.block1.isDragging(), true);
+      assert.equal(this.block2.isDragging(), true);
+      assert.equal(this.block3.isDragging(), true);
+      cancelMove(this.workspace);
+    });
+
+    test('from middle block - Detaches two-block stack from middle down', function () {
+      Blockly.getFocusManager().focusNode(this.block2);
+      startMoveStack(this.workspace);
+      assert.isNull(this.block2.previousConnection.targetBlock());
+      assert.strictEqual(this.block2.nextConnection.targetBlock(), this.block3);
+      assert.equal(this.block1.isDragging(), false);
+      assert.equal(this.block2.isDragging(), true);
+      assert.equal(this.block3.isDragging(), true);
+      cancelMove(this.workspace);
+    });
+
+    test('from bottom block - Detaches single-block stack from bottom', function () {
+      Blockly.getFocusManager().focusNode(this.block3);
+      startMoveStack(this.workspace);
+      assert.isNull(this.block3.previousConnection.targetBlock());
+      assert.equal(this.block1.isDragging(), false);
+      assert.equal(this.block2.isDragging(), false);
+      assert.equal(this.block3.isDragging(), true);
+      cancelMove(this.workspace);
+    });
+
+    test('Cancel move restores connections', function () {
+      Blockly.getFocusManager().focusNode(this.block2);
+      startMove(this.workspace);
+      cancelMove(this.workspace);
+      // Original stack restored
+      assert.strictEqual(this.block1.nextConnection.targetBlock(), this.block2);
+      assert.strictEqual(this.block2.nextConnection.targetBlock(), this.block3);
+
+      Blockly.getFocusManager().focusNode(this.block2);
+      startMoveStack(this.workspace);
+      cancelMove(this.workspace);
+      // Original stack restored
+      assert.strictEqual(this.block1.nextConnection.targetBlock(), this.block2);
+      assert.strictEqual(this.block2.nextConnection.targetBlock(), this.block3);
+    });
   });
 
   suite('of blocks', function () {

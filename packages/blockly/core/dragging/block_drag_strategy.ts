@@ -256,14 +256,22 @@ export class BlockDragStrategy implements IDragStrategy {
   /**
    * Get whether the drag should act on a single block or a block stack.
    *
-   * @param e The instigating pointer event, if any.
+   * @param e The instigating pointer or keyboard event, if any.
    * @returns True if just the initial block should be dragged out, false
    *     if all following blocks should also be dragged.
    */
   protected shouldHealStack(e: PointerEvent | KeyboardEvent | undefined) {
-    return e instanceof PointerEvent
-      ? e.ctrlKey || e.metaKey
-      : !!this.block.previousConnection;
+    if (e instanceof PointerEvent) {
+      // For pointer events, we drag the whole stack unless a modifier key
+      // was also pressed.
+      return e.ctrlKey || e.metaKey;
+    } else if (e instanceof KeyboardEvent) {
+      // For keyboard events, we drag the single focused block, unless the
+      // shift key is pressed or the block has no previous connection.
+      return !(e.shiftKey || !this.block.previousConnection);
+    } else {
+      return false;
+    }
   }
 
   /**

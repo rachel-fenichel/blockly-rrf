@@ -40,6 +40,7 @@ export enum names {
   MENU = 'menu',
   FOCUS_WORKSPACE = 'focus_workspace',
   START_MOVE = 'start_move',
+  START_MOVE_STACK = 'start_move_stack',
   FINISH_MOVE = 'finish_move',
   ABORT_MOVE = 'abort_move',
   MOVE_UP = 'move_up',
@@ -397,27 +398,37 @@ export function registerMovementShortcuts() {
     return workspace.getCursor().getSourceBlock() ?? undefined;
   };
 
+  const shiftM = ShortcutRegistry.registry.createSerializedKey(KeyCodes.M, [
+    KeyCodes.SHIFT,
+  ]);
+
+  const startMoveShortcut: KeyboardShortcut = {
+    name: names.START_MOVE,
+    preconditionFn: (workspace) => {
+      const startDraggable = getCurrentDraggable(workspace);
+      return !!startDraggable && KeyboardMover.mover.canMove(startDraggable);
+    },
+    callback: (workspace, e) => {
+      keyboardNavigationController.setIsActive(true);
+      const startDraggable = getCurrentDraggable(workspace);
+      // Focus the root draggable in case one of its children
+      // was focused when the move was triggered.
+      if (startDraggable) {
+        getFocusManager().focusNode(startDraggable);
+      }
+      return (
+        !!startDraggable &&
+        KeyboardMover.mover.startMove(startDraggable, e as KeyboardEvent)
+      );
+    },
+    keyCodes: [KeyCodes.M],
+  };
   const shortcuts: ShortcutRegistry.KeyboardShortcut[] = [
+    startMoveShortcut,
     {
-      name: names.START_MOVE,
-      preconditionFn: (workspace) => {
-        const startDraggable = getCurrentDraggable(workspace);
-        return !!startDraggable && KeyboardMover.mover.canMove(startDraggable);
-      },
-      callback: (workspace, e) => {
-        keyboardNavigationController.setIsActive(true);
-        const startDraggable = getCurrentDraggable(workspace);
-        // Focus the root draggable in case one of its children
-        // was focused when the move was triggered.
-        if (startDraggable) {
-          getFocusManager().focusNode(startDraggable);
-        }
-        return (
-          !!startDraggable &&
-          KeyboardMover.mover.startMove(startDraggable, e as KeyboardEvent)
-        );
-      },
-      keyCodes: [KeyCodes.M],
+      ...startMoveShortcut,
+      name: names.START_MOVE_STACK,
+      keyCodes: [shiftM],
     },
     {
       name: names.FINISH_MOVE,
