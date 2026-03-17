@@ -11,28 +11,28 @@ In order to extend an existing field you must subclass a built in field (e.g
 Some parts of a field you can modify are:
 
 +   Its
-    [editor](/blockly/guides/create-custom-blocks/fields/anatomy-of-a-field#editor-display).
+    [editor](/guides/create-custom-blocks/fields/anatomy-of-a-field#editor-display).
 +   Its
-    [on-block display](/blockly/guides/create-custom-blocks/fields/anatomy-of-a-field#on-block-display).
+    [on-block display](/guides/create-custom-blocks/fields/anatomy-of-a-field#on-block-display).
 +   The
-    [text](/blockly/guides/create-custom-blocks/fields/anatomy-of-a-field#text)
+    [text](/guides/create-custom-blocks/fields/anatomy-of-a-field#text)
     it displays.
 
 If you want to [create a
-custom field](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating)
+custom field](/guides/create-custom-blocks/fields/customizing-fields/creating)
 that does not need behaviour from any built-in field you should subclass `Field`.
 
 ## Common extensions
 
 Most custom fields extend one of these three types:
 
-- [Text Input](/blockly/guides/create-custom-blocks/fields/built-in-fields/text-input): If you want your users to type into your field, you should extend
+- [Text Input](/guides/create-custom-blocks/fields/built-in-fields/text-input): If you want your users to type into your field, you should extend
 `FieldTextInput`.
-- [Number](/blockly/guides/create-custom-blocks/fields/built-in-fields/number): If you want to store a number, you should extend `FieldNumber`.
-- [Dropdown](/blockly/guides/create-custom-blocks/fields/built-in-fields/dropdown): If you want to create a dropdown, but you want it to store a different model
+- [Number](/guides/create-custom-blocks/fields/built-in-fields/number): If you want to store a number, you should extend `FieldNumber`.
+- [Dropdown](/guides/create-custom-blocks/fields/built-in-fields/dropdown): If you want to create a dropdown, but you want it to store a different model
 than the default string or image model, you should extend `FieldDropdown`.
     - Caution: Before extending `FieldDropdown`, check that the dropdown field's
-[customization options](/blockly/guides/create-custom-blocks/fields/built-in-fields/dropdown#customization) cannot fulfill your needs.
+[customization options](/guides/create-custom-blocks/fields/built-in-fields/dropdown#customization) cannot fulfill your needs.
 
 Under certain circumstances you may wish to extend a different field type. For
 example `FieldLabelSerializable` extends `FieldLabel`.
@@ -51,7 +51,7 @@ export class MyCustomTextField extends Blockly.FieldTextInput {
 ```
 
 The constructor for a field's subclass looks very similar to the [constructor for
-a custom field](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#implementing-a-constructor). The signature of the sub-constructor should
+a custom field](/guides/create-custom-blocks/fields/customizing-fields/creating#implementing-a-constructor). The signature of the sub-constructor should
 generally match the signature of the super-constructor.
 
 ## JSON and registration
@@ -72,5 +72,5 @@ static fromJson(options) {
 }
 ```
 
-For more information about registering a field see the [JSON and registration](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#json-and-registration)
+For more information about registering a field see the [JSON and registration](/guides/create-custom-blocks/fields/customizing-fields/creating#json-and-registration)
 section in Creating a Custom Field.

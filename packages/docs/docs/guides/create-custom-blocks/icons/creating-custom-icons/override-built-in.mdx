@@ -11,7 +11,7 @@ import Image from '@site/src/components/Image';
 You can override the built-in comment icon. For example, you may want the
 comment's [pop-up bubble][use-bubbles] to look different.
 
-<Image alt="A block with the comment icon highlighted" src="/blockly/images/block-icons/comment-icon-outline.png" width={200} />
+<Image alt="A block with the comment icon highlighted" src="/images/block-icons/comment-icon-outline.png" width={200} />
 
 To override the comment icon, extend `CommentIcon`, override selected methods in
 `ICommentIcon`, and register your new icon.
@@ -37,9 +37,9 @@ class MyCommentIcon extends Blockly.icons.CommentIcon {
 
 To customize your icon, you can override methods in `ICommentIcon` (described in
 the following sections) and
-[`Blockly.icons.Icon`](/blockly/reference/js/blockly.icons_namespace.icon_class)
+[`Blockly.icons.Icon`](/reference/js/blockly.icons_namespace.icon_class)
 (described in [Create custom
-icons](/blockly/guides/create-custom-blocks/icons/creating-custom-icons/basic-implementation)).
+icons](/guides/create-custom-blocks/icons/creating-custom-icons/basic-implementation)).
 Do not override `getType`, which must return `Blockly.icons.IconType.COMMENT`.
 
 ### Text
@@ -152,10 +152,10 @@ After you register your icon, Blockly will use it in place of the built-in
 comment icon, such as when the user clicks "Add Comment" on the context menu or
 you call `myBlock.setCommentText()`.
 
-[ICommentIcon]: /blockly/reference/js/blockly.icommenticon_interface
-[IHasBubble]: /blockly/reference/js/blockly.ihasbubble_interface
-[use-bubbles]: /blockly/guides/create-custom-blocks/icons/creating-custom-icons/use-bubbles
-[ISerializable]: /blockly/reference/js/blockly.iserializable_interface
-[CommentState]: /blockly/reference/js/blockly.icons_namespace.commentstate_interface
-[icon-serialization]: /blockly/guides/create-custom-blocks/icons/creating-custom-icons/save-and-load
-[comment-icon-image]: /blockly/images/block-icons/comment-icon-outline.png
+[ICommentIcon]: /reference/js/blockly.icommenticon_interface
+[IHasBubble]: /reference/js/blockly.ihasbubble_interface
+[use-bubbles]: /guides/create-custom-blocks/icons/creating-custom-icons/use-bubbles
+[ISerializable]: /reference/js/blockly.iserializable_interface
+[CommentState]: /reference/js/blockly.icons_namespace.commentstate_interface
+[icon-serialization]: /guides/create-custom-blocks/icons/creating-custom-icons/save-and-load
+[comment-icon-image]: /images/block-icons/comment-icon-outline.png

@@ -8,14 +8,14 @@ description: Styling blocks with CSS
 
 ## 6. Blocks
 
-In this section, you will create CSS rules to assign the colours used by the [blocks section](/blockly/codelabs/theme-extension-identifier/customize-block-styles/index.html) of the themes codelab to the logic, loops, text, and lists blocks. This is a bit more complex than setting component or category colours and you'll do it in several steps.
+In this section, you will create CSS rules to assign the colours used by the [blocks section](/codelabs/theme-extension-identifier/customize-block-styles/index.html) of the themes codelab to the logic, loops, text, and lists blocks. This is a bit more complex than setting component or category colours and you'll do it in several steps.
 
 ### Block fill and stroke
 
 Your first step is to set the `fill` and `stroke` of the logic blocks.
 
 Note that setting the `fill` and `stroke` is specific to the
-[renderer](/blockly/guides/create-custom-blocks/renderers/overview)
+[renderer](/guides/create-custom-blocks/renderers/overview)
 you are using. (In this codelab, you are using the Thrasos renderer.) An
 important consequence of this is that you need different CSS for different
 renderers.
@@ -61,7 +61,7 @@ The last step before writing your colour rules is to decide what colours to use.
 How these colours are used depends on the renderer. The Thrasos renderer uses
 the primary colour as the `fill` of the block, the tertiary colour as the
 `stroke`, and the secondary colour as the `fill` when the block is a
-[shadow block](/blockly/guides/configure/web/toolboxes/preset#shadow-blocks).
+[shadow block](/guides/configure/web/toolboxes/preset#shadow-blocks).
 #### Add your rules
 
 You're now ready to add your rules to set the `fill` and `stroke` of the logic blocks:

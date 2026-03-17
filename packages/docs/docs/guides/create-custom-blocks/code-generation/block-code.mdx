@@ -131,7 +131,7 @@ field's value, call `getFieldValue`. What is returned is different from field to
 field. For example, text fields return the exact text entered by the user, but
 dropdown fields return a language-neutral string associated with the item the
 user selected. For more information, see the [documentation for built-in
-fields](/blockly/guides/create-custom-blocks/fields/built-in-fields/overview).
+fields](/guides/create-custom-blocks/fields/built-in-fields/overview).
 
 Depending on the field, you may need to transform the returned value before
 using it in code.
@@ -168,7 +168,7 @@ javascriptGenerator.forBlock['custom_if'] = function (block, generator) {
 
 
 For more information, see [Transform field
-values](/blockly/guides/create-custom-blocks/code-generation/fields).
+values](/guides/create-custom-blocks/code-generation/fields).
 
 ## Get code from inner blocks
 
@@ -238,7 +238,7 @@ the inner block's code as needed:
 You don't actually need to know whether `valueToCode` added parentheses. All you
 need to do is pass the precedence to `valueToCode` and add the returned code to
 your code string. For more information, see [valueToCode
-precedence](/blockly/guides/create-custom-blocks/code-generation/operator-precedence#valuetocode-precedence).
+precedence](/guides/create-custom-blocks/code-generation/operator-precedence#valuetocode-precedence).
 
 ### Inner statement blocks
 
@@ -276,7 +276,7 @@ type:
     precedence of the weakest operator in your code. `valueToCode` uses this to
     decide if your code needs to be wrapped in parentheses when your block is
     used as an inner block. For more information, see [Return
-    precedence](/blockly/guides/create-custom-blocks/code-generation/operator-precedence#return-precedence).
+    precedence](/guides/create-custom-blocks/code-generation/operator-precedence#return-precedence).
 
 *   **Statement blocks:** Return the code string.
 
@@ -307,7 +307,7 @@ javascriptGenerator.forBlock['custom_if'] = function (block, generator) {
 
 If you use the code of an inner value block multiple times in your code string,
 you should [cache the code from that
-block](/blockly/guides/create-custom-blocks/code-generation/caching-arguments)
+block](/guides/create-custom-blocks/code-generation/caching-arguments)
 to avoid subtle bugs and unwanted side-effects.
 
 ## Complete code generators

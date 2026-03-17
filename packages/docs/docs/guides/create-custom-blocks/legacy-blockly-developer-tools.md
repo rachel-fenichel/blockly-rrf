@@ -28,7 +28,7 @@ The Blockly developer process using the tool consists of three parts:
 ## Block Factory Tab
 
 The Block Factory tab helps you create [block
-definitions](/blockly/guides/create-custom-blocks/define/block-definitions) and
+definitions](/guides/create-custom-blocks/define/block-definitions) and
 [block-code generators][block-code-generator] for custom blocks. On this tab you
 can easily create, modify, and save custom blocks.
 
@@ -116,7 +116,7 @@ starting workspace with the "Toolbox" and "Workspace" buttons.
 ### Building a toolbox
 
 This tab helps build the XML for a Toolbox.  The material assumes
-familiarity with features of a [Toolbox](/blockly/guides/configure/web/toolboxes/toolbox).
+familiarity with features of a [Toolbox](/guides/configure/web/toolboxes/toolbox).
 If you already have XML for a toolbox that you want to edit here, you can
 load it by clicking "Load to Edit".
 
@@ -167,7 +167,7 @@ to the toolbox. If you have blocks defined in JSON that aren't in your library,
 you can import them using the "Import Custom Blocks" button.
 
 Some blocks should be used together or include defaults. This is done with
-[groups and shadows](/blockly/guides/configure/web/toolboxes/preset). Any
+[groups and shadows](/guides/configure/web/toolboxes/preset). Any
 blocks that are connected in the editor will be added to the toolbox as a group.
 Blocks that are attached to another block can also be changed to shadow blocks
 by selecting the child block and clicking the "Make Shadow" button.
@@ -179,7 +179,7 @@ blocks.
 If you include a variable or function block in their toolbox, include a
 "Variables" or "Functions" category in your toolbox to allow users to fully
 utilize the block. Learn more about ["Variables" or "Functions"
-categories](/blockly/guides/configure/web/toolboxes/dynamic#built-in-dynamic-categories).
+categories](/guides/configure/web/toolboxes/dynamic#built-in-dynamic-categories).
 
 ### Configuring a workspace
 
@@ -189,10 +189,10 @@ tab and select "Workspace".
 #### Choose Workspace Options
 
 Set different values for [configuration
-options](/blockly/guides/configure/web/configuration_struct#the-options-dictionary)
+options](/guides/configure/web/configuration_struct#the-options-dictionary)
 and see the result in the preview area. Enabling
-[grid](/blockly/guides/configure/web/grid) or
-[zoom](/blockly/guides/configure/web/zoom) reveals more options to configure.
+[grid](/guides/configure/web/grid) or
+[zoom](/guides/configure/web/zoom) reveals more options to configure.
 Also, switching to using categories usually requires a more complex
 workspace; a trashcan and scrollbars are added automatically when you add your
 first category.
@@ -242,6 +242,6 @@ these.](/images/workspace_export_opt.png)
 * Toolbox: Produces XML to specify your toolbox.
 * Workspace Blocks: Produces XML which can be loaded into a workspace.
 
-[block-code-generator]: /blockly/guides/create-custom-blocks/code-generation/overview#block-code-generators
-[block-factory-import]: /blockly/guides/create-custom-blocks/blockly-developer-tools#import-from-legacy-block-factory
+[block-code-generator]: /guides/create-custom-blocks/code-generation/overview#block-code-generators
+[block-factory-import]: /guides/create-custom-blocks/blockly-developer-tools#import-from-legacy-block-factory
 [legacy-tool]: https://blockly-demo.appspot.com/static/demos/blockfactory/index.html

@@ -19,14 +19,14 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://joe-davis-blockly.github.io',
+  url: 'https://raspberrypifoundation.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/blockly/',
+  baseUrl: '/docs/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'Joe-Davis-Blockly', // Usually your GitHub org/user name.
+  organizationName: 'RaspberryPiFoundation', // Usually your GitHub org/user name.
   projectName: 'blockly', // Usually your repo name.
   
   onBrokenLinks: 'warn',
@@ -68,7 +68,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Joe-Davis-Blockly/blockly/tree/cybage-blockly/docs',
+            'https://github.com/RaspberryPiFoundation/blockly/tree/main/packages/docs',
         },
         blog: false,
         theme: {
@@ -139,7 +139,7 @@ const config = {
           {
             type: 'docSidebar',
             label: 'Codelabs',
-            sidebarId: 'tutorialSidebar',
+            sidebarId: 'codelabsSidebar',
             position: 'left',
           },
           {
@@ -187,11 +187,11 @@ const config = {
             items: [
               {
                 label: 'Guides',
-                to: '/blockly/guides/get-started/what-is-blockly',
+                to: '/guides/get-started/what-is-blockly',
               },
               {
                 label: 'Reference',
-                to: '/blockly/reference/js/blockly',
+                to: '/reference/js/blockly',
               },
             ],
           },
@@ -200,7 +200,7 @@ const config = {
             items: [
               {
                 label: 'Codelabs',
-                to: '/blockly/codelabs/index',
+                to: '/codelabs/index',
               },
               {
                 label: 'Samples and Demos',

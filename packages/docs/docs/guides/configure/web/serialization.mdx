@@ -8,7 +8,7 @@ image: images/blockly_banner.png
 
 Serialization is saving the state of your workspace so that it can be loaded
 back into the workspace later. This includes serializing the state of any
-blocks, variables, or [plugins](/blockly/guides/programming/plugin_overview)
+blocks, variables, or [plugins](/guides/programming/plugin_overview)
 that you want to save. You can convert all of the data you need to save into a
 text-based format for easy storage, and then load that data back into a fully
 functional workspace later.
@@ -76,7 +76,7 @@ prevent duplicating state within a save.
 
 When `Blockly.serialization.workspaces.load` is called, serializers are given
 state to deserialize in order of *priority*. This is explained further in the
-[Serializers](/blockly/guides/configure/web/serialization#serializer-hooks)
+[Serializers](/guides/configure/web/serialization#serializer-hooks)
 section, and its purpose is to allow serializers to depend on state from other
 systems.
 
@@ -91,7 +91,7 @@ The order for deserialization of built-in serializers is:
     2.  **Attributes are deserialized.** This includes properties that can apply
         to any block. For example: x, y, collapsed, disabled, and data.
 4.  **Extra state is deserialized.** See the
-    [Mutators](/blockly/guides/create-custom-blocks/mutators) documentation for
+    [Mutators](/guides/create-custom-blocks/mutators) documentation for
     more info.
 5.  **The block is connected to its parent (if one exists).**
     1.  **Icons are deserialized.** Individual icons are deserialized in an
@@ -117,7 +117,7 @@ However, if you have an input that only exists if a field has a certain value,
 you do not need to add info about the field to your extra state. This is because
 the state of your field will be deserialized first, and when it is, you can add
 the input to your block. Usually adding the input will be triggered by a
-[validator](/blockly/guides/create-custom-blocks/fields/validators#registering-a-local-validator).
+[validator](/guides/create-custom-blocks/fields/validators#registering-a-local-validator).
 
 Note that the rule about duplicating state should also take into account that
 block stacks, icons, fields, and input blocks are deserialized in an arbitrary
@@ -128,12 +128,12 @@ is deserialized before A.
 ### Block hooks
 
 For information about how to add extra serialization to blocks, see the
-[Mutators](/blockly/guides/create-custom-blocks/mutators) documentation.
+[Mutators](/guides/create-custom-blocks/mutators) documentation.
 
 ### Field hooks
 
 For information about how to serialize fields, see the [Custom
-fields](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#serialization)
+fields](/guides/create-custom-blocks/fields/customizing-fields/creating#serialization)
 documentation.
 
 ### Serializer hooks
@@ -167,10 +167,10 @@ When you register a serializer you must provide several things:
 *   A function to `clear` the state.
 *   A function to `load` the state.
 *   A `priority`, which is used to determine the [deserialization
-    order](/blockly/guides/configure/web/serialization#deserialization-order).
+    order](/guides/configure/web/serialization#deserialization-order).
 
     You can base the priority of your serializer on the [built-in
-    priorities](/blockly/reference/js/blockly.serialization_namespace.priorities_namespace)
+    priorities](/reference/js/blockly.serialization_namespace.priorities_namespace)
 
 When `Blockly.serialization.workspaces.save` is called, each serializer's `save`
 function will be called, and its data will be added to the final JSON output:
@@ -215,17 +215,17 @@ For information on how to migrate to JSON, see the [migration guide].
 ### APIs
 
 For information about the XML system's APIs see the [reference
-documentation](/blockly/reference/js/blockly.xml_namespace).
+documentation](/reference/js/blockly.xml_namespace).
 
 ### Block hooks
 
 For information about how to add extra serialization to blocks, see the
-[Mutators](/blockly/guides/create-custom-blocks/mutators) documentation.
+[Mutators](/guides/create-custom-blocks/mutators) documentation.
 
 ### Field hooks
 
 For information about how to serialize fields, see the [Custom
-fields](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#serialization)
+fields](/guides/create-custom-blocks/fields/customizing-fields/creating#serialization)
 documentation.
 
 ## Choosing between JSON and XML

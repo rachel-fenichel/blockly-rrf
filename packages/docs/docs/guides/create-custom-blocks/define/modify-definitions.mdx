@@ -32,8 +32,8 @@ monkeypatching and forking the code. Both are strongly discouraged, as you run
 the risk of breaking code that depends on the monkeypatched or forked code. Both
 techniques also make it difficult to integrate updates and bug fixes. For more
 information, see [What about
-monkeypatching?](/blockly/guides/programming/using_blockly_apis#what-about-monkeypatching)
-and [Fork Blockly](/blockly/guides/programming/forking_blockly).
+monkeypatching?](/guides/programming/using_blockly_apis#what-about-monkeypatching)
+and [Fork Blockly](/guides/programming/forking_blockly).
 
 ### Subclass an existing definition
 
@@ -62,7 +62,7 @@ magically replace just one line. There are several problems with this:
     function to copy -- it's generated at run time.
 *   It requires you to define your block using JavaScript, which may [cause
     problems with
-    localization](/blockly/guides/configure/web/translations#json-message-interpolation).
+    localization](/guides/configure/web/translations#json-message-interpolation).
 
 ### Overwrite the results of init
 
@@ -82,7 +82,7 @@ Blockly.Blocks['logic_null'].init = function() {
 Unfortunately, this is less useful that it seems. For example:
 
 *   Broadening [connection
-    checks](/blockly/guides/create-custom-blocks/inputs/connection-checks) or
+    checks](/guides/create-custom-blocks/inputs/connection-checks) or
     applying a less-restrictive field validator may invalidate assumptions made
     by block-code generators and event handlers.
 
@@ -90,7 +90,7 @@ Unfortunately, this is less useful that it seems. For example:
     field validators and may break event handlers. It may also be extremely
     difficult to do for localized blocks because different locales may result in
     blocks with [different types and orders of inputs and
-    fields](/blockly/guides/configure/web/translations#json-message-interpolation).
+    fields](/guides/configure/web/translations#json-message-interpolation).
 
 ### Overwrite a key-value pair in a JSON definition
 
@@ -168,7 +168,7 @@ definition](#overwrite-a-key-value-pair-in-a-json-definition).
 ### Reuse functions
 
 Blocks may define a number of [standard
-functions](/blockly/guides/create-custom-blocks/define/block-definitions#how-block-definitions-work),
+functions](/guides/create-custom-blocks/define/block-definitions#how-block-definitions-work),
 such as block-level event handlers, custom tooltips, field validators, and the
 functions used by mutators, as well as functions that provide custom behavior,
 such as a function that sets field values from external data, like the current
@@ -194,6 +194,6 @@ easier than writing and maintaining multiple blocks.
 
 If you have a set of blocks that represent different variations of the same
 programming structure, you may be able to create a single block that uses a
-[mutator](/blockly/guides/create-custom-blocks/mutators). For example, the
+[mutator](/guides/create-custom-blocks/mutators). For example, the
 built-in `controls_if` block can represent multiple variations of `if-then-else`
 statements.

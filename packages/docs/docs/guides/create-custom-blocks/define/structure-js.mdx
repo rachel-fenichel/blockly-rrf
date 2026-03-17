@@ -13,16 +13,16 @@ import TabItem from '@theme/TabItem';
 In this document, we'll discuss how to use JavaScript to define the inputs and
 fields (including labels) in your block. If you're not familiar with these
 terms, see [Anatomy of a
-block](/blockly/guides/create-custom-blocks/define/block-anatomy) before
+block](/guides/create-custom-blocks/define/block-anatomy) before
 proceeding.
 
 You can also define your inputs, fields, and connections [in
-JSON](/blockly/guides/create-custom-blocks/define/structure-json).
+JSON](/guides/create-custom-blocks/define/structure-json).
 
 ## Append inputs
 
 The JavaScript API includes an `append` method for each [input
-type](/blockly/guides/create-custom-blocks/define/block-anatomy#inputs):
+type](/guides/create-custom-blocks/define/block-anatomy#inputs):
 
 <Tabs groupId="javascript">
   <TabItem value="javascript" label="JavaScript" default>
@@ -45,7 +45,7 @@ type](/blockly/guides/create-custom-blocks/define/block-anatomy#inputs):
   ```
   </TabItem>
 </Tabs>
-<Image alt='A block with four rows. The first row has the labels "for each" and "item" and a variable dropdown with "x" chosen. The second row has the label "in list" and a value input. The third row has the label "do" and a statement input. And the last row has the label "end".' src="/blockly/images/append-input.png" className="appendInputImg" />
+<Image alt='A block with four rows. The first row has the labels "for each" and "item" and a variable dropdown with "x" chosen. The second row has the label "in list" and a value input. The third row has the label "do" and a statement input. And the last row has the label "end".' src="/images/append-input.png" className="appendInputImg" />
 
 Each `appendInput` method can take an identifier string, which is used by code
 generators to retrieve code for the block connected to the input. Code
@@ -75,7 +75,7 @@ are three built-in methods used for configuring inputs.
 
 Once an input has been created and appended to a block with `appendInput`, one
 may optionally append any number of
-[fields](/blockly/guides/create-custom-blocks/define/block-anatomy#fields) to
+[fields](/guides/create-custom-blocks/define/block-anatomy#fields) to
 the input. These fields
 are often used as labels to describe what each input is for.
 
@@ -135,7 +135,7 @@ class name so that the label may be styled using a CSS rule.
 The `setCheck` method is used for type-checking connections. If given
 an argument of null, the default, then this input may be connected to any block.
 See [Connection
-checks](/blockly/guides/create-custom-blocks/inputs/connection-checks) for
+checks](/guides/create-custom-blocks/inputs/connection-checks) for
 details.
 
 ## Align fields
@@ -161,4 +161,4 @@ When a block is rendered in right-to-left mode (e.g. Arabic and Hebrew), left
 and right are reversed. Thus `Blockly.inputs.Align.RIGHT` would align fields to
 the left.
 
-[custom-inputs]: /blockly/guides/create-custom-blocks/inputs/creating-custom-inputs
+[custom-inputs]: /guides/create-custom-blocks/inputs/creating-custom-inputs

@@ -18,7 +18,7 @@ practices for referring to Blockly and attributing it as well as appropriate
 uses of the logo.
 
 <a class="button button-primary downloadAsset"
-   href="/blockly/images/logos/blockly_logos_all.zip" target="_blank">Download all assets</a>
+   href="/images/logos/blockly_logos_all.zip" target="_blank">Download all assets</a>
 
 ## How to refer to Blockly
 
@@ -56,12 +56,12 @@ following logos, depending on background color:
   <theader>
     <tr>
       <th style="background-color:white">
-        <img src="/blockly/images/logos/built-with-blockly-badge-white.png"
+        <img src="/images/logos/built-with-blockly-badge-white.png"
              alt="Built on Blockly white"
              width="240">
       </th>
       <th style="background-color:white">
-        <img src="/blockly/images/logos/built-with-blockly-badge-black.png"
+        <img src="/images/logos/built-with-blockly-badge-black.png"
              alt="Built on Blockly black" width="250">
       </th>
     </tr>
@@ -72,10 +72,10 @@ following logos, depending on background color:
       <td>For dark backgrounds with overlapping shapes or varied patterns.</td>
     </tr>
     <tr>
-      <td><a class="assetDownloadLink" href="/blockly/images/logos/built-with-blockly-badge-white.png" target="_blank">PNG</a>
-        <a class="assetDownloadLink" href="/blockly/images/logos/built-with-blockly-badge-white.svg" target="_blank">SVG</a></td>
-      <td><a class="assetDownloadLink" href="/blockly/images/logos/built-with-blockly-badge-black.png" target="_blank">PNG</a>
-        <a class="assetDownloadLink" href="/blockly/images/logos/built-with-blockly-badge-black.svg" target="_blank">SVG</a></td>
+      <td><a class="assetDownloadLink" href="/images/logos/built-with-blockly-badge-white.png" target="_blank">PNG</a>
+        <a class="assetDownloadLink" href="/images/logos/built-with-blockly-badge-white.svg" target="_blank">SVG</a></td>
+      <td><a class="assetDownloadLink" href="/images/logos/built-with-blockly-badge-black.png" target="_blank">PNG</a>
+        <a class="assetDownloadLink" href="/images/logos/built-with-blockly-badge-black.svg" target="_blank">SVG</a></td>
     </tr>
   </tbody>
 </table>
@@ -91,8 +91,8 @@ Please hyperlink the badge to Blockly's home page: [https://www.blockly.com](htt
     logo. Never crowd or overlap the logo with other elements.</p>
   </div>
   <div style="flex: 1 1 50%;">
-    <img src="/blockly/images/logos/blockly-badge.png" class="blockly-badge-light" alt="Blockly Badge" />
-    <img src="/blockly/images/logos/blockly-badge-dark.png" class="blockly-badge-dark" alt="Blockly Badge" />
+    <img src="/images/logos/blockly-badge.png" class="blockly-badge-light" alt="Blockly Badge" />
+    <img src="/images/logos/blockly-badge-dark.png" class="blockly-badge-dark" alt="Blockly Badge" />
   </div>
 </div>
 
@@ -108,7 +108,7 @@ element on your page.
 <table>
   <tr>
     <td style="background-color:white; vertical-align:middle">
-      <img src="/blockly/images/logos/logo_standard.png"
+      <img src="/images/logos/logo_standard.png"
            alt="Standard Blockly logo">
     </td>
     <td>
@@ -119,8 +119,8 @@ element on your page.
       with a full color logomark and neutral 700 (#5F6368) or solid white
       logotype.
       </p>
-      <a class="assetDownloadLink" href="/blockly/images/logos/logo_standard.png" target="_blank">PNG</a>
-      <a class="assetDownloadLink" href="/blockly/images/logos/logo_standard.svg" target="_blank">SVG</a>
+      <a class="assetDownloadLink" href="/images/logos/logo_standard.png" target="_blank">PNG</a>
+      <a class="assetDownloadLink" href="/images/logos/logo_standard.svg" target="_blank">SVG</a>
     </td>
   </tr>
 </table>
@@ -129,17 +129,17 @@ element on your page.
   <tbody>
     <tr>
       <th style="background-color:white; text-align:center">
-        <img src="/blockly/images/logos/logo_vertical.png"
+        <img src="/images/logos/logo_vertical.png"
              alt="Blockly vertical logo"
              height="120" class="logo-version">
       </th>
       <th style="background-color:white; text-align:center">
-        <img src="/blockly/images/logos/logo_only.png"
+        <img src="/images/logos/logo_only.png"
              alt="Blockly logomark"
              height="120" class="logo-version">
       </th>
       <th style="background-color:white; text-align:center">
-        <img src="/blockly/images/logos/logo_knockout_with_bg.png"
+        <img src="/images/logos/logo_knockout_with_bg.png"
              alt="Blockly knockout logo"
              height="120" class="logo-version">
       </th>
@@ -157,12 +157,12 @@ element on your page.
       </td>
     </tr>
     <tr>
-      <td><a class="assetDownloadLink" href="/blockly/images/logos/logo_vertical.png" target="_blank">PNG</a>
-        <a class="assetDownloadLink" href="/blockly/images/logos/logo_vertical.svg" target="_blank">SVG</a></td>
-      <td><a class="assetDownloadLink" href="/blockly/images/logos/logo_only.png" target="_blank">PNG</a>
-        <a class="assetDownloadLink" href="/blockly/images/logos/logo_only.svg" target="_blank">SVG</a></td>
-      <td><a class="assetDownloadLink" href="/blockly/images/logos/logo_knockout_with_bg.png" target="_blank">PNG</a>
-        <a class="assetDownloadLink" href="/blockly/images/logos/logo_knockout_with_bg.svg" target="_blank">SVG</a></td>
+      <td><a class="assetDownloadLink" href="/images/logos/logo_vertical.png" target="_blank">PNG</a>
+        <a class="assetDownloadLink" href="/images/logos/logo_vertical.svg" target="_blank">SVG</a></td>
+      <td><a class="assetDownloadLink" href="/images/logos/logo_only.png" target="_blank">PNG</a>
+        <a class="assetDownloadLink" href="/images/logos/logo_only.svg" target="_blank">SVG</a></td>
+      <td><a class="assetDownloadLink" href="/images/logos/logo_knockout_with_bg.png" target="_blank">PNG</a>
+        <a class="assetDownloadLink" href="/images/logos/logo_knockout_with_bg.svg" target="_blank">SVG</a></td>
     </tr>
   </tbody>
 </table>
@@ -227,7 +227,7 @@ element on your page.
     </ul>
   </div>
   <div style="flex: 1 1 40%;">
-    <img src="/blockly/images/logos/logo_x_height.png"
+    <img src="/images/logos/logo_x_height.png"
          alt="Height references for padding the logo" width="380">
   </div>
 </div>

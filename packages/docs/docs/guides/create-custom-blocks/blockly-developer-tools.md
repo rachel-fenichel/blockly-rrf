@@ -97,7 +97,7 @@ generators.
 The Code Headers section shows the code you need to load the core Blockly
 library and the language generator you've chosen. There may be other
 configuration here too; for example, some fields you might include in a block
-are from Blockly [plugins](/blockly/guides/programming/plugin_overview). These
+are from Blockly [plugins](/guides/programming/plugin_overview). These
 plugins will have their own import statements and possibly other code you'll
 have to run to initialize the field. This code should be included before any of
 the following code sections.
@@ -170,15 +170,15 @@ following these steps:
     bug](https://github.com/RaspberryPiFoundation/blockly-samples/issues/new/choose) against
     blockly-samples and including the file that wouldn't parse.
 
-[legacy-block-factory]: /blockly/guides/create-custom-blocks/legacy-blockly-developer-tools
-[add-custom-blocks]: /blockly/guides/create-custom-blocks/overview
-[json-and-js]: /blockly/guides/create-custom-blocks/define/json-and-js
-[block-definitions]: /blockly/guides/create-custom-blocks/define/block-definitions
-[block-code-generator]: /blockly/guides/create-custom-blocks/code-generation/overview#block-code-generators
-[inputs]: /blockly/guides/get-started/workspace-anatomy#inputs
-[fields]: /blockly/guides/get-started/workspace-anatomy#fields
-[toolbox-preset]: /blockly/guides/configure/web/toolboxes/preset
-[mutators]: /blockly/guides/create-custom-blocks/mutators
-[loading-blockly]: /blockly/guides/get-started/get-the-code#get-the-code-1
-[code-generation]: /blockly/guides/create-custom-blocks/code-generation/overview#language-code-generators
-[sample-app]: /blockly/guides/get-started/get-the-code#create-package-script
+[legacy-block-factory]: /guides/create-custom-blocks/legacy-blockly-developer-tools
+[add-custom-blocks]: /guides/create-custom-blocks/overview
+[json-and-js]: /guides/create-custom-blocks/define/json-and-js
+[block-definitions]: /guides/create-custom-blocks/define/block-definitions
+[block-code-generator]: /guides/create-custom-blocks/code-generation/overview#block-code-generators
+[inputs]: /guides/get-started/workspace-anatomy#inputs
+[fields]: /guides/get-started/workspace-anatomy#fields
+[toolbox-preset]: /guides/configure/web/toolboxes/preset
+[mutators]: /guides/create-custom-blocks/mutators
+[loading-blockly]: /guides/get-started/get-the-code#get-the-code-1
+[code-generation]: /guides/create-custom-blocks/code-generation/overview#language-code-generators
+[sample-app]: /guides/get-started/get-the-code#create-package-script

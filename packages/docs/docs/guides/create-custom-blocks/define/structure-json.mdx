@@ -13,11 +13,11 @@ import Image from '@site/src/components/Image';
 In this document, we'll discuss how to use JSON to define the inputs, fields
 (including labels), and connections in your block. If you're not familiar with
 these terms, see [Anatomy of a
-block](/blockly/guides/create-custom-blocks/define/block-anatomy) before
+block](/guides/create-custom-blocks/define/block-anatomy) before
 proceeding.
 
 You can also define your inputs, fields, and connections [in
-JavaScript](/blockly/guides/create-custom-blocks/define/structure-js).
+JavaScript](/guides/create-custom-blocks/define/structure-js).
 
 ## Overview
 
@@ -57,10 +57,10 @@ is defined by the following JSON:
   </TabItem>
 </Tabs>
 The first interpolation token (`%1`) represents a [variable
-field](/blockly/guides/create-custom-blocks/fields/built-in-fields/variable)
+field](/guides/create-custom-blocks/fields/built-in-fields/variable)
 (`type: "field_variable"`). It is described by the first object in the `args0`
 array. The second token (`%2`) represents the input connection at the end of a
-[value input](/blockly/guides/create-custom-blocks/define/block-anatomy#value-inputs)
+[value input](/guides/create-custom-blocks/define/block-anatomy#value-inputs)
 (`type: "input_value"`). It is described by the second object in the `args0`
 array.
 
@@ -91,7 +91,7 @@ are created from them.
 This creates a single value input with three fields: a label (`"set"`), a
 variable field, and another label (`"to"`).
 
-<Image alt="Map the message to a value input with three fields." src="/blockly/images/structure-json/set-one-to-two.png" srcDark="/blockly/images/structure-json/set-one-to-two-dark.png"/>
+<Image alt="Map the message to a value input with three fields." src="/images/structure-json/set-one-to-two.png" srcDark="/images/structure-json/set-one-to-two-dark.png"/>
 
 ### Example 2
 
@@ -111,7 +111,7 @@ variable field, and another label (`"to"`).
 This creates two value inputs. The first has no fields and the second has one
 field (`"+"`).
 
-<Image alt="Map the message to two value inputs." src="/blockly/images/structure-json/one-plus-two.png" srcDark="/blockly/images/structure-json/one-plus-two-dark.png"/>
+<Image alt="Map the message to two value inputs." src="/images/structure-json/one-plus-two.png" srcDark="/images/structure-json/one-plus-two-dark.png"/>
 
 ### Example 3
 
@@ -132,12 +132,12 @@ field (`"+"`).
 This creates:
 
 *   A value input with no fields,
-*   An [end-of-row input](/blockly/guides/create-custom-blocks/define/block-anatomy#end-of-row-inputs)
+*   An [end-of-row input](/guides/create-custom-blocks/define/block-anatomy#end-of-row-inputs)
         with a label field (`"+"`), which causes the following value input to be
     rendered on a new row, and
 *   A value input with no fields.
 
-<Image alt="Map the message to two value inputs and an end-of-row input." src="/blockly/images/structure-json/one-plus-two-three.png" srcDark="/blockly/images/structure-json/one-plus-two-three-dark.png"/>
+<Image alt="Map the message to two value inputs and an end-of-row input." src="/images/structure-json/one-plus-two-three.png" srcDark="/images/structure-json/one-plus-two-three-dark.png"/>
 
 ## Dummy input at end of message
 
@@ -159,7 +159,7 @@ for you. For example, instead of defining a `lists_isEmpty` block like this:
   </TabItem>
 </Tabs>
 
-<Image alt="Map the message to a value input and an automatically created dummy input." src="/blockly/images/structure-json/is-empty-dummy.png" srcDark="/blockly/images/structure-json/is-empty-dummy-dark.png"/>
+<Image alt="Map the message to a value input and an automatically created dummy input." src="/images/structure-json/is-empty-dummy.png" srcDark="/images/structure-json/is-empty-dummy-dark.png"/>
 
 you can let Blockly add the dummy input and define it like this:
 
@@ -176,7 +176,7 @@ you can let Blockly add the dummy input and define it like this:
   </TabItem>
 </Tabs>
 
-<Image alt="Map the message to a value input and an automatically created dummy input." src="/blockly/images/structure-json/is-empty.png" srcDark="/blockly/images/structure-json/is-empty-dark.png"/>
+<Image alt="Map the message to a value input and an automatically created dummy input." src="/images/structure-json/is-empty.png" srcDark="/images/structure-json/is-empty-dark.png"/>
 
 The automatic addition of a tailing dummy input allows translators to change
 `message` without needing to modify the arguments that describe the
@@ -241,7 +241,7 @@ is to use more than one `message` and `args` properties:
 </Tabs>
 
 <Image alt="Map the message to a value input and an automatically created dummy input and the message to a statement
-input." src="/blockly/images/structure-json/controls-repeat-ext.png" srcDark="/blockly/images/structure-json/controls-repeat-ext-dark.png"/>
+input." src="/images/structure-json/controls-repeat-ext.png" srcDark="/images/structure-json/controls-repeat-ext-dark.png"/>
 
 Any number of `message`, `args`, and `implicitAlign` properties may be defined
 in the JSON format, starting with 0 and incrementing sequentially. Note that the
@@ -273,7 +273,7 @@ inputs.
 
 The ability to change the order of the interpolation tokens in a message makes
 localization easier. For more information, see [JSON message
-interpolation](/blockly/guides/configure/web/translations#json-message-interpolation).
+interpolation](/guides/configure/web/translations#json-message-interpolation).
 
 ## Text handling
 
@@ -298,7 +298,7 @@ string with an end-of-row input.
   </TabItem>
 </Tabs>
 
-<Image alt="Map the newline character to an end-of-row input." src="/blockly/images/structure-json/newline-character.png" srcDark="/blockly/images/structure-json/newline-character-dark.png"/>
+<Image alt="Map the newline character to an end-of-row input." src="/images/structure-json/newline-character.png" srcDark="/images/structure-json/newline-character-dark.png"/>
 
 ## Arguments arrays
 
@@ -313,17 +313,17 @@ Every object in the arguments array has a
 `type` string. The rest of the parameters vary depending on the type:
 
 
- * [**Fields**](/blockly/guides/create-custom-blocks/fields/overview):
-   * [`field_input`](/blockly/guides/create-custom-blocks/fields/built-in-fields/text-input)
-   * [`field_dropdown`](/blockly/guides/create-custom-blocks/fields/built-in-fields/dropdown)
-   * [`field_checkbox`](/blockly/guides/create-custom-blocks/fields/built-in-fields/checkbox)
+ * [**Fields**](/guides/create-custom-blocks/fields/overview):
+   * [`field_input`](/guides/create-custom-blocks/fields/built-in-fields/text-input)
+   * [`field_dropdown`](/guides/create-custom-blocks/fields/built-in-fields/dropdown)
+   * [`field_checkbox`](/guides/create-custom-blocks/fields/built-in-fields/checkbox)
    * [`field_colour`](https://www.npmjs.com/package/@blockly/field-colour)
-   * [`field_number`](/blockly/guides/create-custom-blocks/fields/built-in-fields/number)
+   * [`field_number`](/guides/create-custom-blocks/fields/built-in-fields/number)
    * [`field_angle`](https://www.npmjs.com/package/@blockly/field-angle)
-   * [`field_variable`](/blockly/guides/create-custom-blocks/fields/built-in-fields/variable)
-   * [`field_label`](/blockly/guides/create-custom-blocks/fields/built-in-fields/label)
-   * [`field_image`](/blockly/guides/create-custom-blocks/fields/built-in-fields/image).
- * [**Inputs**](/blockly/guides/create-custom-blocks/define/block-anatomy#inputs):
+   * [`field_variable`](/guides/create-custom-blocks/fields/built-in-fields/variable)
+   * [`field_label`](/guides/create-custom-blocks/fields/built-in-fields/label)
+   * [`field_image`](/guides/create-custom-blocks/fields/built-in-fields/image).
+ * [**Inputs**](/guides/create-custom-blocks/define/block-anatomy#inputs):
    * `input_value`
    * `input_statement`
    * `input_dummy`
@@ -367,5 +367,5 @@ An `alt` object may have its own `alt` object, thus allowing for chaining.
 Ultimately, if Blockly cannot create an object in the `args0` array (after
 attempting any `alt` objects) then that object is simply skipped.
 
-[custom-inputs]: /blockly/guides/create-custom-blocks/inputs/creating-custom-inputs
-[custom-fields]: /blockly/guides/create-custom-blocks/fields/customizing-fields/creating
+[custom-inputs]: /guides/create-custom-blocks/inputs/creating-custom-inputs
+[custom-fields]: /guides/create-custom-blocks/fields/customizing-fields/creating

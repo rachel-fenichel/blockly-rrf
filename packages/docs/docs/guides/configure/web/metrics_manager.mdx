@@ -24,7 +24,7 @@ The toolbox metrics are composed of the `height`, `width` and `position` of a
 category toolbox. This does not include information on the flyout that is
 attached to the toolbox.
 
-<Image alt="The Blockly workspace with arrows showing the width and height of the toolbox." src="/blockly/images/metrics_manager/toolbox_metrics.png" width={300} />
+<Image alt="The Blockly workspace with arrows showing the width and height of the toolbox." src="/images/metrics_manager/toolbox_metrics.png" width={300} />
 
 The `position` of the toolbox is of the type `Blockly.utils.toolbox.Position`.
 
@@ -37,7 +37,7 @@ flyout toolbox. It is important to note, that this is not the flyout that is
 attached to the category toolbox. This only pertains to flyout toolboxes as
 shown in the below photo.
 
-<Image alt="The Blockly workspace with arrows showing the width and height of the flyout." src="/blockly/images/metrics_manager/flyout_toolbox_metrics.png" width={300} />
+<Image alt="The Blockly workspace with arrows showing the width and height of the flyout." src="/images/metrics_manager/flyout_toolbox_metrics.png" width={300} />
 
 The `position` of the flyout is of the type `Blockly.utils.toolbox.Position`.
 
@@ -49,7 +49,7 @@ The SVG metrics are composed of the `width` and `height` of the workspace's
 parent SVG. For the main workspace, this is the SVG with the `blocklySvg` class.
 This SVG includes the visible workspace as well as the toolbox.
 
-<Image alt="The Blockly workspace with a blue rectangle around it." src="/blockly/images/metrics_manager/svg_metrics.png" width={300} />
+<Image alt="The Blockly workspace with a blue rectangle around it." src="/images/metrics_manager/svg_metrics.png" width={300} />
 
 ### View Metrics
 
@@ -59,12 +59,12 @@ The view metrics are composed of the `height`, `width`, `top` and `left` of the
 viewport. The viewport is the portion of the workspace that is visible. This
 does not include either type of toolbox.
 
-<Image alt="The Blockly workspace with a blue rectangle around the area not including the toolbox." src="/blockly/images/metrics_manager/view_metrics.png" width={300} />
+<Image alt="The Blockly workspace with a blue rectangle around the area not including the toolbox." src="/images/metrics_manager/view_metrics.png" width={300} />
 
 The top left is relative to the workspace origin. As we drag around the
 workspace the top and left position of the viewport are updated.
 
-<Image alt="The Blockly workspace with a blue rectangle around the area not including the toolbox, and an origin shown offset from the top left corner." src="/blockly/images/metrics_manager/view_metrics_origin.png" width={300} />
+<Image alt="The Blockly workspace with a blue rectangle around the area not including the toolbox, and an origin shown offset from the top left corner." src="/images/metrics_manager/view_metrics_origin.png" width={300} />
 
 ### Absolute Metrics
 
@@ -74,8 +74,8 @@ The absolute metrics are composed of the `top` and `left` offset of the viewport
 from the pareng SVG. Depending on where the toolbox is positioned on the
 workspace, this is usually the width or height of the toolbox.
 
-<Image alt="The Blockly workspace with a blue line to the right of the toolbox and on top of the workspace." src="/blockly/images/metrics_manager/absolute_metrics.png" width={300} />
-<Image alt="The Blockly workspace with a horizontal toolbox. There is a blue line on the left of the workspace and below the toolbox." src="/blockly/images/metrics_manager/absolute_metrics_2.png" width={300} />
+<Image alt="The Blockly workspace with a blue line to the right of the toolbox and on top of the workspace." src="/images/metrics_manager/absolute_metrics.png" width={300} />
+<Image alt="The Blockly workspace with a horizontal toolbox. There is a blue line on the left of the workspace and below the toolbox." src="/images/metrics_manager/absolute_metrics_2.png" width={300} />
 
 ### Content Metrics
 
@@ -86,10 +86,10 @@ the bounding box around any blocks or workspace comments.
 
 :::note
 Content metrics do not take into account block comments, only [workspace
-comments](/blockly/reference/js/blockly.comments_namespace.workspacecomment_class/).
+comments](/reference/js/blockly.comments_namespace.workspacecomment_class/).
 :::
 
-<Image alt="The Blockly workspace with a blue box around the contents of the workspace." src="/blockly/images/metrics_manager/content_metrics.png" width={300} />
+<Image alt="The Blockly workspace with a blue box around the contents of the workspace." src="/images/metrics_manager/content_metrics.png" width={300} />
 
 ### Scroll Metrics
 
@@ -99,7 +99,7 @@ The scroll metrics are composed of the `height`, `width`, `top` and `left` of
 the scrollable area. For a movable workspace, the scrollable area is the content
 area plus some padding.
 
-<Image alt="The Blockly workspace with a large blue box surrounding it." src="/blockly/images/metrics_manager/scroll_metrics.png" width={300} />
+<Image alt="The Blockly workspace with a large blue box surrounding it." src="/images/metrics_manager/scroll_metrics.png" width={300} />
 
 ## Coordinate Systems
 

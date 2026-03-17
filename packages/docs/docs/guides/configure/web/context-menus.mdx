@@ -16,7 +16,7 @@ response to a right-click or a long press on a touch device. If you use the
 shown with a keyboard shortcut, which defaults to `Ctrl+Enter` on Windows or
 `Command+Enter` on Mac.
 
-<Image alt="The default context menu for a block" src="/blockly/images/context-menus/block-default-menu.png" width={200} />
+<Image alt="The default context menu for a block" src="/images/context-menus/block-default-menu.png" width={200} />
 
 Context menus are a good place to add actions that the user performs
 infrequently, such as downloading a screenshot. If you think an action will be
@@ -55,7 +55,7 @@ Blockly defines a standard set of templates for the context menus for
 workspaces, blocks, and workspace comments. It preloads the templates for
 workspaces and blocks into the registry. If you want to use the templates for
 workspace comments, you must [load them into the registry
-yourself](/blockly/guides/configure/web/workspace_comment#enable-workspace-comments).
+yourself](/guides/configure/web/workspace_comment#enable-workspace-comments).
 
 For information on how to add, delete, and modify templates in the registry, see
 [Customize the registry](#customize-the-registry).
@@ -80,7 +80,7 @@ context menu was invoked is stored in the `focusedNode` property as an object
 that implements [`IFocusableNode`][i-focusable-node]. (`IFocusableNode` is
 implemented by all components that users can focus on, including those that
 implement context menus. For more information, see [Focus
-system](/blockly/guides/configure/web/focus).)
+system](/guides/configure/web/focus).)
 
 The `Scope` object is passed to several of the functions in a template. In any
 function that gets a `Scope` object, you can decide what to do based on the type
@@ -132,8 +132,8 @@ It should return one of a set of strings: `'enabled'`, `'disabled'`, or
 
 | <ClassBlock className="displayTableHeader"> Value </ClassBlock>| <ClassBlock className="displayTableHeader"> Description </ClassBlock>| <ClassBlock className="displayTableHeader"> Image </ClassBlock>|
 | ------------ | ---------------------------------- | --------------------------------------------------- |
-| `'enabled'`  | Shows that the item is active.     | <Image alt="An enabled option" src="/blockly/images/context-menus/enabled-option.png" width={150} />  |
-| `'disabled'` | Shows that the item is not active. | <Image alt="A disabled option" src="/blockly/images/context-menus/disabled-option.png" width={150} /> |
+| `'enabled'`  | Shows that the item is active.     | <Image alt="An enabled option" src="/images/context-menus/enabled-option.png" width={150} />  |
+| `'disabled'` | Shows that the item is not active. | <Image alt="A disabled option" src="/images/context-menus/disabled-option.png" width={150} /> |
 | `'hidden'`   | Hides the item.                    |                                                     |
 
 The `preconditionFn` is also passed a [`Scope`][Scope] which you can use to
@@ -329,7 +329,7 @@ Blockly.ContextMenuRegistry.registry.register(collapseTemplate);
 
 :::note
 Check out the [context menu
-codelab](/blockly/codelabs/context-menu-option/codelab-overview/index.html)
+codelab](/codelabs/context-menu-option/codelab-overview/index.html)
 for worked examples of adding context menu items.
 :::
 
@@ -453,17 +453,17 @@ steps:
 1.  [Add templates](#add-a-template) to the registry for your context menu
     items.
 
-[block-default-menu-image]: /blockly/images/context-menus/block-default-menu.png
+[block-default-menu-image]: /images/context-menus/block-default-menu.png
 [context-menu-items-source]: https://github.com/RaspberryPiFoundation/blockly/blob/main/core/contextmenu_items.ts
-[i-context-menu]: /blockly/reference/js/blockly.icontextmenu_interface
-[i-focusable-node]: /blockly/reference/js/blockly.ifocusablenode_interface
-[RegistryItem]: /blockly/reference/js/blockly.contextmenuregistry_namespace.registryitem_typealias
+[i-context-menu]: /reference/js/blockly.icontextmenu_interface
+[i-focusable-node]: /reference/js/blockly.ifocusablenode_interface
+[RegistryItem]: /reference/js/blockly.contextmenuregistry_namespace.registryitem_typealias
 [Scope]: #scope
-[enabled-image]: /blockly/images/context-menus/enabled-option.png
-[disabled-image]: /blockly/images/context-menus/disabled-option.png
-[customContextMenu]: /blockly/reference/js/blockly.blocksvg_class.customcontextmenu_property
-[configureContextMenu]: /blockly/reference/js/blockly.workspacesvg_class.configurecontextmenu_property
-[ContextMenuOption]: /blockly/reference/js/blockly.contextmenuregistry_namespace.contextmenuoption_typealias
-[LegacyContextMenuOption]: /blockly/reference/js/blockly.contextmenuregistry_namespace.legacycontextmenuoption_interface
-[coordinate-systems]: /blockly/guides/configure/web/metrics_manager#coordinate-systems
-[keyboard-navigation-plugin]: /blockly/guides/configure/web/keyboard-nav
+[enabled-image]: /images/context-menus/enabled-option.png
+[disabled-image]: /images/context-menus/disabled-option.png
+[customContextMenu]: /reference/js/blockly.blocksvg_class.customcontextmenu_property
+[configureContextMenu]: /reference/js/blockly.workspacesvg_class.configurecontextmenu_property
+[ContextMenuOption]: /reference/js/blockly.contextmenuregistry_namespace.contextmenuoption_typealias
+[LegacyContextMenuOption]: /reference/js/blockly.contextmenuregistry_namespace.legacycontextmenuoption_interface
+[coordinate-systems]: /guides/configure/web/metrics_manager#coordinate-systems
+[keyboard-navigation-plugin]: /guides/configure/web/keyboard-nav

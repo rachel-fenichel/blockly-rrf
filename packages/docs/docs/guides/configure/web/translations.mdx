@@ -197,7 +197,7 @@ Blockly.Msg['LISTS_REPEAT_TITLE'] = "إنشئ قائمة مع العنصر  %1 %
 
 For more information about how Blockly converts `message` keys into inputs and
 fields, see [Define block structure in
-JSON](/blockly/guides/create-custom-blocks/define/structure-json).
+JSON](/guides/create-custom-blocks/define/structure-json).
 
 ### Use localization tokens in JavaScript
 
@@ -330,14 +330,14 @@ Blockly uses these functions to resolve token references in the `messageN`,
 One place you might need to use `replaceMessageReferences` is in custom fields.
 If your custom field accepts token references in any of its options, use
 `replaceMessageReferences` to resolve them. For more information, see [JSON and
-registration](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#json-and-registration).
+registration](/guides/create-custom-blocks/fields/customizing-fields/creating#json-and-registration).
 
 ## Related topics
 
 *   Right-to-left languages: See the [RTL
     demo](https://raspberrypifoundation.github.io/blockly-samples/examples/rtl-demo/).
 *   Help localize Blockly's text: See
-    [Translating](/blockly/guides/contribute/core/translating) in the section on
+    [Translating](/guides/contribute/core/translating) in the section on
     contributing to Blockly.
 
 ## Appendix: Where token references are allowed {#where}
@@ -355,7 +355,7 @@ following JSON keys:
     *   `colour`
 *   In the options passed to all fields:
     *   `tooltip`
-*   In the [nested arrays](/blockly/guides/create-custom-blocks/fields/built-in-fields/dropdown#creation)
+*   In the [nested arrays](/guides/create-custom-blocks/fields/built-in-fields/dropdown#creation)
     passed to `options` in `field_dropdown`:
     *   The first element, when the first element is a string
     *   The value of `alt`, when the first element is an object describing an
@@ -387,4 +387,4 @@ And in the XML definition of a toolbox in the following attributes of
 *   `colour`
 
 For more information about using token references as colour values, see [Colour
-references](/blockly/guides/configure/web/appearance/colour-formats#colour-references).
+references](/guides/configure/web/appearance/colour-formats#colour-references).

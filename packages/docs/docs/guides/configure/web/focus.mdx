@@ -121,7 +121,7 @@ Suppose a block with two fields has Blockly focus, as indicated by a highlight
 arrow:
 
 1.  The [keyboard navigation
-    plugin](/blockly/guides/configure/web/keyboard-nav):
+    plugin](/guides/configure/web/keyboard-nav):
     *   Receives a key press event.
     *   Asks the navigation system (a part of core Blockly) to move focus to the
         "next" component.
@@ -163,11 +163,11 @@ Here are some other examples:
 *   When a block is deleted, its `dispose` method calls the focus manager to
     move focus to the block's parent.
 
-*   [Keyboard shortcuts](/blockly/guides/configure/web/keyboard-shortcuts) use
+*   [Keyboard shortcuts](/guides/configure/web/keyboard-shortcuts) use
     `IFocusableNode` to identify the Blockly component to which the shortcut
     applies.
 
-*   [Context menus](/blockly/guides/configure/web/context-menus) use
+*   [Context menus](/guides/configure/web/context-menus) use
     `IFocusableNode` to identify the Blockly component on which the menu was
     invoked.
 
@@ -271,8 +271,8 @@ in an exception.
 
 If you write a custom component from scratch, you'll need to implement the focus
 interfaces yourself. See the reference documentation for
-[`IFocusableTree`](/blockly/reference/js/blockly.ifocusabletree_interface) and
-[`IFocusableNode`](/blockly/reference/js/blockly.ifocusablenode_interface) more
+[`IFocusableTree`](/reference/js/blockly.ifocusabletree_interface) and
+[`IFocusableNode`](/reference/js/blockly.ifocusablenode_interface) more
 information.
 
 After you have implemented your class, test it against the keyboard navigation
@@ -321,9 +321,9 @@ returnEphemeralFocus();
 ```
 
 If you use
-[`WidgetDiv`](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#widgetdiv-sample-code)
+[`WidgetDiv`](/guides/create-custom-blocks/fields/customizing-fields/creating#widgetdiv-sample-code)
 or
-[`DropDownDiv`](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#dropdowndiv-sample-code),
+[`DropDownDiv`](/guides/create-custom-blocks/fields/customizing-fields/creating#dropdowndiv-sample-code),
 they will handle ephemeral focus for you.
 
 ### Tab stops
@@ -367,7 +367,7 @@ manager just changes the actively focused node to passive focus.)
 
 Positionables are components that are positioned on top of the workspace and
 implement
-[`IPositionable`](/blockly/reference/js/blockly.ipositionable_interface).
+[`IPositionable`](/reference/js/blockly.ipositionable_interface).
 Examples are the trashcan and the backpack in the [backpack
 plugin](https://www.npmjs.com/package/@blockly/workspace-backpack).
 Positionables are not yet integrated into the focus system.

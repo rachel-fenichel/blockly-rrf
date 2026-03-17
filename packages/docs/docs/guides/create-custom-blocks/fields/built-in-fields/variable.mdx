@@ -115,7 +115,7 @@ types, and an optional default type.
     to an empty string, meaning the initial variable will be flexibly typed.
 
 → For more information on strict typing, see
-[Type Checks](/blockly/guides/create-custom-blocks/inputs/connection-checks).
+[Type Checks](/guides/create-custom-blocks/inputs/connection-checks).
 
 ## Serialization
 
@@ -172,7 +172,7 @@ types, and an optional default type.
 ## Creating a variable validator
 
 :::note
-For information on validators in general see [Validators](/blockly/guides/create-custom-blocks/fields/validators).
+For information on validators in general see [Validators](/guides/create-custom-blocks/fields/validators).
 :::
 
 A variable field's value is a string, so any validators must accept a string and
@@ -180,7 +180,7 @@ return a string, `null`, or `undefined`.
 
 Here's an example of a validator that only accepts some predefined variables as
 options. These variables would need to be defined with the
-[`Workspace.getVariableMap().createVariable`](/blockly/reference/js/blockly.ivariablemap_interface.createvariable_1_methodsignature)
+[`Workspace.getVariableMap().createVariable`](/reference/js/blockly.ivariablemap_interface.createvariable_1_methodsignature)
 function when the workspace is loaded.
 
 ```js

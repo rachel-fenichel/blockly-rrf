@@ -10,9 +10,9 @@ Creating custom procedure blocks requires that you:
 
 1.  Install the [@blockly/block-shareable-procedures][shareable-procedures]
     plugin, as described on the [using procedures
-    page](/blockly/guides/create-custom-blocks/procedures/using-procedures).
+    page](/guides/create-custom-blocks/procedures/using-procedures).
 2.  Use the JSON serialization system, as explained on the [overview
-    page](/blockly/guides/create-custom-blocks/procedures/overview).
+    page](/guides/create-custom-blocks/procedures/overview).
 
 :::note
 If you defined custom procedure blocks to work with the legacy procedure
@@ -227,11 +227,11 @@ Blockly.Blocks['my_procedure_call'] = {
 
 You can also add the ability for users to modify the procedure model. Calling
 the `insertParameter`, `deleteParameter`, or `setReturnTypes`
-[methods](/blockly/reference/js/blockly.procedures_namespace.iproceduremodel_interface)
+[methods](/reference/js/blockly.procedures_namespace.iproceduremodel_interface)
 will automatically trigger your blocks to rerender (via `doProcedureUpdate`).
 
 Options for creating UIs to modify the procedure model include using
-[mutators](/blockly/guides/create-custom-blocks/mutators#ui-hooks) (which the
+[mutators](/guides/create-custom-blocks/mutators#ui-hooks) (which the
 built-in procedure blocks use), image fields with click handlers, something
 completely external to Blockly, etc.
 
@@ -240,8 +240,8 @@ completely external to Blockly, etc.
 Blockly’s built-in dynamic procedure category is specific to Blockly’s built-in
 procedure blocks. So to be able to access your blocks, you will need to define
 your own [custom dynamic
-category](/blockly/guides/configure/web/toolboxes/dynamic), and [add it
-to your toolbox](/blockly/guides/configure/web/toolboxes/dynamic).
+category](/guides/configure/web/toolboxes/dynamic), and [add it
+to your toolbox](/guides/configure/web/toolboxes/dynamic).
 
 ```js
 const proceduresFlyoutCallback = function(workspace) {

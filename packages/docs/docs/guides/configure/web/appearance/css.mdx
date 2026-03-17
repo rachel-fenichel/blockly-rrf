@@ -17,10 +17,10 @@ You can use CSS to style your application:
 *   Add your own CSS classes to Blockly components for additional specificity.
 *   Use CSS classes and rules to style custom components.
 
-For a practical introduction to using CSS in blockly, see the [Use CSS in Blockly](/blockly/codelabs/css/codelab-overview/index.html)
+For a practical introduction to using CSS in blockly, see the [Use CSS in Blockly](/codelabs/css/codelab-overview/index.html)
 
 :::note
-The easiest way to style Blockly is with [themes](/blockly/guides/configure/web/appearance/themes). If you need finer-grained control, use CSS.
+The easiest way to style Blockly is with [themes](/guides/configure/web/appearance/themes). If you need finer-grained control, use CSS.
 :::
 
 ## CSS classes
@@ -67,12 +67,12 @@ To add or remove a CSS class from a workspace's injection `<div>`, call
 
 To add a CSS class to a button or a label in a toolbox, use the `web-class` key
 in your JSON definition of the toolbox. For more information, see [Buttons and
-labels](/blockly/guides/configure/web/toolboxes/buttons).
+labels](/guides/configure/web/toolboxes/buttons).
 
 To override the CSS classes used for the various parts of a category, use the
 `cssConfig` key in your JSON definition of the category. This allows you to
 style individual categories. For more information, see [Category
-CSS](/blockly/guides/configure/web/toolboxes/appearance#category-css).
+CSS](/guides/configure/web/toolboxes/appearance#category-css).
 
 #### Blocks
 
@@ -129,9 +129,9 @@ custom CSS classes:
     ```
 
     For more information, see [Customizing fields with
-    CSS](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#customizing-with-css)
+    CSS](/guides/create-custom-blocks/fields/customizing-fields/creating#customizing-with-css)
     or [Create the icon's
-    view](/blockly/guides/create-custom-blocks/icons/creating-custom-icons/basic-implementation#create-the-icons-view).
+    view](/guides/create-custom-blocks/icons/creating-custom-icons/basic-implementation#create-the-icons-view).
 
 *   When constructing an SVG element, pass your class to
     `Blockly.utils.dom.createSvgElement`:
@@ -289,7 +289,7 @@ tag. The rules in this tag come from:
     `Blockly.css.register`](https://github.com/search?q=repo%3ARaspberryPiFoundation%2Fblockly+css.register+path%3Acore&type=code).
 
 If you do not want to use these rules, set the [`css` configuration
-option](/blockly/guides/configure/web/configuration_struct#the-options-dictionary)
+option](/guides/configure/web/configuration_struct#the-options-dictionary)
 to `false`. In this case, you are responsible for providing an alternate set of
 CSS rules.
 

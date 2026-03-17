@@ -28,25 +28,25 @@ The following Blockly classes can be replaced:
 | [`Blockly.VariableModel`]            | [`Blockly.IVariableModel`]       | --                         |
 
 For information about how to replace a renderer, see [Create custom
-renderers](/blockly/guides/create-custom-blocks/renderers/create-custom-renderers/basic-implementation).
+renderers](/guides/create-custom-blocks/renderers/create-custom-renderers/basic-implementation).
 
-[`Blockly.dragging.Dragger`]: /blockly/reference/js/blockly.dragging_namespace.dragger_class
-[`Blockly.IDragger`]: /blockly/reference/js/blockly.idragger_interface
-[`Blockly.ConnectionChecker`]: /blockly/reference/js/blockly.connectionchecker_class
-[`Blockly.IConnectionChecker`]: /blockly/reference/js/blockly.iconnectionchecker_interface
-[`Blockly.InsertionMarkerPreviewer`]: /blockly/reference/js/blockly.insertionmarkerpreviewer_class
-[`Blockly.IConnectionPreviewer`]: /blockly/reference/js/blockly.iconnectionpreviewer_interface
-[`Blockly.HorizontalFlyout`]: /blockly/reference/js/blockly.horizontalflyout_class
-[`Blockly.VerticalFlyout`]: /blockly/reference/js/blockly.verticalflyout_class
-[`Blockly.IFlyout`]: /blockly/reference/js/blockly.iflyout_interface
-[`Blockly.MetricsManager`]: /blockly/reference/js/blockly.metricsmanager_class
-[`Blockly.IMetricsManager`]: /blockly/reference/js/blockly.imetricsmanager_interface
-[`Blockly.Toolbox`]: /blockly/reference/js/blockly.toolbox_class
-[`Blockly.IToolbox`]: /blockly/reference/js/blockly.itoolbox_interface
-[`Blockly.VariableMap`]: /blockly/reference/js/blockly.variablemap_class
-[`Blockly.IVariableMap`]: /blockly/reference/js/blockly.ivariablemap_interface
-[`Blockly.VariableModel`]: /blockly/reference/js/blockly.variablemodel_class
-[`Blockly.IVariableModel`]: /blockly/reference/js/blockly.ivariablemodel_interface
+[`Blockly.dragging.Dragger`]: /reference/js/blockly.dragging_namespace.dragger_class
+[`Blockly.IDragger`]: /reference/js/blockly.idragger_interface
+[`Blockly.ConnectionChecker`]: /reference/js/blockly.connectionchecker_class
+[`Blockly.IConnectionChecker`]: /reference/js/blockly.iconnectionchecker_interface
+[`Blockly.InsertionMarkerPreviewer`]: /reference/js/blockly.insertionmarkerpreviewer_class
+[`Blockly.IConnectionPreviewer`]: /reference/js/blockly.iconnectionpreviewer_interface
+[`Blockly.HorizontalFlyout`]: /reference/js/blockly.horizontalflyout_class
+[`Blockly.VerticalFlyout`]: /reference/js/blockly.verticalflyout_class
+[`Blockly.IFlyout`]: /reference/js/blockly.iflyout_interface
+[`Blockly.MetricsManager`]: /reference/js/blockly.metricsmanager_class
+[`Blockly.IMetricsManager`]: /reference/js/blockly.imetricsmanager_interface
+[`Blockly.Toolbox`]: /reference/js/blockly.toolbox_class
+[`Blockly.IToolbox`]: /reference/js/blockly.itoolbox_interface
+[`Blockly.VariableMap`]: /reference/js/blockly.variablemap_class
+[`Blockly.IVariableMap`]: /reference/js/blockly.ivariablemap_interface
+[`Blockly.VariableModel`]: /reference/js/blockly.variablemodel_class
+[`Blockly.IVariableModel`]: /reference/js/blockly.ivariablemodel_interface
 
 ## Create a replacement class
 
@@ -86,13 +86,13 @@ Blockly.registry.register(
 ### Inject your replacement class {#injecting-subclasses}
 
 You can also inject replacement classes using the `plugins` [configuration
-option](/blockly/guides/configure/web/configuration_struct#the-options-dictionary).
+option](/guides/configure/web/configuration_struct#the-options-dictionary).
 This is an object that uses [registry type names](#replaceable-classes) as
 property names and replacement classes or registered names as property values.
 
 (In spite of the `plugins` property's name, your class does not need to be
 packaged and distributed through npm like the [plugins used to extend
-Blockly](/blockly/guides/programming/plugin_overview).)
+Blockly](/guides/programming/plugin_overview).)
 
 Either pass your replacement class to `Blockly.inject`:
 

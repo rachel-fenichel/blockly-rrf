@@ -12,7 +12,7 @@ Blocks imply parentheses. For example, when you see the following blocks, you
 assume it means `-(5 + 2)` not `-5 + 2` because the `5` and the `2` are part of
 one block, and the `-` is part of another block.
 
-<Image alt="blocks representing -(5 + 2)" src="/blockly/images/code-generation/parentheses/negation-and-addition.png" width={200} />
+<Image alt="blocks representing -(5 + 2)" src="/images/code-generation/parentheses/negation-and-addition.png" width={200} />
 
 But if you put parentheses around every block, it makes the code much less
 readable. Compare `(((5) * (2)) + (3))` with `5 * 2 + 3`. Both of these
@@ -47,7 +47,7 @@ For example, in the following blocks there is a unary negation operator and an
 addition operator. The unary negation has a stronger precedence than the
 addition operator.
 
-<Image alt="negate-and-addition" src="/blockly/images/code-generation/parentheses/negation-and-addition.png" width={200} />
+<Image alt="negate-and-addition" src="/images/code-generation/parentheses/negation-and-addition.png" width={200} />
 
 So if you don't add parentheses you get `-5 + 2`, and the `-` is evaluated
 before the `+`, which is doesn't match the blocks.
@@ -61,7 +61,7 @@ tuple specifies the precedence of the inner operator.
 
 Here is an example for a block that includes two operators:
 
-<Image alt="A block with a unary negation operator, and an addition operator, and a child block." src="/blockly/images/code-generation/parentheses/negate-plus-two-with-child.png" width={150} />
+<Image alt="A block with a unary negation operator, and an addition operator, and a child block." src="/images/code-generation/parentheses/negate-plus-two-with-child.png" width={150} />
 
 ```js
 import {javascriptGenerator, Order} from 'blockly/javascript';
@@ -85,7 +85,7 @@ For example, in the following blocks both the unary negation operator and the
 addition operator are acting on the code of the inner block. The unary negation
 is stronger, so that is the precedence you should pass to `valueToCode`.
 
-<Image alt="A block with a unary negation operator, and an addition operator, and a child block." src="/blockly/images/code-generation/parentheses/negate-plus-two-with-child.png" width={150} />
+<Image alt="A block with a unary negation operator, and an addition operator, and a child block." src="/images/code-generation/parentheses/negate-plus-two-with-child.png" width={150} />
 
 ```js
 // The - is the strongest operator acting on the inner code.
@@ -103,7 +103,7 @@ For example, the following block contains both a unary negation operator and an
 addition operator. The addition is weaker, so that is the precedence you should
 return from the block-code generator.
 
-<Image alt="A block with a unary negation operator, and an addition operator, and no child block" src="/blockly/images/code-generation/parentheses/negate-plus-two.png" width={150} />
+<Image alt="A block with a unary negation operator, and an addition operator, and no child block" src="/images/code-generation/parentheses/negate-plus-two.png" width={150} />
 
 ```js
 const code = `-${innerCode} + 2`;
@@ -149,9 +149,9 @@ precedences, `Order.ATOMIC` and `Order.NONE`.
 *   There are no operators acting on an inner block, so you pass it to
     `valueToCode`.
 
-[negate-and-addition]: /blockly/images/code-generation/parentheses/negation-and-addition.png
-[negate-plus-two-with-child]: /blockly/images/code-generation/parentheses/negate-plus-two-with-child.png
-[negate-plus-two]: /blockly/images/code-generation/parentheses/negate-plus-two.png
+[negate-and-addition]: /images/code-generation/parentheses/negation-and-addition.png
+[negate-plus-two-with-child]: /images/code-generation/parentheses/negate-plus-two-with-child.png
+[negate-plus-two]: /images/code-generation/parentheses/negate-plus-two.png
 [dart-order]: https://github.com/RaspberryPiFoundation/blockly/blob/dcd2d0e539f2b7aa34b58969d5dc812e7848800c/generators/dart/dart_generator.ts#L27
 [javascript-order]: https://github.com/RaspberryPiFoundation/blockly/blob/dcd2d0e539f2b7aa34b58969d5dc812e7848800c/generators/javascript/javascript_generator.ts#L27
 [lua-order]: https://github.com/RaspberryPiFoundation/blockly/blob/dcd2d0e539f2b7aa34b58969d5dc812e7848800c/generators/lua/lua_generator.ts#L28

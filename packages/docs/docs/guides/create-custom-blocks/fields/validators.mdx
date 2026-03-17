@@ -20,7 +20,7 @@ Some common examples:
 
 :::note
 Validators modify a field's
-[_value_ not its _text_](/blockly/guides/create-custom-blocks/fields/anatomy-of-a-field#value).
+[_value_ not its _text_](/guides/create-custom-blocks/fields/anatomy-of-a-field#value).
 :::
 
 ## Types of validators
@@ -34,7 +34,7 @@ fields only accept numeric characters). Class validators are run on all values
 passed to the field (including the value passed to the constructor).
 
 For more information about class validators see the
-[Implementing a class validator](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#implementing-a-class-validator)
+[Implementing a class validator](/guides/create-custom-blocks/fields/customizing-fields/creating#implementing-a-class-validator)
 section in Creating a Custom Field.
 
 **Local validators** are defined at the time of a field's construction. Local
@@ -79,7 +79,7 @@ Blockly.Blocks['validator_example'] = {
 ```
 
 + With
-[`setValidator`](/blockly/reference/js/blockly.field_class.setvalidator_1_method).
+[`setValidator`](/reference/js/blockly.field_class.setvalidator_1_method).
 
 ```js
 Blockly.Blocks['validator_example'] = {
@@ -98,7 +98,7 @@ Blockly.Blocks['validator_example'] = {
 ```
 
 Either of the above methods can be wrapped in an
-[extension](/blockly/guides/create-custom-blocks/define/extensions), to support
+[extension](/guides/create-custom-blocks/define/extensions), to support
 the JSON format.
 
 The field's value may be very different depending on the type of field being
@@ -138,7 +138,7 @@ var validator = function(newValue) {
 Null, which means the given value is invalid. In most cases the field will
 ignore the input value.  The exact behaviour is specified by the field's
 `doValueInvalid_`
-[function](/blockly/guides/create-custom-blocks/fields/customizing-fields/creating#handling-invalid-values).
+[function](/guides/create-custom-blocks/fields/customizing-fields/creating#handling-invalid-values).
 
 Example of a Nulling Validator:
 

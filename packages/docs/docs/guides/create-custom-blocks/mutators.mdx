@@ -21,7 +21,7 @@ Note that changing the shape of your block *does not necessarily* mean you need
 extra serialization. For example, the `math_number_property` block changes
 shape, but it does that based on a dropdown field, whose value already gets
 serialized. As such, it can just use a [field
-validator](/blockly/guides/create-custom-blocks/fields/validators), and doesn't
+validator](/guides/create-custom-blocks/fields/validators), and doesn't
 need a mutator.
 
 ![The `math_number_property` block with its dropdown set to `even`. It has a
@@ -30,7 +30,7 @@ block with its dropdown set to `divisible by`. It has two value
 inputs.](/images/is-divisible-by.png)
 
 See the [serialization
-page](/blockly/guides/configure/web/serialization#when-to-save-extra-state) for
+page](/guides/configure/web/serialization#when-to-save-extra-state) for
 more information about when you need a mutator and when you don't.
 
 Mutators also provide a built-in UI for users to change the shapes of blocks if
@@ -269,7 +269,7 @@ saveConnections: function(topBlock) {
 
 Mutators are just a special kind of mixin, so they also have to be
 registered before you can use them in your block type's [JSON
-definition](/blockly/guides/create-custom-blocks/define/json-and-js).
+definition](/guides/create-custom-blocks/define/json-and-js).
 
 ```js
 // Function signature.
@@ -318,4 +318,4 @@ var helper = function() {
 ```
 
 [shareable-procedures]: https://www.npmjs.com/package/@blockly/block-shareable-procedures
-[serializer]: /blockly/guides/configure/web/serialization#serializer-hooks
+[serializer]: /guides/configure/web/serialization#serializer-hooks
