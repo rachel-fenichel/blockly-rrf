@@ -51,33 +51,19 @@
   --codeblock-background-color: #282a36;
 }
 
-/* Hide the previous/next pagination links */
-/*.pagination-nav {
-  display: none;
-}*/
 [class*="docs-doc-id-guides/"] .pagination-nav,
 [class*="docs-doc-id-reference/"] .pagination-nav {
   display: none;
 }
 
-/*.theme-doc-sidebar-item-link-level-3 {
-  display: none;
-}*/
-
 .menu__caret {
   display: none;
 }
-
-/* Hides the main h1 title on doc pages */
-/* .theme-doc-markdown h1:first-child {
-  display: none;
-} */
 
 /* Override Infima's default H1 font size for first-child H1 in markdown */
 /* The default 3rem comes from Infima theme's .markdown h1:first-child rule */
 .markdown h1:first-child,
 .theme-doc-markdown h1:first-child {
-  /* --ifm-h1-font-size: 2rem; */
   --ifm-h1-font-size: 32px;
   --ifm-h2-font-size: 24px;
   --ifm-h3-font-size: 20px;
@@ -91,18 +77,6 @@
   max-width: 75%;
 }
 
-/*.blockly-workspace-img {
-  text-align: center;
-}*/
-
-/*.blockly-workspace-img {
-  max-width: 70%;
-}*/
-
-/* .screenshot img {
-  border: 1px solid #000;
-} */
-
 .screenshotImg{
   width: 200px;
 }
@@ -111,8 +85,6 @@
   text-align: left;
   margin-bottom: 0px;
 }
-
-/* --- Added to make 'note' admonitions blue 50 #E8F0FE' --- */
 
 [data-theme]:not([data-theme='dark']) .alert--secondary {
   --ifm-alert-background-color: #E8F0FE;

@@ -19,10 +19,6 @@
   overflow: hidden;
 }
 
-/* .heroContainer {
-  max-width: 1200px;
-} */
-
 .heroContent {
   display: flex;
   align-items: center;
@@ -62,18 +58,6 @@
   align-items: center;
   justify-content: flex-start;
 }
-
-/*.getStartedButton {
-  display: inline-block;
-  padding: 0.15rem 1.8rem;
-  border: 1px solid #000000;
-  background-color: transparent;
-  color: var(--get-started-button);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}*/
 
 .button {
   border: 1px solid #4285f4;
