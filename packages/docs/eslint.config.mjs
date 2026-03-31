@@ -20,6 +20,11 @@ export default [
     },
   },
   {
-    ignores: ['docs/reference/**', 'build/**', '.docusaurus/**', 'node_modules/**'],
+    ignores: [
+      'docs/reference/**',
+      'build/**',
+      '.docusaurus/**',
+      'node_modules/**',
+    ],
   },
 ];

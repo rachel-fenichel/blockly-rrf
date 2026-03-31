@@ -71,7 +71,7 @@ want to support and whether you plan to support more locales in the future.
   1.  [Load the Blockly localization table](#load-blockly) for the locale.
   1.  [Load your localization table](#load-custom) for the locale.
 
-## Define and use localization tokens {#define}
+## Define and use localization tokens \{#define\}
 
 When supporting multiple locales, you need to define and use localization tokens
 for all of your custom text.
@@ -220,7 +220,7 @@ references in JavaScript:
 displayText: () => '%{BKY_MY_CONTEXT_MENU_ITEM}';
 ```
 
-## Choose a locale {#choose}
+## Choose a locale \{#choose\}
 
 How to choose a locale is application-specific and outside the scope of Blockly.
 For example, your application might always use the same locale, determine the
@@ -233,7 +233,7 @@ the workspace: Blockly does not update the existing toolbox or blocks to use the
 new locale automatically. To preserve the user's work (if any), save the state
 before you re-create the workspace and re-load it after.
 
-## Load a Blockly localization table {#load-blockly}
+## Load a Blockly localization table \{#load-blockly\}
 
 Blockly provides localization tables for all of its own text, such as the text
 on built-in blocks. Unless you are using the `en` locale, which is loaded by
@@ -288,7 +288,7 @@ load the table from the `msg` directory. For example:
 
 The localization table is loaded automatically.
 
-## Load your own localization table {#load-custom}
+## Load your own localization table \{#load-custom\}
 
 If you define your own localization tables, you need to load the table for your
 chosen locale.
@@ -343,7 +343,7 @@ registration](/guides/create-custom-blocks/fields/customizing-fields/creating#js
   [Translating](/guides/contribute/core/translating) in the section on
   contributing to Blockly.
 
-## Appendix: Where token references are allowed {#where}
+## Appendix: Where token references are allowed \{#where\}
 
 You can use [token references](#use-localization-tokens-in-json) in the
 following JSON keys:

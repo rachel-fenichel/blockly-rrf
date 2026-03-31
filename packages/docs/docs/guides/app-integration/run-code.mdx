@@ -22,46 +22,62 @@ code generators with any of the following methods.
 
 <Tabs groupId="group-1">
   <TabItem value="modules" label="Modules" default>
-    ```js import {javascriptGenerator} from 'blockly/javascript'; import{' '}
-    {pythonGenerator} from 'blockly/python'; import {phpGenerator} from
-    'blockly/php'; import {luaGenerator} from 'blockly/lua'; import{' '}
-    {dartGenerator} from 'blockly/dart'; // Generate code for all the blocks in
-    the workspace. const jsCode =
-    javascriptGenerator.workspaceToCode(workspace); const pythonCode =
-    pythonGenerator.workspaceToCode(workspace); const phpCode =
-    phpGenerator.workspaceToCode(workspace); const luaCode =
-    luaGenerator.workspaceToCode(workspace); const dartCode =
-    dartGenerator.workspaceToCode(workspace); ```
+  ```js
+  import {javascriptGenerator} from 'blockly/javascript';
+  import {pythonGenerator} from 'blockly/python';
+  import {phpGenerator} from 'blockly/php';
+  import {luaGenerator} from 'blockly/lua';
+  import {dartGenerator} from 'blockly/dart';
+  
+  // Generate code for all the blocks in the workspace.
+  const jsCode = javascriptGenerator.workspaceToCode(workspace);
+  const pythonCode = pythonGenerator.workspaceToCode(workspace);
+  const phpCode = phpGenerator.workspaceToCode(workspace);
+  const luaCode = luaGenerator.workspaceToCode(workspace);
+  const dartCode = dartGenerator.workspaceToCode(workspace);
+  ```
   </TabItem>
   <TabItem value="unpkg" label="Unpkg">
-    You must include the generator after you include Blockly. ```html
-    <script src="https://unpkg.com/blockly"></script>
-    <script src="https://unpkg.com/blockly/javascript_compressed"></script>
-    <script src="https://unpkg.com/blockly/python_compressed"></script>
-    <script src="https://unpkg.com/blockly/php_compressed"></script>
-    <script src="https://unpkg.com/blockly/lua_compressed"></script>
-    <script src="https://unpkg.com/blockly/dart_compressed"></script>
-    ``` ```js // Generate code for all the blocks in the workspace. const jsCode
-    = javascript.javascriptGenerator.workspaceToCode(workspace); const
-    pythonCode = python.pythonGenerator.workspaceToCode(workspace); const
-    phpCode = php.phpGenerator.workspaceToCode(workspace); const luaCode =
-    lua.luaGenerator.workspaceToCode(workspace); const dartCode =
-    dart.dartGenerator.workspaceToCode(workspace); ```
+  You must include the generator after you include Blockly.
+  
+  ```html
+  <script src="https://unpkg.com/blockly"></script>
+  <script src="https://unpkg.com/blockly/javascript_compressed"></script>
+  <script src="https://unpkg.com/blockly/python_compressed"></script>
+  <script src="https://unpkg.com/blockly/php_compressed"></script>
+  <script src="https://unpkg.com/blockly/lua_compressed"></script>
+  <script src="https://unpkg.com/blockly/dart_compressed"></script>
+  ```
+  
+  ```js
+  // Generate code for all the blocks in the workspace.
+  const jsCode = javascript.javascriptGenerator.workspaceToCode(workspace);
+  const pythonCode = python.pythonGenerator.workspaceToCode(workspace);
+  const phpCode = php.phpGenerator.workspaceToCode(workspace);
+  const luaCode = lua.luaGenerator.workspaceToCode(workspace);
+  const dartCode = dart.dartGenerator.workspaceToCode(workspace);
+  ```
   </TabItem>
   <TabItem value="local-scripts" label="Local scripts">
-    You must include the generator after you include Blockly. ```html
-    <script src="blockly_compressed.js"></script>
-    <script src="javascript_compressed.js"></script>
-    <script src="python_compressed.js"></script>
-    <script src="php_compressed.js"></script>
-    <script src="lua_compressed.js"></script>
-    <script src="dart_compressed.js"></script>
-    ``` ```js // Generate code for all the blocks in the workspace. const jsCode
-    = javascript.javascriptGenerator.workspaceToCode(workspace); const
-    pythonCode = python.pythonGenerator.workspaceToCode(workspace); const
-    phpCode = php.phpGenerator.workspaceToCode(workspace); const luaCode =
-    lua.luaGenerator.workspaceToCode(workspace); const dartCode =
-    dart.dartGenerator.workspaceToCode(workspace); ```
+  You must include the generator after you include Blockly.
+  
+  ```html
+  <script src="blockly_compressed.js"></script>
+  <script src="javascript_compressed.js"></script>
+  <script src="python_compressed.js"></script>
+  <script src="php_compressed.js"></script>
+  <script src="lua_compressed.js"></script>
+  <script src="dart_compressed.js"></script>
+  ```
+  
+  ```js
+  // Generate code for all the blocks in the workspace.
+  const jsCode = javascript.javascriptGenerator.workspaceToCode(workspace);
+  const pythonCode = python.pythonGenerator.workspaceToCode(workspace);
+  const phpCode = php.phpGenerator.workspaceToCode(workspace);
+  const luaCode = lua.luaGenerator.workspaceToCode(workspace);
+  const dartCode = dart.dartGenerator.workspaceToCode(workspace);
+  ```
   </TabItem>
 </Tabs>
 ## Generate code
@@ -105,7 +121,7 @@ start or after the end of the generated code.
 ```js
 let code = javascriptGenerator.workspaceToCode(workspace);
 // Add a preamble and a postscript to the code.
-const preamble = "import {MyLibrary} from '/path/to/my/library';\n";
+const preamble = 'import {MyLibrary} from \'/path/to/my/library\';\n'
 const postscript = 'MyLibrary.myKickoffFunction();\n';
 code = preamble + code + postscript;
 ```

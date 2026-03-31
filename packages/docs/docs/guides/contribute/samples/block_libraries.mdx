@@ -14,6 +14,7 @@ import CompareBlock from '@site/src/components/CompareBlock';
   />
 </Head>
 
+
 # Publish block libraries
 
 Plugins that provide libraries of block definitions are a great way to share
@@ -22,27 +23,28 @@ versatile and useful as possible, we've developed these guidelines.
 
 ## Guidelines
 
-- Make it **easy** for users to install all of your blocks, and make it
-  **possible** for users to install only certain blocks or pieces of blocks
-  they choose.
-  - Make it easy to install everything: You can do this by providing a
-    function that installs every piece a single block definition requires
-    (such as mutators, extensions, mixins, fields, etc.). You can also
-    provide a function that will install all of the blocks offered by your
-    plugin at once.
-  - Make it possible to choose specific parts: You should export all of the
-    pieces of a block definition separately, so that it is possible for a
-    user to import only the pieces they need in order to create their own
-    similar custom block.
-- Avoid using side effects in your plugin.
-  - Blocks, fields, extensions, and other pieces shouldn't be installed as a
-    side effect of loading your plugin. Users should maintain control over
-    which things are installed and when. This allows users to import the
-    pieces they need without worrying that pieces they don't will be
-    installed.
-- Use the JSON field registry instead of instantiating new fields directly.
-  - <CompareBlock variant="worse">
-Not Recommended - Instantiating a new field directly:
+-   Make it **easy** for users to install all of your blocks, and make it
+    **possible** for users to install only certain blocks or pieces of blocks
+    they choose.
+    -   Make it easy to install everything: You can do this by providing a
+        function that installs every piece a single block definition requires
+        (such as mutators, extensions, mixins, fields, etc.). You can also
+        provide a function that will install all of the blocks offered by your
+        plugin at once.
+    -   Make it possible to choose specific parts: You should export all of the
+        pieces of a block definition separately, so that it is possible for a
+        user to import only the pieces they need in order to create their own
+        similar custom block.
+-   Avoid using side effects in your plugin.
+    -   Blocks, fields, extensions, and other pieces shouldn't be installed as a
+        side effect of loading your plugin. Users should maintain control over
+        which things are installed and when. This allows users to import the
+        pieces they need without worrying that pieces they don't will be
+        installed.
+-   Use the JSON field registry instead of instantiating new fields directly.
+ 
+    - <CompareBlock variant="worse">
+        Not Recommended - Instantiating a new field directly:
 
           ```js
           const myCustomBlock = {
@@ -52,11 +54,10 @@ Not Recommended - Instantiating a new field directly:
             }
           }
           ```
+      </CompareBlock>  
 
-      </CompareBlock>
-
-  - <CompareBlock variant="better">   
-Recommended - JSON field registry:
+    - <CompareBlock variant="better">   
+        Recommended - JSON field registry:
 
           ```js
           export const myCustomBlock = {
@@ -69,36 +70,34 @@ Recommended - JSON field registry:
             }
           }
           ```
+      </CompareBlock> 
 
-      </CompareBlock>
-
-  - Using the field registry makes it easier for a user to replace the
-    implementation of the field used in your block without having to change
+    -   Using the field registry makes it easier for a user to replace the
+        implementation of the field used in your block without having to change
     the block definition.
-
-- Don't make assumptions about what the user has already installed.
-  - If your plugin requires a custom field or another plugin, register those
+-   Don't make assumptions about what the user has already installed.
+    -   If your plugin requires a custom field or another plugin, register those
     fields yourself in your provided `install` function.
-  - Soon, Blockly will provide tools that let you register
-    already-registered items without error. Until then, you may want to
-    check what has already been registered before registering an extension,
+    -   Soon, Blockly will provide tools that let you register
+        already-registered items without error. Until then, you may want to
+        check what has already been registered before registering an extension,
     mutator, mixin, or field yourself.
-  - Be clear about any prerequisites or dependencies that are required by
-    your plugin or block definitions.
-- Consider providing generator functions for each of the blocks you provide.
-  - Providing generator functions that work out of the box makes it easier
-    for users to use your blocks without having to understand their
-    structure and design. If they have to write their own generator
-    functions, this may lead to redundant work being done by each user.
-  - JavaScript is the most commonly used language in Blockly, so if you only
+    -   Be clear about any prerequisites or dependencies that are required by
+        your plugin or block definitions.
+-   Consider providing generator functions for each of the blocks you provide.
+    -   Providing generator functions that work out of the box makes it easier
+        for users to use your blocks without having to understand their
+        structure and design. If they have to write their own generator
+        functions, this may lead to redundant work being done by each user.
+    -   JavaScript is the most commonly used language in Blockly, so if you only
     pick one language to provide, we recommend JavaScript, unless your blocks
-    are built for a specific language such as implementing a Python library.
-  - Consider posting 'help wanted' issues for languages for which you are
-    unable to implement generator functions, and accept pull requests for
-    these if a user contributes them.
-  - If you provide an install function for your block, you can accept an
-    optional `generators` parameter. If a user passes a generator instance
-    that you support, you can automatically install the block-code generator
+        are built for a specific language such as implementing a Python library.
+    -   Consider posting 'help wanted' issues for languages for which you are
+        unable to implement generator functions, and accept pull requests for
+        these if a user contributes them.
+    -   If you provide an install function for your block, you can accept an
+        optional `generators` parameter. If a user passes a generator instance
+        that you support, you can automatically install the block-code generator
     function and do related work such as adding reserved words:
 
           ```js

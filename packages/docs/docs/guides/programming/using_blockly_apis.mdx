@@ -11,7 +11,7 @@ properties in core Blockly. These principles apply to creating
 [plugins](/guides/programming/plugin_overview) for Blockly and to
 integrating Blockly into a standalone application.
 
-## Visibility {#visibility}
+## Visibility \{#visibility\}
 
 We use [TypeScript access
 modifiers](https://www.typescriptlang.org/docs/handbook/2/classes.html#member-visibility)
@@ -29,7 +29,7 @@ should avoid accessing anything that is not `public`. The Blockly team does not
 guarantee stability of non-public properties and functions between releases.
 :::
 
-### public {#annotations-public}
+### public \{#annotations-public\}
 
 Anything marked `public` is part of our public API. Any property in a module
 that does not have a visibility modifier is considered public.
@@ -42,7 +42,7 @@ consider a public function or property stable.
 Public functions may be called from anywhere, and overridden in subclasses as
 long as the signature does not change.
 
-### protected {#annotations-protected}
+### protected \{#annotations-protected\}
 
 Protected functions and properties may only be accessed by the defining class or
 a subclass.
@@ -56,7 +56,7 @@ its protected properties.
 In each case you should make sure you understand how the function or property is
 used in the rest of the code.
 
-### private {#annotations-private}
+### private \{#annotations-private\}
 
 These can only be accessed by code in the same file as the definition. Directly
 accessing these properties may result in undefined behaviour.
@@ -80,7 +80,7 @@ code. In rare cases private functions were used so widely that they became
 public, so you may see public functions that end in an underscore.
 :::
 
-### internal {#annotations-internal}
+### internal \{#annotations-internal\}
 
 Internal functions and properties are intended to be used within the core
 library, but not externally. They are designated with the TsDoc `@internal`
@@ -93,7 +93,7 @@ Internal properties may be accessed from anywhere within core, and overridden in
 subclasses in core as long as the signature does not change. They must not be
 accessed from outside of the core library.
 
-### deprecated {#annotations-deprecated}
+### deprecated \{#annotations-deprecated\}
 
 Anything marked `@deprecated` should not be used. Most deprecations include
 directions on the preferred code, either in a console warning or TSDoc.
