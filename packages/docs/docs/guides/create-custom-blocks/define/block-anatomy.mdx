@@ -5,7 +5,6 @@ image: images/blockly_banner.png
 ---
 
 import Image from '@site/src/components/Image';
-import TableHeader from '@site/src/components/TableHeader';
 
 # Anatomy of a block
 
@@ -24,7 +23,7 @@ when you connect two blocks, you fit their connections together.
 
 There are four types of connections:
 
-| <TableHeader> Connection type </TableHeader> | <TableHeader> Image </TableHeader> |
+|  Connection type  |  Image  |
 |---------------------|--------------------------------------------------|
 | Output connection   | <Image alt="an output connection" src="/images/connections/output-connection.png" width={40} />   |
 | Input connection    | <Image alt="an input connection" src="/images/connections/input-connection.png" srcDark="/images/connections/input-connection-dark.png" width={45} />     |
@@ -104,7 +103,7 @@ inputs](/guides/create-custom-blocks/inputs/creating-custom-inputs),
 which support [custom
 rendering](/guides/create-custom-blocks/renderers/overview).
 
-| <TableHeader> Input type </TableHeader> | <TableHeader> Connection type </TableHeader> | <TableHeader> Image </TableHeader> |
+|  Input type  |  Connection type  |  Image  |
 |------------------|------------------|-------------------------------------------------|
 | Dummy input      | None             | <Image alt="dummy input" src="/images/connections/dummy-input.png" srcDark="/images/connections/dummy-input-dark.png" width={40} />       |
 | End-of-row input | None             | <Image alt="end-of-row input" src="/images/connections/dummy-input.png" srcDark="/images/connections/dummy-input-dark.png" width={40} /> |
@@ -216,7 +215,7 @@ For more information, see
 
 Blocks, inputs, connections, fields, and icons are all JavaScript objects.
 
-| <TableHeader> Blockly component </TableHeader> | <TableHeader> Base class </TableHeader>  | <TableHeader> Subclasses </TableHeader> |
+|  Blockly component  |  Base class   |  Subclasses  |
 | ------------------|--------------|----------------------|
 | Block             | `Block`      | `BlockSvg`           |
 | Input             | `Input`      | `DummyInput`         |

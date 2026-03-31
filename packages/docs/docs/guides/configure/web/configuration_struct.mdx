@@ -4,8 +4,6 @@ description: Simple configuration options that Blockly surfaces during injection
 image: images/blockly_banner.png
 ---
 
-import TableHeader from '@site/src/components/TableHeader';
-
 # Create a workspace
 
 You can create a workspace and inject it into the DOM in a single call, or
@@ -42,7 +40,7 @@ The configuration object implements
 and has the following options. Note that several of these options change their
 default value based on whether the provided toolbox has categories or not.
 
-| <TableHeader> Name </TableHeader> | <TableHeader> Type </TableHeader> | <TableHeader> Description </TableHeader> |
+|  Name  |  Type  |  Description  |
 |-----------------------|-----------|-------------------------------------------------------------|
 | `collapse`            | boolean   | Whether block context menus include an item to collapse or expand blocks.  Defaults to `true` if the toolbox has categories, `false` otherwise.
 | `comments`            | boolean   | Whether block context menus include an item to add or remove comments. Defaults to `true` if the toolbox has categories,`false` otherwise.

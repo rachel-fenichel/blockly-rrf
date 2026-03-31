@@ -5,7 +5,6 @@ image: images/blockly_banner.png
 ---
 
 import Image from '@site/src/components/Image';
-import TableHeader from '@site/src/components/TableHeader';
 
 [workspace]: /guides/configure/web/configuration_struct
 [category-toolbox]: /guides/configure/web/toolboxes/category
@@ -129,7 +128,7 @@ contained by an [input](#inputs).
 
 A [connection][connection] is a place on a block other blocks can connect to.
 
-| <TableHeader> Connection </TableHeader> | <TableHeader> Image </TableHeader> |
+|  Connection  |  Image  |
 |------------------|------------------------------------------------------|
 | Output           | <Image alt="an output connection" src="/images/connections/output-connection.png" width={40} />   |
 | Input            | <Image alt="an input connection" src="/images/connections/input-connection.png" srcDark="/images/connections/input-connection-dark.png" width={45} />    |
@@ -146,7 +145,7 @@ is built by rendering its inputs in one or more rows like bricks.
 All inputs can contain fields. Only value and statement inputs can contain a
 connection.
 
-| <TableHeader> Input type </TableHeader> | <TableHeader> Connection type </TableHeader> | <TableHeader> Notes </TableHeader>|
+|  Input type  |  Connection type  |  Notes |
 |------------|-----------------|---------------------------------------|
 | Dummy      | None            |                                       |
 | End-of-row | None            | Forces next input to start a new row. |

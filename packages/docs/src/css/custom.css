@@ -73,9 +73,12 @@
   width: 200px;
 }
 
-.displayTableHeader{
+table th {
   text-align: left;
-  margin-bottom: 0px;
+}
+
+table th p {
+  margin-bottom: 0;
 }
 
 [data-theme]:not([data-theme='dark']) .alert--secondary {
@@ -105,7 +108,7 @@
   border-block-end: 1px solid var(--border-divider-footer);
 }
 
-.footer__title{
+.footer__title {
   font-weight: bold;
   font-family: 'Google Sans', sans-serif;
   font-size: 16px;
