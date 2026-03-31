@@ -40,6 +40,12 @@ const config = {
       '@docusaurus/plugin-client-redirects',
       {
         fromExtensions: ['md', 'mdx'],
+        createRedirects(existingPath) {
+          if (existingPath.startsWith('/reference/')) {
+            return [existingPath.replace('/reference/', '/reference/js/')];
+          }
+          return undefined;
+        },
       },
     ]
   ],
@@ -176,7 +182,7 @@ const config = {
               },
               {
                 label: 'Reference',
-                to: '/reference/js/blockly',
+                to: '/reference',
               },
             ],
           },

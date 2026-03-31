@@ -5,8 +5,8 @@ import * as gulp from 'gulp';
 import replace from 'gulp-replace';
 import rename from 'gulp-rename';
 
-const DOCS_DIR = 'docs/docs/reference/js';
-const REFERENCE_SIDEBAR_DIR = 'docs/docs/reference';
+const DOCS_DIR = '../docs/docs/reference';
+const REFERENCE_SIDEBAR_DIR = DOCS_DIR;
 
 /**
  * Run API Extractor to generate the intermediate json file.
@@ -31,9 +31,7 @@ const removeRenames = function() {
  */
 const generateDocs = function(done) {
   if (!fs.existsSync(DOCS_DIR)) {
-    // Create the directory if it doesn't exist.
-    // If it already exists, the contents will be deleted by api-documenter.
-    fs.mkdirSync(DOCS_DIR);
+    fs.mkdirSync(DOCS_DIR, {recursive: true});
   }
   execSync(
       `api-documenter markdown --input-folder temp --output-folder ${DOCS_DIR}`,
@@ -237,83 +235,35 @@ const fixMdxIssues = function(done) {
     const filePath = path.join(DOCS_DIR, file);
     let content = fs.readFileSync(filePath, 'utf8');
     
-    // Split content into lines for line-by-line processing
     const lines = content.split('\n');
     let inCodeBlock = false;
-    let inTableCell = false;
     
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      
-      // Track code blocks
-      if (line.trim().startsWith('```')) {
+      if (lines[i].trim().startsWith('```')) {
         inCodeBlock = !inCodeBlock;
         continue;
       }
-      
-      // Skip processing inside code blocks
       if (inCodeBlock) continue;
       
-      // Track if we're entering a table cell (opening tag without closing on same line)
-      if (line.includes('<td>') && !line.includes('</td>')) {
-        inTableCell = true;
-      }
-      
-      // Remove empty MDX comments
-      lines[i] = lines[i].replace(/\{\/\*\s*\*\/\}/g, '');
+      // Remove all MDX comments (artifacts from HTML comment conversion)
+      lines[i] = lines[i].replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
       
       // Remove unnecessary markdown escapes for underscores and brackets
-      // These are not needed in MDX and can cause display issues
       lines[i] = lines[i].replace(/\\_/g, '_');
       lines[i] = lines[i].replace(/\\\[/g, '[');
       lines[i] = lines[i].replace(/\\\]/g, ']');
       
-      // Escape standalone HTML tags (not in tables or code)
-      if (!lines[i].includes('<table>') && !lines[i].includes('</table>') && 
-          !lines[i].includes('<thead>') && !lines[i].includes('<tbody>') &&
-          !lines[i].includes('<tr>') && !lines[i].includes('<th>') && !lines[i].includes('<td>')) {
-        lines[i] = lines[i].replace(/<([a-z]+)>/g, '`<$1>`');
+      // Escape HTML tags (with or without attributes) outside of table markup
+      const isTableMarkup = /^<\/?(table|thead|tbody|tr|th|td)[\s>]/.test(lines[i].trim());
+      if (!isTableMarkup) {
+        lines[i] = lines[i].replace(/<([a-z]+)(\s[^>]*)?>/g, '`$&`');
+        lines[i] = lines[i].replace(/<\/([a-z]+)>/g, '`$&`');
       }
       
-      // Handle curly braces ANYWHERE (in tables or outside)
-      // If the line has curly braces with type-like content, wrap in backticks
-      const trimmed = lines[i].trim();
-      if (trimmed && (trimmed.includes('{') || trimmed.includes('\\{')) && 
-          (trimmed.includes('}') || trimmed.includes('\\}'))) {
-        
-        // Skip if it's an MDX comment, table/code tag line, or already in backticks
-        if (trimmed.includes('{/*') || trimmed.includes('*/}') ||
-            trimmed.includes('<td>') || trimmed.includes('</td>') || 
-            trimmed.includes('<table>') || trimmed.includes('<tr>') ||
-            trimmed.startsWith('```') || trimmed.startsWith('`') && trimmed.endsWith('`')) {
-          // Process table cell content specifically
-          if (inTableCell && !lines[i].includes('<td>') && !lines[i].includes('</td>')) {
-            // Remove any existing escaping first
-            let cleaned = trimmed.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
-            // Only remove trailing semicolons for nested object type patterns
-            if (cleaned.match(/\{\s*\[.*\]:\s*\{.*\};\s*\}/)) {
-              cleaned = cleaned.replace(/;\s*}/g, ' }');
-            }
-            if (!cleaned.startsWith('`') || !cleaned.endsWith('`')) {
-              lines[i] = lines[i].replace(trimmed, '`' + cleaned + '`');
-            }
-          }
-        } else {
-          // Not in a tag line - wrap curly brace content in backticks
-          let cleaned = trimmed.replace(/\\\{/g, '{').replace(/\\\}/g, '}');
-          // Remove trailing semicolons for type patterns
-          if (cleaned.match(/\{\s*\[.*\]:\s*\{.*\};\s*\}/)) {
-            cleaned = cleaned.replace(/;\s*}/g, ' }');
-          }
-          // Wrap in backticks
-          lines[i] = lines[i].replace(trimmed, '`' + cleaned + '`');
-        }
-      }
-      
-      // Track if we're exiting a table cell (must be after processing)
-      if (line.includes('</td>')) {
-        inTableCell = false;
-      }
+      // Escape curly braces so MDX doesn't parse them as JSX expressions.
+      // First undo any backslash-escaping from api-documenter, then re-escape.
+      lines[i] = lines[i].replace(/\\\{/g, '{').replace(/\\\}/g, '}');
+      lines[i] = lines[i].replace(/\{/g, '\\{').replace(/\}/g, '\\}');
     }
     
     content = lines.join('\n');
@@ -329,8 +279,8 @@ const convertToMdx = function() {
       .pipe(replace(/<!--\s*([\s\S]*?)\s*-->/g, '{/* $1 */}'))
       // Fix malformed markdown links: [text][/path](https://developers.google.com/path) -> [text](/path)
       .pipe(replace(/\[([^\]]+)\]\[([^\]]+)\]\(https:\/\/developers\.google\.com([^)]+)\)/g, '[$1]($2)'))
-      // Fix all internal links: remove .md extension and convert ./filename to /reference/js/filename
-      .pipe(replace(/\]\(\.\/([^)]+)\.md\)/g, '](/reference/js/$1)'))
+      // Fix all internal links: remove .md extension and convert ./filename to /reference/filename
+      .pipe(replace(/\]\(\.\/([^)]+)\.md\)/g, '](/reference/$1)'))
       // Replace developers.google.com links with relative paths
       .pipe(replace(/https:\/\/developers\.google\.com(\/blockly\/[^)\s"']+)/g, '$1'))
       // Replace developers.devsite.google.com links with relative paths
@@ -342,6 +292,11 @@ const convertToMdx = function() {
       }))
       // Remove %5C (URL-encoded backslash) and literal backslash before anchor tags
       .pipe(replace(/(%5C|\\)(#[^)\s"']*)/g, '$2'))
+      // Convert <code>text</code> to markdown backtick code
+      .pipe(replace(/<code>([^<]*)<\/code>/g, '`$1`'))
+      // Convert paragraph breaks to spaces (for table cells) and remove remaining p tags
+      .pipe(replace(/<\/p><p>/g, ' '))
+      .pipe(replace(/<\/?p>/g, ''))
       .pipe(rename({ extname: '.mdx' }))
       .pipe(gulp.dest(DOCS_DIR));
 }
@@ -428,7 +383,7 @@ const parseHtmlTables = function(fileContent) {
     if (!sectionName || sectionName === 'blockly package') continue;
     
     // Find table rows in HTML - match links with or without ./ prefix
-    const tableRowRegex = /<tr><td>\s*\[([^\]]+)\]\((?:\/reference\/js\/)?([^\)]+)\)/g;
+    const tableRowRegex = /<tr><td>\s*\[([^\]]+)\]\((?:\/reference\/)?([^\)]+)\)/g;
     const items = [];
     
     let match;
@@ -465,7 +420,7 @@ const createReferenceSidebar = function(done) {
   sidebarContent += '  {\n';
   sidebarContent += '    "type": "doc",\n';
   sidebarContent += '    "label": "Overview",\n';
-  sidebarContent += '    "id": "reference/js/blockly"\n';
+  sidebarContent += '    "id": "reference/blockly"\n';
   sidebarContent += '  },\n';
   
   // Process each section (Classes, Interfaces, Functions, etc.)
@@ -494,7 +449,7 @@ const createReferenceSidebar = function(done) {
         sidebarContent += `        "label": "${itemName}",\n`;
         sidebarContent += '        "link": {\n';
         sidebarContent += '          "type": "doc",\n';
-        sidebarContent += `          "id": "reference/js/${itemPath}"\n`;
+        sidebarContent += `          "id": "reference/${itemPath}"\n`;
         sidebarContent += '        },\n';
         sidebarContent += '        "items": [\n';
         
@@ -504,7 +459,7 @@ const createReferenceSidebar = function(done) {
           sidebarContent += '          {\n';
           sidebarContent += '            "type": "doc",\n';
           sidebarContent += `            "label": "${subPage}",\n`;
-          sidebarContent += `            "id": "reference/js/${subPage}"\n`;
+          sidebarContent += `            "id": "reference/${subPage}"\n`;
           sidebarContent += '          },\n';
         }
         
@@ -520,7 +475,7 @@ const createReferenceSidebar = function(done) {
         sidebarContent += '      {\n';
         sidebarContent += '        "type": "doc",\n';
         sidebarContent += `        "label": "${itemName}",\n`;
-        sidebarContent += `        "id": "reference/js/${itemPath}"\n`;
+        sidebarContent += `        "id": "reference/${itemPath}"\n`;
         sidebarContent += '      },\n';
       }
     }

@@ -2,7 +2,6 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-
 ## Installation
 
 Run `npm install` at the root of the blockly repo, then all other commands from the `packages/docs` directory.
@@ -12,7 +11,7 @@ npm install
 cd packages/docs
 ```
 
-## Local Development
+## Local development
 
 ```bash
 npm start
@@ -28,14 +27,22 @@ npm run build
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-## Test your production build locally
+## Test your build locally
 
 ```bash
 npm run serve
 ```
 
-The  build folder is now served at http://localhost:3000/.
+The build folder is now served at http://localhost:3000/.
 
-## Deployment
+## Generating reference docs
 
-TODO
+The API reference pages are auto-generated from the Blockly TypeScript source using `@microsoft/api-extractor` and `@microsoft/api-documenter`. This is a separate step from the Docusaurus build and must be run from the `packages/blockly` directory:
+
+```bash
+cd packages/blockly
+npm run build && npm run package
+npm run docs
+```
+
+This generates MDX files into `packages/docs/docs/reference/`. These files are gitignored, so this needs to be run locally (and / or in CI).

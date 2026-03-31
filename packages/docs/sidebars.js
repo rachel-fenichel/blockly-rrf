@@ -1441,14 +1441,7 @@ const sidebars = {
       ],
     },
   ],
-  //referenceSidebar: referenceSidebar
-  referenceSidebar: [
-    {
-      "type": "doc",
-      "label": "Codelabs",
-      "id": "codelabs/index",
-    },
-  ],
+  referenceSidebar: referenceSidebar,
 };
 
 export default sidebars;
