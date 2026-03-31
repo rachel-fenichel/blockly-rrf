@@ -1,5 +1,6 @@
 import React from 'react';
 import {useColorMode} from '@docusaurus/theme-common';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 /**
  * Image component for use in MDX docs
@@ -20,6 +21,9 @@ export default function Image({ src, srcDark, alt, width, height, className, sty
   // Select image source based on current theme
   const imageSrc = colorMode === 'dark' && srcDark ? srcDark : src;
   
+  // Prepend baseUrl to the image path
+  const resolvedSrc = useBaseUrl(imageSrc);
+  
   const imgStyle = {
     maxWidth: '100%',
     height: 'auto',
@@ -35,7 +39,7 @@ export default function Image({ src, srcDark, alt, width, height, className, sty
 
   return (
     <img
-      src={imageSrc}
+      src={resolvedSrc}
       alt={alt}
       className={className}
       style={{ ...imgStyle }}
