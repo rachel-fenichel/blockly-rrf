@@ -6,7 +6,7 @@ name: Deploy Docusaurus to GitHub Pages
 
 on:
   # To run: GitHub -> Actions -> "Deploy Docusaurus to GitHub Pages" -> Run workflow
-  # Optionally set `ref` to the release branch/tag; leave default to deploy `main`
+  # Optionally set `ref` to the release branch/tag
   workflow_dispatch:
     inputs:
       ref:
