@@ -33,16 +33,24 @@ This command generates static content into the `build` directory and can be serv
 npm run serve
 ```
 
-The build folder is now served at http://localhost:3000/.
+The build folder is now served at http://localhost:3000/
 
-## Linting
+## Formatting and linting
 
 ```bash
 # check formatting:
 npm run format:check
 # fix formatting:
 npm run format
+# check linting:
+npm run lint
+# fix linting:
+npm run lint:fix
 ```
+
+Prettier is used for formatting JavaScript files (the `format` script).
+
+ESlint is used for linting `.md` and `.mdx` files due to poor support for these in Prettier (the `lint` script).
 
 ## Generating reference docs
 
