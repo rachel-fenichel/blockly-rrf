@@ -1,5 +1,6 @@
-# Generated API reference docs
-docs/reference/
+# Markdown/MDX (linted by ESLint + eslint-plugin-mdx instead)
+*.md
+*.mdx
 
 # Build artifacts
 build/
