@@ -6,11 +6,49 @@
 
 // Former goog.module ID: Blockly.utils.aria
 
+import * as dom from './dom.js';
+
 /** ARIA states/properties prefix. */
 const ARIA_PREFIX = 'aria-';
 
 /** ARIA role attribute. */
 const ROLE_ATTRIBUTE = 'role';
+
+/**
+ * ARIA state values for LivePriority.
+ * Copied from Closure's goog.a11y.aria.LivePriority
+ */
+export enum LiveRegionAssertiveness {
+  // This information has the highest priority and assistive technologies
+  // SHOULD notify the user immediately. Because an interruption may disorient
+  // users or cause them to not complete their current task, authors SHOULD NOT
+  // use the assertive value unless the interruption is imperative.
+  ASSERTIVE = 'assertive',
+  // Updates to the region will not be presented to the user unless the
+  // assistive technology is currently focused on that region.
+  OFF = 'off',
+  // (Background change) Assistive technologies SHOULD announce the updates at
+  // the next graceful opportunity, such as at the end of speaking the current
+  // sentence or when the users pauses typing.
+  POLITE = 'polite',
+}
+
+/**
+ * Customization options that can be passed when using `announceDynamicAriaState`.
+ */
+export interface DynamicAnnouncementOptions {
+  /** The custom ARIA `Role` that should be used for the announcement container. */
+  role?: Role;
+
+  /**
+   * How assertive the announcement should be.
+   *
+   * Important*: It was found through testing that `ASSERTIVE` announcements are
+   * often outright ignored by some screen readers, so it's generally recommended
+   * to always use `POLITE` unless specifically tested across supported readers.
+   */
+  assertiveness?: LiveRegionAssertiveness;
+}
 
 /**
  * ARIA role values.
@@ -56,6 +94,8 @@ export enum Role {
   STATUS = 'status',
 }
 
+const DEFAULT_LIVE_REGION_ROLE = Role.STATUS;
+
 /**
  * ARIA states and properties.
  * Copied from Closure's goog.a11y.aria.State
@@ -64,6 +104,9 @@ export enum State {
   // ARIA property for setting the currently active descendant of an element,
   // for example the selected item in a list box. Value: ID of an element.
   ACTIVEDESCENDANT = 'activedescendant',
+  // ARIA property that, if true, indicates that all of a changed region should
+  // be presented, instead of only parts. Value: one of {true, false}.
+  ATOMIC = 'atomic',
   // ARIA property defines the total number of columns in a table, grid, or
   // treegrid.
   // Value: integer.
@@ -124,15 +167,32 @@ export enum State {
 }
 
 /**
- * Sets the role of an element.
+ * Removes the ARIA role from an element.
  *
- * Similar to Closure's goog.a11y.aria
+ * Similar to Closure's goog.a11y.aria.removeRole
+ *
+ * @param element DOM element to remove the role from.
+ */
+export function removeRole(element: Element) {
+  element.removeAttribute(ROLE_ATTRIBUTE);
+}
+
+/**
+ * Sets the ARIA role of an element. If `roleName` is null,
+ * the role is removed.
+ *
+ * Similar to Closure's goog.a11y.aria.setRole
  *
  * @param element DOM node to set role of.
- * @param roleName Role name.
+ * @param roleName Role name, or null to remove the role.
  */
-export function setRole(element: Element, roleName: Role) {
-  element.setAttribute(ROLE_ATTRIBUTE, roleName);
+export function setRole(element: Element, roleName: Role | null) {
+  if (!roleName) {
+    console.log('Removing role from element', element, roleName);
+    removeRole(element);
+  } else {
+    element.setAttribute(ROLE_ATTRIBUTE, roleName);
+  }
 }
 
 /**
@@ -155,4 +215,82 @@ export function setState(
   }
   const attrStateName = ARIA_PREFIX + stateName;
   element.setAttribute(attrStateName, `${value}`);
+}
+
+let liveRegionElement: HTMLElement | null = null;
+
+/**
+ * Creates an ARIA live region under the specified parent Element to be used
+ * for all dynamic announcements via `announceDynamicAriaState`. This must be
+ * called only once and before any dynamic announcements can be made.
+ *
+ * @param parent The container element to which the live region will be appended.
+ */
+export function initializeGlobalAriaLiveRegion(parent: HTMLDivElement) {
+  if (liveRegionElement && document.contains(liveRegionElement)) {
+    return;
+  }
+  const ariaAnnouncementDiv = document.createElement('div');
+  ariaAnnouncementDiv.textContent = '';
+  ariaAnnouncementDiv.id = 'blocklyAriaAnnounce';
+  dom.addClass(ariaAnnouncementDiv, 'hiddenForAria');
+  setState(ariaAnnouncementDiv, State.LIVE, LiveRegionAssertiveness.POLITE);
+  setRole(ariaAnnouncementDiv, DEFAULT_LIVE_REGION_ROLE);
+  setState(ariaAnnouncementDiv, State.ATOMIC, true);
+  parent.appendChild(ariaAnnouncementDiv);
+  liveRegionElement = ariaAnnouncementDiv;
+}
+
+let ariaAnnounceTimeout: ReturnType<typeof setTimeout>;
+let addBreakingSpace = false;
+
+/**
+ * Requests that the specified text be read to the user if a screen reader is
+ * currently active.
+ *
+ * This relies on a centrally managed ARIA live region that is hidden from the
+ * visual DOM. This live region is designed to try and ensure the text is read,
+ * including if the same text is issued multiple times consecutively. Note that
+ * `initializeGlobalAriaLiveRegion` must be called before this can be used.
+ *
+ * Callers should use this judiciously. It's often considered bad practice to
+ * over-announce information that can be inferred from other sources on the page,
+ * so this ought to be used only when certain context cannot be easily determined
+ * (such as dynamic states that may not have perfect ARIA representations or
+ * indications).
+ *
+ * @param text The text to read to the user.
+ * @param options Custom options to configure the announcement. This defaults to
+ *    the status role and polite assertiveness.
+ */
+export function announceDynamicAriaState(
+  text: string,
+  options?: DynamicAnnouncementOptions,
+) {
+  if (!liveRegionElement) {
+    throw new Error('ARIA live region not initialized.');
+  }
+  const ariaAnnouncementContainer = liveRegionElement;
+  const {
+    assertiveness = LiveRegionAssertiveness.POLITE,
+    role = DEFAULT_LIVE_REGION_ROLE,
+  } = options || {};
+
+  // We use a short delay so rapid successive calls collapse into a single
+  // announcement, and to ensure assistive technologies reliably detect the
+  // DOM change.
+  clearTimeout(ariaAnnounceTimeout);
+  ariaAnnounceTimeout = setTimeout(() => {
+    // Clear previous content.
+    ariaAnnouncementContainer.replaceChildren();
+    setState(ariaAnnouncementContainer, State.LIVE, assertiveness);
+    setRole(ariaAnnouncementContainer, role);
+
+    const span = document.createElement('span');
+    // The non-breaking space toggle ensures otherwise identical consecutive
+    // messages are still announced.
+    span.textContent = text + (addBreakingSpace ? '\u00A0' : '');
+    addBreakingSpace = !addBreakingSpace;
+    ariaAnnouncementContainer.appendChild(span);
+  }, 10);
 }
