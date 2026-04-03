@@ -209,7 +209,7 @@ const prependFrontmatter = function(done) {
     const description = extractDescription(content, file);
     
     let frontmatter = '---\n';
-    frontmatter += 'sidebar: referenceSidebar\n';
+    frontmatter += 'displayed_sidebar: referenceSidebar\n';
     frontmatter += 'hide_title: true\n';
     frontmatter += `title: "${title}"\n`;
     frontmatter += `description: ${JSON.stringify(description)}\n`;
@@ -292,6 +292,8 @@ const convertToMdx = function() {
       }))
       // Remove %5C (URL-encoded backslash) and literal backslash before anchor tags
       .pipe(replace(/(%5C|\\)(#[^)\s"']*)/g, '$2'))
+      // Fix breadcrumb "Home" link to point to the overview page
+      .pipe(replace(/\[Home\]\(\/reference\/index\)/g, '[Home](/reference/blockly)'))
       // Convert <code>text</code> to markdown backtick code
       .pipe(replace(/<code>([^<]*)<\/code>/g, '`$1`'))
       // Convert paragraph breaks to spaces (for table cells) and remove remaining p tags
@@ -382,8 +384,8 @@ const parseHtmlTables = function(fileContent) {
     
     if (!sectionName || sectionName === 'blockly package') continue;
     
-    // Find table rows in HTML - match links with or without ./ prefix
-    const tableRowRegex = /<tr><td>\s*\[([^\]]+)\]\((?:\/reference\/)?([^\)]+)\)/g;
+    // Match links in markdown pipe tables: |  [Name](/reference/path) | ...
+    const tableRowRegex = /\|\s*\[([^\]]+)\]\(\/reference\/([^\)]+)\)/g;
     const items = [];
     
     let match;

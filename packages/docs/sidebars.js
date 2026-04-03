@@ -1,6 +1,12 @@
-import { referenceSidebar } from './docs/reference/_reference';
-
 // @ts-nocheck
+
+let referenceSidebar = [];
+try {
+  ({ referenceSidebar } = await import('./docs/reference/_reference.js'));
+} catch {
+  console.warn('Reference sidebar not found — run "npm run docs" in packages/blockly to generate it.');
+}
+
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 

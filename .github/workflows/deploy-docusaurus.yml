@@ -49,8 +49,13 @@ jobs:
           cache-dependency-path: 'package-lock.json' # root level, since we're using npm workspaces
       
       - name: Install dependencies
-        working-directory: ./packages/docs
         run: npm ci
+
+      - name: Build Blockly and generate reference docs
+        working-directory: ./packages/blockly
+        run: |
+          npm run package
+          npm run docs
 
       - name: Build the Docusaurus site
         working-directory: ./packages/docs
