@@ -51,10 +51,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Blockly and generate reference docs
+      - name: Generate reference docs
         working-directory: ./packages/blockly
         run: |
-          npm run package
+          npx gulp typings
           npm run docs
 
       - name: Build the Docusaurus site

@@ -2,7 +2,7 @@
 
 let referenceSidebar = [];
 try {
-  ({ referenceSidebar } = await import('./docs/reference/_reference.js'));
+  referenceSidebar = require('./docs/reference/_reference.js').referenceSidebar;
 } catch {
   console.warn('Reference sidebar not found — run "npm run docs" in packages/blockly to generate it.');
 }
