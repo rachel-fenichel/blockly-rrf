@@ -192,7 +192,7 @@ const config = {
             items: [
               {
                 label: 'Codelabs',
-                to: '/codelabs/index',
+                to: '/codelabs',
               },
               {
                 label: 'Samples and Demos',
