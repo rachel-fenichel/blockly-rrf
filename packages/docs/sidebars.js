@@ -4,9 +4,10 @@ let referenceSidebar = [];
 try {
   referenceSidebar = require('./docs/reference/_reference.js').referenceSidebar;
 } catch {
-  console.warn('Reference sidebar not found — run "npm run docs" in packages/blockly to generate it.');
+  console.warn(
+    'Reference sidebar not found — run "npm run docs" in packages/blockly to generate it.',
+  );
 }
-
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 

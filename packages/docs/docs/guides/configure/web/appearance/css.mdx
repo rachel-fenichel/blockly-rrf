@@ -131,7 +131,7 @@ custom CSS classes:
   ```
 
   For more information, see [Customizing fields with
-  CSS](/guides/create-custom-blocks/fields/customizing-fields/creating#customizing-with-css)
+  CSS](/guides/create-custom-blocks/fields/customizing-fields/creating#css)
   or [Create the icon's
   view](/guides/create-custom-blocks/icons/creating-custom-icons/basic-implementation#create-the-icons-view).
 
@@ -284,7 +284,7 @@ When Blockly is injected, it adds a `<style>` tag as a child of the `<head>`
 tag. The rules in this tag come from:
 
 - The `Blockly.css` namespace. To see these rules, open
-  [core/css.ts](https://github.com/RaspberryPiFoundation/blockly/blob/main/core/css.ts) and
+  [core/css.ts](https://github.com/RaspberryPiFoundation/blockly/blob/main/packages/blockly/core/css.ts) and
   search for `let content`.
 - Individual components, which call `Blockly.css.register` to add
   component-specific CSS rules. Because `css.register` adds these rules to the
