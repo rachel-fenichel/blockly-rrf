@@ -4,17 +4,6 @@ title: Publish block libraries
 image: images/blockly_banner.png
 ---
 
-import Head from '@docusaurus/Head';
-import CompareBlock from '@site/src/components/CompareBlock';
-
-<Head>
-  <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
-  />
-</Head>
-
-
 # Publish block libraries
 
 Plugins that provide libraries of block definitions are a great way to share
@@ -42,35 +31,34 @@ versatile and useful as possible, we've developed these guidelines.
         pieces they need without worrying that pieces they don't will be
         installed.
 -   Use the JSON field registry instead of instantiating new fields directly.
- 
-    - <CompareBlock variant="worse">
-        Not Recommended - Instantiating a new field directly:
+    :::danger[Not Recommended]
+    Instantiating a new field directly:
 
-          ```js
-          const myCustomBlock = {
-            init: function() {
-              this.appendDummyInput()
-                  .appendField(new Blockly.FieldNumber(123), 'NAME');
-            }
-          }
-          ```
-      </CompareBlock>  
+    ```js
+    const myCustomBlock = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldNumber(123), 'NAME');
+      }
+    }
+    ```
+    :::
 
-    - <CompareBlock variant="better">   
-        Recommended - JSON field registry:
+    :::tip[Recommended]
+    Use the JSON field registry:
 
-          ```js
-          export const myCustomBlock = {
-            init: function() {
-              this.appendDummyInput()
-                  .appendField(Blockly.fieldRegistry.fromJson({
-                      name: 'field_number',
-                      value: 123,
-                    }), 'NAME');
-            }
-          }
-          ```
-      </CompareBlock> 
+    ```js
+    export const myCustomBlock = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField(Blockly.fieldRegistry.fromJson({
+                name: 'field_number',
+                value: 123,
+              }), 'NAME');
+      }
+    }
+    ```
+    :::
 
     -   Using the field registry makes it easier for a user to replace the
         implementation of the field used in your block without having to change

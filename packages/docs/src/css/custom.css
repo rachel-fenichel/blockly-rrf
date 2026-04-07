@@ -270,40 +270,6 @@ table th p {
   transform: scale(1.05);
 }
 
-.compare-better:before {
-  content: 'thumb_up';
-  color: #1e8e3e;
-  font-family: 'Material Icons' !important;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  margin-inline: 0 4px;
-  vertical-align: middle;
-  width: 24px;
-}
-
-.compare-worse:before {
-  content: 'thumb_down';
-  color: #d50000;
-  font-family: 'Material Icons' !important;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  margin-inline: 0 4px;
-  vertical-align: middle;
-  width: 24px;
-}
-
-.compare-better,
-.compare-worse {
-  font-weight: 700;
-}
-
-.compare-better p,
-.compare-worse p {
-  margin-top: 0;
-}
-
 .appendInputImg {
   width: 145px !important;
 }
