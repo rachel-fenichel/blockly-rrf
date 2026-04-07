@@ -295,6 +295,11 @@ suite('Keyboard Shortcut Items', function () {
       this.disposeSpy = sinon.spy(this.comment, 'dispose');
 
       this.injectionDiv.dispatchEvent(keyEvent);
+
+      const deleteEvents = this.workspace
+        .getUndoStack()
+        .filter((e) => e.type === 'comment_delete');
+      assert(deleteEvents[0].group !== ''); // Group string is not empty
       sinon.assert.calledOnce(this.copySpy);
       sinon.assert.calledOnce(this.disposeSpy);
     });
