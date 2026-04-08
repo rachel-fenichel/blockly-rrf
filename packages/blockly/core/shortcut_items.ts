@@ -240,7 +240,9 @@ export function registerCut() {
       if (focused instanceof BlockSvg) {
         focused.checkAndDelete();
       } else if (isIDeletable(focused)) {
+        eventUtils.setGroup(true);
         focused.dispose();
+        eventUtils.setGroup(false);
       }
       return !!copyData;
     },
