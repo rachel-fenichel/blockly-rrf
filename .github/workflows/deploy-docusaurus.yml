@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: 'Branch, tag, or commit SHA to deploy (defaults to main)'
+        description: "Branch, tag, or commit SHA to deploy (defaults to main)"
         required: false
-        default: 'main'
+        default: "main"
         type: string
 
 # Sets the permissions for the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -40,14 +40,14 @@ jobs:
           ref: ${{ inputs.ref || 'main' }}
           # Allow Docusaurus to view the full commit history (required for "last edited at <date> by <person>" functionality)
           fetch-depth: 0
-      
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json' # root level, since we're using npm workspaces
-      
+          cache: "npm"
+          cache-dependency-path: "package-lock.json" # root level, since we're using npm workspaces
+
       - name: Install dependencies
         run: npm ci
 
@@ -61,11 +61,11 @@ jobs:
         working-directory: ./packages/docs
         run: npm run build
         env:
-          # when deploying to a subdirectory of the <org>.github.io domain,
-          # we need to set the BASE_URL to the name of the repo, for a custom
-          # domain this could be /docs/
-          BASE_URL: /blockly/
-      
+          # When deploying to a subdirectory of your <org|name>.github.io domain, the BASE_URL
+          # must be set to the name of the repo, go to your repo → Settings → Environments:
+          # Open the github-pages environment, under Environment variables, add: PAGES_BASE_URL
+          BASE_URL: ${{ vars.PAGES_BASE_URL || '/docs/' }}
+
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
