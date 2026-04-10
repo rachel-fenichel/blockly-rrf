@@ -433,6 +433,51 @@ suite('Utils', function () {
       Blockly.utils.dom.removeClass(p, 'zero');
       assert.equal(p.className, '', 'Removing "zero"');
     });
+
+    suite('createSvgElement', function () {
+      test('svg elements of type g have the generic role by default', function () {
+        const svgG = Blockly.utils.dom.createSvgElement(
+          Blockly.utils.Svg.G,
+          {},
+        );
+        const g = Blockly.utils.dom.createSvgElement('g', {});
+        assert.equal(svgG.getAttribute('role'), 'generic');
+        assert.equal(g.getAttribute('role'), 'generic');
+      });
+      test('svg elements of type svg have the generic role by default', function () {
+        const svgSvg = Blockly.utils.dom.createSvgElement(
+          Blockly.utils.Svg.SVG,
+          {},
+        );
+        const svg = Blockly.utils.dom.createSvgElement('svg', {});
+        assert.equal(svgSvg.getAttribute('role'), 'generic');
+        assert.equal(svg.getAttribute('role'), 'generic');
+      });
+      test('svg elements of type g reflect the role passed in when created', function () {
+        const svgG = Blockly.utils.dom.createSvgElement(Blockly.utils.Svg.G, {
+          role: 'button',
+        });
+        const g = Blockly.utils.dom.createSvgElement('g', {role: 'button'});
+        assert.equal(svgG.getAttribute('role'), 'button');
+        assert.equal(g.getAttribute('role'), 'button');
+      });
+      test('svg elements of type svg reflect the role passed in when created', function () {
+        const svgSvg = Blockly.utils.dom.createSvgElement(
+          Blockly.utils.Svg.SVG,
+          {role: 'button'},
+        );
+        const svg = Blockly.utils.dom.createSvgElement('svg', {role: 'button'});
+        assert.equal(svgSvg.getAttribute('role'), 'button');
+        assert.equal(svg.getAttribute('role'), 'button');
+      });
+      test('other svg elements do not default to generic role', function () {
+        const textElement = Blockly.utils.dom.createSvgElement(
+          Blockly.utils.Svg.TEXT,
+          {},
+        );
+        assert.equal(textElement.getAttribute('role'), null);
+      });
+    });
   });
 
   suite('String', function () {
