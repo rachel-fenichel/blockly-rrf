@@ -10,6 +10,7 @@ import {BlockSvg} from './block_svg.js';
 import * as clipboard from './clipboard.js';
 import {RenderedWorkspaceComment} from './comments.js';
 import * as contextmenu from './contextmenu.js';
+import * as dropDownDiv from './dropdowndiv.js';
 import * as eventUtils from './events/utils.js';
 import {getFocusManager} from './focus_manager.js';
 import {hasContextMenu} from './interfaces/i_contextmenu.js';
@@ -27,6 +28,7 @@ import {Coordinate} from './utils/coordinate.js';
 import {KeyCodes} from './utils/keycodes.js';
 import {Rect} from './utils/rect.js';
 import * as svgMath from './utils/svg_math.js';
+import * as widgetDiv from './widgetdiv.js';
 import {WorkspaceSvg} from './workspace_svg.js';
 
 /**
@@ -574,7 +576,10 @@ export function registerArrowNavigation() {
     /** Go to the next location to the right. */
     right: {
       name: names.NAVIGATE_RIGHT,
-      preconditionFn: (workspace) => !workspace.isDragging(),
+      preconditionFn: (workspace) =>
+        !workspace.isDragging() &&
+        !dropDownDiv.isVisible() &&
+        !widgetDiv.isVisible(),
       callback: (workspace, e) => {
         e.preventDefault();
         keyboardNavigationController.setIsActive(true);
@@ -592,7 +597,10 @@ export function registerArrowNavigation() {
     /** Go to the next location to the left. */
     left: {
       name: names.NAVIGATE_LEFT,
-      preconditionFn: (workspace) => !workspace.isDragging(),
+      preconditionFn: (workspace) =>
+        !workspace.isDragging() &&
+        !dropDownDiv.isVisible() &&
+        !widgetDiv.isVisible(),
       callback: (workspace, e) => {
         e.preventDefault();
         keyboardNavigationController.setIsActive(true);
@@ -610,7 +618,10 @@ export function registerArrowNavigation() {
     /** Go down to the next location. */
     down: {
       name: names.NAVIGATE_DOWN,
-      preconditionFn: (workspace) => !workspace.isDragging(),
+      preconditionFn: (workspace) =>
+        !workspace.isDragging() &&
+        !dropDownDiv.isVisible() &&
+        !widgetDiv.isVisible(),
       callback: (_workspace, e) => {
         e.preventDefault();
         keyboardNavigationController.setIsActive(true);
@@ -628,7 +639,10 @@ export function registerArrowNavigation() {
     /** Go up to the previous location. */
     up: {
       name: names.NAVIGATE_UP,
-      preconditionFn: (workspace) => !workspace.isDragging(),
+      preconditionFn: (workspace) =>
+        !workspace.isDragging() &&
+        !dropDownDiv.isVisible() &&
+        !widgetDiv.isVisible(),
       callback: (_workspace, e) => {
         e.preventDefault();
         keyboardNavigationController.setIsActive(true);
@@ -810,7 +824,10 @@ export function registerStackNavigation() {
   const nextStackShortcut: KeyboardShortcut = {
     name: names.NEXT_STACK,
     preconditionFn: (workspace) =>
-      !workspace.isDragging() && !!resolveStack(workspace),
+      !workspace.isDragging() &&
+      !!resolveStack(workspace) &&
+      !dropDownDiv.isVisible() &&
+      !widgetDiv.isVisible(),
     callback: (workspace) => {
       keyboardNavigationController.setIsActive(true);
       const start = resolveStack(workspace);
@@ -826,7 +843,10 @@ export function registerStackNavigation() {
   const previousStackShortcut: KeyboardShortcut = {
     name: names.PREVIOUS_STACK,
     preconditionFn: (workspace) =>
-      !workspace.isDragging() && !!resolveStack(workspace),
+      !workspace.isDragging() &&
+      !!resolveStack(workspace) &&
+      !dropDownDiv.isVisible() &&
+      !widgetDiv.isVisible(),
     callback: (workspace) => {
       keyboardNavigationController.setIsActive(true);
       const start = resolveStack(workspace);
@@ -855,7 +875,10 @@ export function registerStackNavigation() {
 export function registerPerformAction() {
   const performActionShortcut: KeyboardShortcut = {
     name: names.PERFORM_ACTION,
-    preconditionFn: (workspace) => !workspace.isDragging(),
+    preconditionFn: (workspace) =>
+      !workspace.isDragging() &&
+      !dropDownDiv.isVisible() &&
+      !widgetDiv.isVisible(),
     callback: (_workspace, e) => {
       keyboardNavigationController.setIsActive(true);
       const focusedNode = getFocusManager().getFocusedNode();
