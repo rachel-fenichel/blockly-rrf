@@ -476,15 +476,18 @@ export abstract class Field<T = any>
   }
 
   /**
-   * Create a field text element. Not to be overridden by subclasses. Instead
+   * Create a field text element. Not to be overridden by subclasses. Instead,
    * modify the result of the function inside initView, or create a separate
-   * function to call.
+   * function to call. Aria state is hidden; use the aria label for the field
+   * and/or containing block to expose content to screen readers. Text content
+   * for custom blocks can be set after creation.
    */
   protected createTextElement_() {
     this.textElement_ = dom.createSvgElement(
       Svg.TEXT,
       {
         'class': 'blocklyText blocklyFieldText',
+        'aria-hidden': 'true',
       },
       this.fieldGroup_,
     );

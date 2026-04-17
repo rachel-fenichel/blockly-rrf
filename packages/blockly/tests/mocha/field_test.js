@@ -944,5 +944,14 @@ suite('Abstract Fields', function () {
         assert.equal(field.computeAriaLabel(true), 'custom type: custom value');
       });
     });
+
+    suite('Field text elements are hidden', function () {
+      test('Field text element has aria-hidden=true', function () {
+        const field = new TestField();
+        field.constants_ = {FIELD_BORDER_RECT_RADIUS: 5};
+        field.initView();
+        assert(field.getTextElement().ariaHidden === 'true');
+      });
+    });
   });
 });
