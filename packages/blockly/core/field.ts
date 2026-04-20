@@ -28,6 +28,7 @@ import type {IFocusableTree} from './interfaces/i_focusable_tree.js';
 import type {IKeyboardAccessible} from './interfaces/i_keyboard_accessible.js';
 import type {IRegistrable} from './interfaces/i_registrable.js';
 import {ISerializable} from './interfaces/i_serializable.js';
+import {Msg} from './msg.js';
 import type {ConstantProvider} from './renderers/common/constants.js';
 import type {KeyboardShortcut} from './shortcut_registry.js';
 import * as Tooltip from './tooltip.js';
@@ -316,38 +317,34 @@ export abstract class Field<T = any>
    *     unspecified.
    */
   getAriaTypeName(): string | null {
-    return this.ariaTypeName;
+    return this.ariaTypeName || null;
   }
 
   /**
    * Gets an ARIA-friendly label representation of this field's value.
    *
    * Note that implementations should generally always override this value to
-   * ensure a non-null value is returned since the default implementation relies
-   * on 'getValue' which may return null, and a null return value for this
+   * ensure a non-null value is returned. The default implementation relies on
+   * 'getText' which may return an empty string. A null return value from this
    * function will prompt ARIA label generation to skip the field's value
-   * entirely when there may be a better contextual placeholder to use, instead,
-   * specific to the field.
+   * entirely when there may be a better contextual placeholder to use isstead.
    *
-   * For example, a text input field may have a value of null when empty. To
-   * avoid hiding this field from screen reader, implementations should ensure
-   * that if the value is null, this function would return an appropriate,
-   * localized value such as "empty text".
+   * For example, to avoid hiding an empty text input field from screen reader,
+   * implementations should ensure that if the text is an empty string, this
+   * function would return an appropriate, localized value such as "empty text".
    *
    * Implementations are responsible for, and encouraged to, return a localized
    * version of the ARIA representation of the field's value.
    *
-   * @returns An ARIA representation of the field's value, or null if no value
-   *     is currently defined or known for the field.
+   * @returns An ARIA representation of the field's text, or null if no text is
+   *     currently defined or known for the field.
    */
   getAriaValue(): string | null {
-    const value = this.getValue();
-
-    if (value === null || value === undefined) {
+    if (this.getValue() == null) {
       return null;
+    } else {
+      return this.getText();
     }
-
-    return String(value);
   }
 
   /**
@@ -369,28 +366,24 @@ export abstract class Field<T = any>
    * checkboxes represent their checked/non-checked status (i.e. value) through
    * a separate ARIA property.
    *
-   * It's possible this returns an empty string if the field doesn't supply type
-   * or value information for certain cases (such as a null value). This can
-   * lead to the field being potentially COMPLETELY HIDDEN for screen reader
-   * navigation so it's crucial for implementations to ensure a non-empty value
-   * is returned here.
+   * It's not expected that this method, under normal operations, returns an empty
+   * string. If the field's value is empty then it will return a localized
+   * placeholder indicating that its value is empty.
    *
    * @param includeTypeInfo Whether to include the field's type information in
    *     the returned label, if available.
    */
   computeAriaLabel(includeTypeInfo: boolean = false): string {
     const ariaTypeName = includeTypeInfo ? this.getAriaTypeName() : null;
-    const ariaValue = this.getAriaValue();
-
-    if (!ariaTypeName && !ariaValue) {
-      return '';
+    let ariaValue = this.getAriaValue();
+    if (ariaValue === null || ariaValue === '') {
+      ariaValue = Msg['FIELD_LABEL_EMPTY'];
     }
 
-    if (ariaTypeName && ariaValue) {
+    if (ariaTypeName) {
       return `${ariaTypeName}: ${ariaValue}`;
     }
-
-    return ariaTypeName ?? ariaValue ?? '';
+    return ariaValue;
   }
 
   /**
