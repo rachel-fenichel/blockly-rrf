@@ -183,6 +183,55 @@ suite('Keyboard navigation on Blocks', function () {
     assert.equal(getFocusedBlockId(), 'p5_setup_1');
   });
 
+  test('Right from block selects first icon', function () {
+    this.workspace.getBlockById('p5_canvas_1').setCommentText('hello');
+    focusBlock(this.workspace, 'p5_canvas_1');
+    pressKey(this.workspace, Blockly.utils.KeyCodes.RIGHT);
+    assert.equal(
+      Blockly.getFocusManager().getFocusedNode(),
+      this.workspace
+        .getBlockById('p5_canvas_1')
+        .getIcon(Blockly.icons.IconType.COMMENT),
+    );
+  });
+
+  test('Right from icon selects next icon', function () {
+    const block = this.workspace.getBlockById('p5_canvas_1');
+    block.setCommentText('hello');
+    block.setWarningText('danger!');
+    const commentIcon = block.getIcon(Blockly.icons.IconType.COMMENT);
+    const warningIcon = block.getIcon(Blockly.icons.IconType.WARNING);
+
+    Blockly.getFocusManager().focusNode(warningIcon);
+    pressKey(this.workspace, Blockly.utils.KeyCodes.RIGHT);
+    assert.equal(Blockly.getFocusManager().getFocusedNode(), commentIcon);
+  });
+
+  test('Right from icon selects bubble', async function () {
+    const block = this.workspace.getBlockById('p5_canvas_1');
+    block.setCommentText('hello');
+    const commentIcon = block.getIcon(Blockly.icons.IconType.COMMENT);
+    await commentIcon.setBubbleVisible(true);
+
+    Blockly.getFocusManager().focusNode(commentIcon);
+    pressKey(this.workspace, Blockly.utils.KeyCodes.RIGHT);
+    assert.equal(
+      Blockly.getFocusManager().getFocusedNode(),
+      commentIcon.getBubble(),
+    );
+  });
+
+  test('Right from last icon selects field', function () {
+    this.workspace.getBlockById('p5_canvas_1').setCommentText('hello');
+    const icon = this.workspace
+      .getBlockById('p5_canvas_1')
+      .getIcon(Blockly.icons.IconType.COMMENT);
+    Blockly.getFocusManager().focusNode(icon);
+    pressKey(this.workspace, Blockly.utils.KeyCodes.RIGHT);
+    assert.include(getFocusNodeId(), 'p5_canvas_1_field_');
+    assert.equal(getFocusedFieldName(), 'WIDTH');
+  });
+
   test('Right from block selects first field', function () {
     focusBlock(this.workspace, 'p5_canvas_1');
     pressKey(this.workspace, Blockly.utils.KeyCodes.RIGHT);
@@ -221,6 +270,70 @@ suite('Keyboard navigation on Blocks', function () {
     focusBlock(this.workspace, 'math_number_3');
     pressKey(this.workspace, Blockly.utils.KeyCodes.LEFT);
     assert.equal(getFocusedBlockId(), 'math_number_2');
+  });
+
+  test('Left from icon selects block', function () {
+    const block = this.workspace.getBlockById('p5_canvas_1');
+    block.setCommentText('hello');
+    Blockly.getFocusManager().focusNode(
+      block.getIcon(Blockly.icons.IconType.COMMENT),
+    );
+    pressKey(this.workspace, Blockly.utils.KeyCodes.LEFT);
+    assert.equal(Blockly.getFocusManager().getFocusedNode(), block);
+  });
+
+  test('Left from icon selects previous icon', function () {
+    const block = this.workspace.getBlockById('p5_canvas_1');
+    block.setCommentText('hello');
+    block.setWarningText('danger!');
+    const commentIcon = block.getIcon(Blockly.icons.IconType.COMMENT);
+    const warningIcon = block.getIcon(Blockly.icons.IconType.WARNING);
+
+    Blockly.getFocusManager().focusNode(commentIcon);
+    pressKey(this.workspace, Blockly.utils.KeyCodes.LEFT);
+    assert.equal(Blockly.getFocusManager().getFocusedNode(), warningIcon);
+  });
+
+  test('Left from icon selects bubble', async function () {
+    const block = this.workspace.getBlockById('p5_canvas_1');
+    block.setCommentText('hello');
+    block.setWarningText('danger!');
+    const commentIcon = block.getIcon(Blockly.icons.IconType.COMMENT);
+    const warningIcon = block.getIcon(Blockly.icons.IconType.WARNING);
+    const bubbleVisible = warningIcon.setBubbleVisible(true);
+    this.clock.runAll();
+    await bubbleVisible;
+
+    Blockly.getFocusManager().focusNode(commentIcon);
+    pressKey(this.workspace, Blockly.utils.KeyCodes.LEFT);
+    assert.equal(
+      Blockly.getFocusManager().getFocusedNode(),
+      warningIcon.getBubble(),
+    );
+  });
+
+  test('Left from field selects icon', function () {
+    this.workspace.getBlockById('p5_canvas_1').setCommentText('hello');
+    const commentIcon = this.workspace
+      .getBlockById('p5_canvas_1')
+      .getIcon(Blockly.icons.IconType.COMMENT);
+    focusBlockField(this.workspace, 'p5_canvas_1', 'WIDTH');
+    pressKey(this.workspace, Blockly.utils.KeyCodes.LEFT);
+    assert.equal(Blockly.getFocusManager().getFocusedNode(), commentIcon);
+  });
+
+  test('Left from field selects bubble', async function () {
+    this.workspace.getBlockById('p5_canvas_1').setCommentText('hello');
+    const commentIcon = this.workspace
+      .getBlockById('p5_canvas_1')
+      .getIcon(Blockly.icons.IconType.COMMENT);
+    await commentIcon.setBubbleVisible(true);
+    focusBlockField(this.workspace, 'p5_canvas_1', 'WIDTH');
+    pressKey(this.workspace, Blockly.utils.KeyCodes.LEFT);
+    assert.equal(
+      Blockly.getFocusManager().getFocusedNode(),
+      commentIcon.getBubble(),
+    );
   });
 
   test('Right from last inline input block selects next child field', function () {
