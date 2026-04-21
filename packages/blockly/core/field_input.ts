@@ -175,6 +175,7 @@ export abstract class FieldInput<T extends InputTypes> extends Field<
     if (this.fieldGroup_) {
       dom.addClass(this.fieldGroup_, 'blocklyInputField');
     }
+    this.recomputeAriaContext();
   }
 
   override isFullBlockField(): boolean {
@@ -224,6 +225,7 @@ export abstract class FieldInput<T extends InputTypes> extends Field<
         );
       }
     }
+    this.recomputeAriaContext();
   }
 
   /**
@@ -238,6 +240,7 @@ export abstract class FieldInput<T extends InputTypes> extends Field<
     this.isDirty_ = true;
     this.isTextValid_ = true;
     this.value_ = newValue;
+    this.recomputeAriaContext();
   }
 
   /**
@@ -806,6 +809,57 @@ export abstract class FieldInput<T extends InputTypes> extends Field<
    */
   protected getValueFromEditorText_(text: string): AnyDuringMigration {
     return text;
+  }
+
+  /**
+   * Gets an ARIA-friendly label representation of this field's type.
+   *
+   * Implementations are responsible for, and encouraged to, return a localized
+   * version of the ARIA representation of the field's type.
+   *
+   * @returns An ARIA representation of the field's type or a default if it is
+   *     unspecified.
+   */
+  override getAriaTypeName(): string | null {
+    return this.ariaTypeName || Msg['ARIA_TYPE_FIELD_INPUT'];
+  }
+
+  /**
+   * Gets an ARIA-friendly label representation of this field's value.
+   *
+   * Implementations are responsible for, and encouraged to, return a localized
+   * version of the ARIA representation of the field's value.
+   *
+   * @returns An ARIA representation of the field's text.
+   */
+  override getAriaValue(): string | null {
+    return this.getText() || Msg['FIELD_LABEL_EMPTY'];
+  }
+
+  /**
+   * Recomputes the ARIA role and label for this field.
+   */
+  private recomputeAriaContext(): void {
+    const focusableElement = this.getClickTarget_();
+    if (!focusableElement) return;
+
+    if (this.getSourceBlock()?.isInFlyout) {
+      aria.setState(focusableElement, aria.State.HIDDEN, true);
+      return;
+    }
+
+    aria.setState(focusableElement, aria.State.HIDDEN, false);
+    // The button role is intended to indicate to users that the field has an
+    // editing mode that can be activated.
+    aria.setRole(focusableElement, aria.Role.BUTTON);
+
+    let label = this.computeAriaLabel(false);
+
+    if (this.isCurrentlyEditable?.()) {
+      label = Msg['FIELD_LABEL_EDIT_PREFIX'].replace('%1', label);
+    }
+
+    aria.setState(focusableElement, aria.State.LABEL, label);
   }
 }
 
