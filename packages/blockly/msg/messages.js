@@ -1786,6 +1786,9 @@ Blockly.Msg.SHORTCUTS_DUPLICATE = 'Duplicate';
 /// shortcut display text for the cleanup shortcut, which organizes blocks on the workspace.
 Blockly.Msg.SHORTCUTS_CLEANUP = 'Clean up workspace';
 /** @type {string} */
+/// shortcut display text for the show tooltip shortcut, which displays a short help text for the focused element.
+Blockly.Msg.SHORTCUTS_SHOW_TOOLTIP = 'Show tooltip';
+/** @type {string} */
 /// Message shown to inform users how to move blocks to arbitrary locations
 /// with the keyboard.
 Blockly.Msg.KEYBOARD_NAV_UNCONSTRAINED_MOVE_HINT = 'Hold %1 and use arrow keys to move freely, then %2 to accept the position';

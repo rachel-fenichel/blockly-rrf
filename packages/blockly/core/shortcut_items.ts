@@ -23,6 +23,7 @@ import {Direction, KeyboardMover} from './keyboard_nav/keyboard_mover.js';
 import {keyboardNavigationController} from './keyboard_navigation_controller.js';
 import {Msg} from './msg.js';
 import {KeyboardShortcut, ShortcutRegistry} from './shortcut_registry.js';
+import * as Tooltip from './tooltip.js';
 import {aria} from './utils.js';
 import {Coordinate} from './utils/coordinate.js';
 import {KeyCodes} from './utils/keycodes.js';
@@ -64,6 +65,7 @@ export enum names {
   PERFORM_ACTION = 'perform_action',
   DUPLICATE = 'duplicate',
   CLEANUP = 'cleanup',
+  SHOW_TOOLTIP = 'show_tooltip',
 }
 
 /**
@@ -974,6 +976,32 @@ export function registerCleanup() {
 }
 
 /**
+ * Registers keyboard shortcut to display the tooltip for the focused element.
+ */
+export function registerShowTooltip() {
+  const ctrlJ = ShortcutRegistry.registry.createSerializedKey(KeyCodes.J, [
+    KeyCodes.CTRL_CMD,
+  ]);
+
+  const showTooltip: KeyboardShortcut = {
+    name: names.SHOW_TOOLTIP,
+    preconditionFn: (workspace) => !workspace.isDragging(),
+    callback: (workspace) => {
+      const target = getFocusManager().getFocusedNode();
+      if (target !== null) {
+        keyboardNavigationController.setIsActive(true);
+        Tooltip.display(target, workspace);
+      }
+      return true;
+    },
+    keyCodes: [ctrlJ],
+    allowCollision: true,
+    displayText: () => Msg['SHORTCUTS_SHOW_TOOLTIP'],
+  };
+  ShortcutRegistry.registry.register(showTooltip);
+}
+
+/**
  * Registers all default keyboard shortcut item. This should be called once per
  * instance of KeyboardShortcutRegistry.
  *
@@ -1004,6 +1032,7 @@ export function registerKeyboardNavigationShortcuts() {
   registerPerformAction();
   registerDuplicate();
   registerCleanup();
+  registerShowTooltip();
 }
 
 /**
