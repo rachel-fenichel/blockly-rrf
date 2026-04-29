@@ -2880,6 +2880,13 @@ export class WorkspaceSvg
       }
     }
 
+    if (this.trashcan?.getGloballyUniqueId() === id) {
+      return this.trashcan;
+    }
+
+    const zoomControl = this.zoomControls_?.getControlWithId(id);
+    if (zoomControl) return zoomControl;
+
     return null;
   }
 

@@ -1965,6 +1965,18 @@ Blockly.Msg.ARIA_TYPE_FIELD_CHECKBOX = 'checkbox';
 /// \n\nExamples:\n* "Edit 5"\n* "Edit item"
 Blockly.Msg.FIELD_LABEL_EDIT_PREFIX = 'Edit %1';
 /** @type {string} */
+/// ARIA label for the trashcan.
+Blockly.Msg.OPEN_TRASH = 'Open trash';
+/** @type {string} */
+/// ARIA label for the zoom in button.
+Blockly.Msg.ZOOM_IN = 'Zoom in';
+/** @type {string} */
+/// ARIA label for the zoom out button.
+Blockly.Msg.ZOOM_OUT = 'Zoom out';
+/** @type {string} */
+/// ARIA label for the reset zoom button.
+Blockly.Msg.RESET_ZOOM = 'Reset zoom';
+/** @type {string} */
 /// Label for an unlabeled dropdown field option, used by screen readers to identify options in a dropdown field.  Placeholder corresponds to the index of the option in the dropdown, starting at 1.
 /// \n\nParameters:\n* %1 - the index of the option in the dropdown, starting at 1
 /// \n\nExamples:\n* "Option 1"\n* "Option 2"
@@ -1980,6 +1992,7 @@ Blockly.Msg.FIELD_LABEL_CHECKBOX_UNCHECKED = 'Not checked';
 /// \n\nParameters:\n* %1 - the name of the variable represented by the option
 /// \n\nExamples:\n* 'Variable "item"'\n* 'Variable "x"'
 Blockly.Msg.FIELD_LABEL_VARIABLE = 'Variable "%1"';
+/** @type {string} */
 /// Part of an aria label for an element that indicates it is a button, but for technical
 /// reasons cannot be give a role of button. Ideally, this would match
 /// the localized name for what screenreaders announce for <button> elements in your language.
