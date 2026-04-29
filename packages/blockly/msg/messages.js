@@ -1646,61 +1646,61 @@ Blockly.Msg.LINUX = 'Linux';
 /// of keyboard shortcuts.
 Blockly.Msg.UNKNOWN = 'Unknown';
 /** @type {string} */
-/// Representation of the Control key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Control key used in keyboard shortcuts.
 Blockly.Msg.CONTROL_KEY = 'Ctrl';
 /** @type {string} */
-/// Representation of the Mac Command key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Mac Command key used in keyboard shortcuts.
 Blockly.Msg.COMMAND_KEY = '⌘ Command';
 /** @type {string} */
-/// Representation of the Mac Option key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Mac Option key used in keyboard shortcuts.
 Blockly.Msg.OPTION_KEY = '⌥ Option';
 /** @type {string} */
-/// Representation of the Alt key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Alt key used in keyboard shortcuts.
 Blockly.Msg.ALT_KEY = 'Alt';
 /** @type {string} */
-/// Representation of the Enter key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Enter key used in keyboard shortcuts.
 Blockly.Msg.ENTER_KEY = 'Enter';
 /** @type {string} */
-/// Representation of the Backspace key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Backspace key used in keyboard shortcuts.
 Blockly.Msg.BACKSPACE_KEY = 'Backspace';
 /** @type {string} */
-/// Representation of the Delete key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Delete key used in keyboard shortcuts.
 Blockly.Msg.DELETE_KEY = 'Delete';
 /** @type {string} */
-/// Representation of the Escape key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Escape key used in keyboard shortcuts.
 Blockly.Msg.ESCAPE = 'Esc';
 /** @type {string} */
-/// Representation of the Tab key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Tab key used in keyboard shortcuts.
 Blockly.Msg.TAB_KEY = 'Tab';
 /** @type {string} */
-/// Representation of the Shift key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Shift key used in keyboard shortcuts.
 Blockly.Msg.SHIFT_KEY = 'Shift';
 /** @type {string} */
-/// Representation of the Caps Lock key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Caps Lock key used in keyboard shortcuts.
 Blockly.Msg.CAPS_LOCK_KEY = 'Caps Lock';
 /** @type {string} */
-/// Representation of the Space key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Space key used in keyboard shortcuts.
 Blockly.Msg.SPACE_KEY = 'Space';
 /** @type {string} */
-/// Representation of the Page Up key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Page Up key used in keyboard shortcuts.
 Blockly.Msg.PAGE_UP_KEY = 'Page Up';
 /** @type {string} */
-/// Representation of the Page Down key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Page Down key used in keyboard shortcuts.
 Blockly.Msg.PAGE_DOWN_KEY = 'Page Down';
 /** @type {string} */
-/// Representation of the End key used in keyboard shortcuts.
+/// {{Optional}} Representation of the End key used in keyboard shortcuts.
 Blockly.Msg.END_KEY = 'End';
 /** @type {string} */
-/// Representation of the Home key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Home key used in keyboard shortcuts.
 Blockly.Msg.HOME_KEY = 'Home';
 /** @type {string} */
-/// Representation of the Insert key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Insert key used in keyboard shortcuts.
 Blockly.Msg.INSERT_KEY = 'Insert';
 /** @type {string} */
-/// Representation of the Pause key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Pause key used in keyboard shortcuts.
 Blockly.Msg.PAUSE_KEY = 'Pause';
 /** @type {string} */
-/// Representation of the Context Menu key used in keyboard shortcuts.
+/// {{Optional}} Representation of the Context Menu key used in keyboard shortcuts.
 Blockly.Msg.CONTEXT_MENU_KEY = '≣ Menu';
 /** @type {string} */
 /// menu label - Contextual menu item that cuts the focused item.

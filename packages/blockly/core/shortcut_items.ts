@@ -366,7 +366,7 @@ export function registerUndo() {
     callback(workspace, e) {
       // 'z' for undo 'Z' is for redo.
       (workspace as WorkspaceSvg).hideChaff();
-      workspace.undo(false);
+      workspace.undo();
       e.preventDefault();
       return true;
     },
@@ -403,7 +403,7 @@ export function registerRedo() {
     callback(workspace, e) {
       // 'z' for undo 'Z' is for redo.
       (workspace as WorkspaceSvg).hideChaff();
-      workspace.undo(true);
+      workspace.redo();
       e.preventDefault();
       return true;
     },
